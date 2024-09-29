@@ -48,12 +48,12 @@ export default function Hero({ isDarkMode }) {
         </m.div>
 
         <div className="px-4 flex-1 flex flex-col justify-between md:flex-auto md:w-2/4 lg:w-3/4">
-          <div className="pt-8">
+          <div className="pt-4 md:pt-12">
             <m.h1
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, ease: "easeInOut", delay: 0.1 }}
-              className="text-4xl font-extrabold text-lightModeTextT dark:text-darkModeTextT pb-4 md:text-5xl"
+              className="text-4xl font-extrabold text-lightModeTextT dark:text-darkModeTextT py-4 md:text-5xl"
             >
               Hi, I'm Zen
             </m.h1>
@@ -95,12 +95,13 @@ export default function Hero({ isDarkMode }) {
             {icons.map((icon, id) => (
               <m.a
                 initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{
+                animate={{ opacity: 1, x: 0,transition: {
                   duration: 0.5,
                   ease: "easeInOut",
                   delay: 0.8 + id * 0.2,
-                }}
+                } }}
+                
+                whileHover={{ scale: 1.3, transition: { duration: 0.3, delay: 0 } }}
                 href={icon.href}
                 key={icon.href}
               >

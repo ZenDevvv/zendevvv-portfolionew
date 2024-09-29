@@ -8,6 +8,10 @@ import { Around } from "@theme-toggles/react";
 export default function Navbar({ isDarkMode, setIsDarkMode }) {
   const [isOpen, setIsOpen] = useState(false);
 
+  const handleNavClick = () => {
+    setIsOpen(!isOpen);
+  };
+
   const navItems = [
     { name: "About", href: "#about" },
     { name: "Skills", href: "#skills" },
@@ -18,11 +22,17 @@ export default function Navbar({ isDarkMode, setIsDarkMode }) {
 
   return (
     <nav className={`bg-lightBG dark:bg-darkBG z-20 fixed top-0 left-0 w-full`}>
-      <div
-      className="flex justify-between items-center px-4 md:py-2 max-w-[1000px] mx-auto">
-        <h1 className="text-3xl font-extrabold text-lightModeTextT dark:text-darkModeTextT">
-          {"<Zd/>"}
-        </h1>
+      <div className="flex justify-between items-center px-4 md:py-2 max-w-[1000px] mx-auto">
+        <a
+          href="/"
+          className=" text-3xl font-extrabold text-lightModeTextT dark:text-darkModeTextT"
+        >
+          <div className="relative px-2 top-0 left-4 flex items-center h-full group">
+            <span className="absolute pr-2 left-[-1rem] group-hover:-translate-x-2 transition-transform">{"<"}</span>
+            <span className="relative">Zd</span>
+            <span className="absolute pl-4 right-[-2rem] group-hover:translate-x-2 transition-transform">{" />"}</span>
+          </div>
+        </a>
 
         <div className="hidden md:flex justify-between items-center gap-6">
           <ul className="hidden md:flex gap-4 ">
@@ -53,7 +63,7 @@ export default function Navbar({ isDarkMode, setIsDarkMode }) {
             <m.button
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, ease: "easeInOut", delay: 2}}
+              transition={{ duration: 0.5, ease: "easeInOut", delay: 2 }}
               className="bg-darkBG font-bold text-darkModeTextP px-4 py-2 rounded-md dark:text-lightModeTextP dark:bg-lightBG"
             >
               Download CV
@@ -77,7 +87,7 @@ export default function Navbar({ isDarkMode, setIsDarkMode }) {
                   transition={{ duration: 0.5, ease: "easeInOut", delay: 0.15 }}
                   className="text-3xl font-extrabold text-lightModeTextT dark:text-darkModeTextT px-4 py-4"
                 >
-                  {"<Zd/>"}
+                  {"<Zd />"}
                 </m.h1>
                 <ul className="flex flex-col  border-b border-t border-gray-300 dark:border-gray-800">
                   {navItems.map((item, id) => (
@@ -89,10 +99,17 @@ export default function Navbar({ isDarkMode, setIsDarkMode }) {
                         ease: "easeInOut",
                         delay: id * 0.1 + 0.3,
                       }}
+                      whileHover={{}}
                       key={item.name}
-                      className="text-lightModeTextP dark:text-darkModeTextP px-4 py-2"
+                      className="text-lightModeTextP dark:text-darkModeTextP hover:bg-gray-300 dark:hover:bg-gray-800"
+                      onClick={handleNavClick}
                     >
-                      <a href={item.href}>{item.name}</a>
+                      <a
+                        className="inline-block px-4 py-2 w-full"
+                        href={item.href}
+                      >
+                        {item.name}
+                      </a>
                     </m.li>
                   ))}
                 </ul>
@@ -102,7 +119,7 @@ export default function Navbar({ isDarkMode, setIsDarkMode }) {
                 <m.div
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, ease: "easeInOut", delay: 1.3 }}
+                  transition={{ duration: 0.7, ease: "easeInOut", delay: 1 }}
                   onClick={() => setIsDarkMode(!isDarkMode)}
                   className="flex items-center justify-between"
                 >
@@ -112,21 +129,21 @@ export default function Navbar({ isDarkMode, setIsDarkMode }) {
                   <m.div
                     initial={{ rotate: 0 }}
                     animate={{ rotate: 360 }}
-                    transition={{ duration: 1.5, ease: "easeInOut", delay: 1 }}
+                    transition={{ duration: 1.5, ease: "easeOut", delay: 1.5 }}
                     className="grid place-items-center"
                   >
                     <Around
                       toggled={isDarkMode}
                       toggle={setIsDarkMode}
-                      className="text-3xl bg-lightBG rounded-full"
+                      className="text-3xl  text-lightModeTextP bg-lightBG rounded-full"
                     />
                   </m.div>
                 </m.div>
                 <m.button
                   initial={{ opacity: 0, y: 50 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, ease: "easeInOut", delay: 1 }}
-                  className="bg-darkBG font-bold text-darkModeTextP px-4 py-2 rounded-md dark:text-lightModeTextP dark:bg-lightBG"
+                  animate={{ opacity: 0.7, y: 0 }}
+                  transition={{ duration: 0.7, ease: "easeOut", delay: 0.8 }}
+                  className="bg-darkBG font-bold text-darkModeTextT px-4 py-2 rounded-md dark:text-lightModeTextT dark:bg-lightBG"
                 >
                   Download CV
                 </m.button>
@@ -139,18 +156,17 @@ export default function Navbar({ isDarkMode, setIsDarkMode }) {
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={handleNavClick}
           className="md:hidden"
         >
-          <AnimatedHamburgerButton />
+          <AnimatedHamburgerButton active={isOpen} setActive={setIsOpen} />
         </m.div>
       </div>
     </nav>
   );
 }
 
-const AnimatedHamburgerButton = () => {
-  const [active, setActive] = useState(false);
+const AnimatedHamburgerButton = ({ active, setActive }) => {
   return (
     <MotionConfig
       transition={{
