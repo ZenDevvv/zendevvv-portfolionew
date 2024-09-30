@@ -36,7 +36,7 @@
         "imageSrc": "projects/oldport.jpg",
         "description": "My first React portfolio, built using HTML, CSS, and React to showcase my projects and skills.",
         "skills": ["HTML", "CSS", "ReactJS", "JSON"],
-        "demo": "https://zendevvv-frontend-project.netlify.app",
+        "demo": "https://zendevvv-portfolioreact.netlify.app/",
         "source": "https://github.com/ZenDevvv/Frontend-project"
     },
     {
