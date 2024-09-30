@@ -25,12 +25,12 @@ export default function Navbar({ isDarkMode, setIsDarkMode }) {
       <div className="flex justify-between items-center px-4 md:py-2 max-w-[1000px] mx-auto">
         <a
           href="/"
-          className=" text-3xl font-extrabold text-lightModeTextT dark:text-darkModeTextT"
+          className=" text-2xl font-extrabold text-lightModeTextT dark:text-darkModeTextT"
         >
           <div className="relative px-2 top-0 left-4 flex items-center h-full group">
-            <span className="absolute pr-2 left-[-1rem] group-hover:-translate-x-2 transition-transform">{"<"}</span>
+            <span className="absolute pr-2 left-[-10px] group-hover:-translate-x-2 transition-transform">{"<"}</span>
             <span className="relative">Zd</span>
-            <span className="absolute pl-4 right-[-2rem] group-hover:translate-x-2 transition-transform">{" />"}</span>
+            <span className="absolute pl-4 right-[-20px] group-hover:translate-x-2 transition-transform">{" />"}</span>
           </div>
         </a>
 
@@ -182,17 +182,17 @@ const AnimatedHamburgerButton = ({ active, setActive }) => {
       >
         <m.span
           variants={VARIANTS.top}
-          className="absolute h-1 w-8 bg-black dark:bg-white"
+          className="absolute h-[3px] w-6 bg-black dark:bg-white"
           style={{ y: "-50%", left: "50%", x: "-50%", top: "35%" }}
         />
         <m.span
           variants={VARIANTS.middle}
-          className="absolute h-1 w-8 bg-black dark:bg-white"
+          className="absolute h-[3px] w-6 bg-black dark:bg-white"
           style={{ left: "50%", x: "-50%", top: "50%", y: "-50%" }}
         />
         <m.span
           variants={VARIANTS.bottom}
-          className="absolute h-1 w-4 bg-black dark:bg-white"
+          className="absolute h-[3px] w-3 bg-black dark:bg-white"
           style={{
             x: "-50%",
             y: "50%",
@@ -233,7 +233,7 @@ const VARIANTS = {
     closed: {
       rotate: ["45deg", "0deg", "0deg"],
       bottom: ["50%", "50%", "32%"],
-      left: "calc(50% + 8px)",
+      left: "calc(50% + 6px)",
     },
   },
 };

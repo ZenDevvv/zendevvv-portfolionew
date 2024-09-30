@@ -7,7 +7,6 @@
   transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out, border-color 0.3s ease-in-out, outline-color 0.3s ease-in-out;
 }
 
-/* Add this to your existing CSS file */
 .dark-mode-filter {
   filter: invert(1) hue-rotate(180deg);
 }
@@ -15,6 +14,19 @@
 main {
   overflow-x: hidden;
 }
+
+::-webkit-scrollbar {
+  width: 0px; 
+}
+
+/* ::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb-color); 
+  border-radius: 10px; 
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track-color); 
+} */
 
 /* :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
