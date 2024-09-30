@@ -6,7 +6,7 @@ import { motion as m, useScroll } from "framer-motion";
 
 export default function Projects() {
   return (
-    <section className="bg-lightBG dark:bg-darkBG py-12">
+    <section className="bg-lightBG dark:bg-darkBG py-12 overflow-x-hidden">
       <div className="max-w-screen-lg mx-auto px-4">
         <div className="grid place-items-center pb-6">
           <h1 className="inline-block text-xs px-3 py-1.5 rounded-full bg-gray-300 text-center text-lightModeTextP dark:text-darkModeTextP dark:bg-gray-600">
@@ -36,7 +36,7 @@ export default function Projects() {
                   <img
                     src={getImageUrl(project.imageSrc)}
                     alt={project.title}
-                    className="object-contain md:w-5/6 md:max-w-[240px]"
+                    className="object-contain w-5/6 md:max-w-[240px]"
                   />
                 </div>
                 <div
@@ -46,7 +46,7 @@ export default function Projects() {
                       : "md:rounded-bl-none md:rounded-tr-xl"
                   }`}
                 >
-                  <div className="flex flex-col gap-4">
+                  <div className="flex flex-col gap-4 mb-4">
                     <h1 className="font-bold text-lg text-lightModeTextT dark:text-darkModeTextT">
                       {project.title}
                     </h1>
@@ -57,7 +57,7 @@ export default function Projects() {
                       {project.skills.map((skill, id) => {
                         return (
                           <li
-                            className="px-3 py-1 rounded-full bg-gray-300 text-center text-lightModeTextP dark:text-darkModeTextP dark:bg-gray-600"
+                            className="text-sm px-3 py-1 rounded-full bg-gray-300 text-center text-lightModeTextP dark:text-darkModeTextP dark:bg-gray-600"
                             key={id}
                           >
                             {skill}

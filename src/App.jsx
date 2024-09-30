@@ -12,7 +12,7 @@ import Footer from './component/Footer'
 export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(true);
   return (
-    <main className={`${isDarkMode ? "dark" : ""}`}>
+    <main className={`${isDarkMode ? "dark" : ""} h-screen bg-darkBG`}>
       <Navbar isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
       <Hero isDarkMode={isDarkMode} />
       <About />
