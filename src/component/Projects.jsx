@@ -46,7 +46,7 @@ export default function Projects() {
                       : "md:rounded-bl-none md:rounded-tr-xl"
                   }`}
                 >
-                  <div className="flex flex-col gap-4 mb-4">
+                  <div className="flex flex-col gap-4 mb-8">
                     <h1 className="font-bold text-lg text-lightModeTextT dark:text-darkModeTextT">
                       {project.title}
                     </h1>
