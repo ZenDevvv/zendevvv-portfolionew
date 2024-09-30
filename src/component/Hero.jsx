@@ -19,36 +19,28 @@ export default function Hero({ isDarkMode }) {
   return (
     <section className="h-[100svh] bg-lightBG dark:bg-darkBG grid place-items-center">
       <div className="max-w-[1000px] mx-auto h-full flex flex-col md:flex-row-reverse md:h-auto">
-        {/* <div className="relative flex justify-center items-center py-20 pt-[134px] flex-none md:py-0">
-          <div className="absolute w-[calc(60%+24px)] aspect-square translate-y-[12%] bg-[#d1d1d1] dark:bg-darkImageBG z-0 "/>
-          <img
-            className="w-3/5  z-10 border-[8px] border-lightBG dark:border-darkBG md:w-[270px]"
-            src={profile}
-            alt="profile"
-          />
-        </div> */}
-
         <m.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: "easeOut", delay: 1.5 }}
-          className="relative flex justify-center items-center py-10 pt-[100px] flex-none md:py-0 md:flex-auto md:w-1/3"
+          className="relative flex justify-center items-center py-10 pt-[80px] flex-none md:py-0 md:flex-auto md:w-1/3"
         >
           <div
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 25 }}
             transition={{ duration: 1, ease: "easeOut", delay: 1.2 }}
-            className="absolute w-[270px] h-[295px] translate-y-[25px] bg-[#d1d1d1] dark:bg-[#374151]  z-0 md:w-[220px] md:h-[295px] md:translate-x-[25px]"
+            className="absolute w-[255px] h-[280px] translate-y-[25px] bg-[#d1d1d1] dark:bg-[#374151]  z-0 md:w-[210px] md:h-[280 px] md:translate-x-[25px]"
           />
-          <img
-            className="w-[225px] outline outline-8 outline-lightBG dark:outline-darkBG z-10  dark:border md:m-6"
+          <m.img
+            whileHover={{ x: -5, y:-5}}
+            className="w-[210px] outline outline-8 outline-lightBG dark:outline-darkBG z-10  dark:border md:m-6"
             src={profile}
             alt="profile"
           />
         </m.div>
 
         <div className="px-4 flex-1 flex flex-col justify-between md:flex-auto md:w-2/4 lg:w-3/4">
-          <div className="pt-4 md:pt-12">
+          <div className="md:pt-12">
             <m.h1
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -91,7 +83,7 @@ export default function Hero({ isDarkMode }) {
             </div>
           </m.div>
 
-          <div className="flex items-center gap-4 py-4 md:py-0">
+          <div className="flex items-center gap-4 pb-4 md:py-0">
             {icons.map((icon, id) => (
               <m.a
                 initial={{ opacity: 0, x: 20 }}
@@ -101,7 +93,7 @@ export default function Hero({ isDarkMode }) {
                   delay: 0.8 + id * 0.2,
                 } }}
                 
-                whileHover={{ scale: 1.3, transition: { duration: 0.3, delay: 0 } }}
+                whileHover={{ y:-6, transition: { duration: 0.15, delay: 0 } }}
                 href={icon.href}
                 key={icon.href}
               >
