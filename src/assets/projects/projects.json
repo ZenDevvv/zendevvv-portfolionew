@@ -1,58 +1,58 @@
 [
-    {
-        "title": "Tailwind Project",
-        "imageSrc": "projects/tailwind.png",
-        "description": "A simple landing page built with Tailwind CSS and enhanced with animations using Framer Motion.",
-        "skills": ["React", "Tailwind", "Framer Motion"],
-        "demo": "https://zendevvv-tailwindproject.netlify.app/",
-        "source": "https://github.com/ZenDevvv/tailwind-project"
-    },
-    {
-        "title": "Astronomy of the Day",
-        "imageSrc": "projects/NASA.png",
-        "description": "A React project that fetches NASA's APOD data via the NASA API, featuring the ability to view the image NASA posted on your birthday.",
-        "skills": ["HTML", "CSS", "React", "API"],
-        "demo": "https://zendevvv-apod.netlify.app",
-        "source": "https://github.com/ZenDevvv/APOD-project"
-    },
-    {
-        "title": "Mini Expenses Tracker",
-        "imageSrc": "projects/expense tracker.png",
-        "description": "A fullstack development and deployment project using MySQL, Express, React, and Node.js with CRUD functionalities.",
-        "skills": ["Fullstack", "React", "MySQL", "Node", "Express", "RESTful API"],
-        "demo": "https://mini-expenses-tracker.netlify.app/",
-        "source": "https://github.com/ZenDevvv/mini-expense-tracker-backend"
-    },
-    {
-        "title": "Frontend Project",
-        "imageSrc": "projects/Header Illustration.png",
-        "description": "A frontend project built with React, transforming a Figma design into a functional interface using CSS for styling.",
-        "skills": ["HTML", "CSS", "ReactJS", "JSON"],
-        "demo": "https://zendevvv-frontend-project.netlify.app",
-        "source": "https://github.com/ZenDevvv/Frontend-project"
-    },
-    {
-        "title": "Old Portfolio",
-        "imageSrc": "projects/oldport.jpg",
-        "description": "My first React portfolio, built using HTML, CSS, and React to showcase my projects and skills.",
-        "skills": ["HTML", "CSS", "ReactJS", "JSON"],
-        "demo": "https://zendevvv-portfolioreact.netlify.app/",
-        "source": "https://github.com/ZenDevvv/Frontend-project"
-    },
-    {
-        "title": "Weather App",
-        "imageSrc": "projects/cloudy.png",
-        "description": "A weather app that fetches weather, temperature, humidity, and wind speed based on the city name using a weather API.",
-        "skills": ["HTML", "CSS", "Javascript", "API"],
-        "demo": "https://zendevvv.github.io/Weather-app/",
-        "source": "https://github.com/ZenDevvv/Weather-app"
-    },
-    {
-        "title": "Scidama Online",
-        "imageSrc": "projects/scidama.png",
-        "description": "Scidama is an online version of a traditional Scidama Filipino board game. Developed using Node.js and JavaScript for real-time PVP gameplay, allowing players to compete online.",
-        "skills": ["Javascript", "NodeJS", "Socket.io"],
-        "demo": "https://scidama.onrender.com",
-        "source": "https://github.com/ZenDevvv/Cyclic"
-    }
+  {
+    "title": "Tailwind Project",
+    "imageSrc": "projects/tailwind.png",
+    "description": "A simple landing page built with Tailwind CSS and enhanced with animations using Framer Motion.",
+    "skills": ["React", "Tailwind", "Framer Motion"],
+    "demo": "https://zendevvv-tailwindproject.netlify.app/",
+    "source": "https://github.com/ZenDevvv/tailwind-project"
+  },
+  {
+    "title": "Astronomy of the Day",
+    "imageSrc": "projects/NASA.png",
+    "description": "A React project that fetches NASA's APOD data via the NASA API, featuring the ability to view the image NASA posted on your birthday.",
+    "skills": ["HTML", "CSS", "React", "API"],
+    "demo": "https://zendevvv-apod.netlify.app",
+    "source": "https://github.com/ZenDevvv/APOD-project"
+  },
+  {
+    "title": "Mini Expenses Tracker",
+    "imageSrc": "projects/expense tracker.png",
+    "description": "A full-stack development and deployment project using MySQL, Express, React, and Node.js with CRUD functionalities. The frontend is hosted on Netlify, the backend on Render, and the database on Aiven using AWS services, all utilizing free-tier hosting solutions.",
+    "skills": ["Fullstack", "React", "MySQL", "Node", "Express", "RESTful API"],
+    "demo": "https://mini-expenses-tracker.netlify.app/",
+    "source": "https://github.com/ZenDevvv/mini-expense-tracker-backend"
+  },
+  {
+    "title": "Frontend Project",
+    "imageSrc": "projects/Header Illustration.png",
+    "description": "A frontend project built with React, transforming a Figma design into a functional interface using CSS for styling.",
+    "skills": ["HTML", "CSS", "ReactJS", "JSON"],
+    "demo": "https://zendevvv-frontend-project.netlify.app",
+    "source": "https://github.com/ZenDevvv/Frontend-project"
+  },
+  {
+    "title": "Old Portfolio",
+    "imageSrc": "projects/oldport.jpg",
+    "description": "My first React portfolio, built using HTML, CSS, and React to showcase my projects and skills.",
+    "skills": ["HTML", "CSS", "ReactJS", "JSON"],
+    "demo": "https://zendevvv-portfolioreact.netlify.app/",
+    "source": "https://github.com/ZenDevvv/Frontend-project"
+  },
+  {
+    "title": "Weather App",
+    "imageSrc": "projects/cloudy.png",
+    "description": "A weather app that fetches weather, temperature, humidity, and wind speed based on the city name using a weather API.",
+    "skills": ["HTML", "CSS", "Javascript", "API"],
+    "demo": "https://zendevvv.github.io/Weather-app/",
+    "source": "https://github.com/ZenDevvv/Weather-app"
+  },
+  {
+    "title": "Scidama Online",
+    "imageSrc": "projects/scidama.png",
+    "description": "Scidama is an online version of a traditional Scidama Filipino board game. Developed using Node.js and JavaScript for real-time PVP gameplay, allowing players to compete online.",
+    "skills": ["Javascript", "NodeJS", "Socket.io"],
+    "demo": "https://scidama.onrender.com",
+    "source": "https://github.com/ZenDevvv/Cyclic"
+  }
 ]

@@ -21,7 +21,7 @@ export default function Projects() {
                 initial={{ opacity: 0, y: 100 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, ease: "easeOut" }}
-                className={`flex flex-col  items-center shadow-lg rounded-lg md:h-[320px] ${
+                className={`flex flex-col  items-center shadow-lg rounded-lg md:h-[330px] ${
                   id % 2 === 1 ? "md:flex-row-reverse" : "md:flex-row"
                 }    `}
                 key={id}
@@ -46,7 +46,7 @@ export default function Projects() {
                       : "md:rounded-bl-none md:rounded-tr-xl"
                   }`}
                 >
-                  <div className="flex flex-col gap-4 mb-8">
+                  <div className="flex flex-col gap-4 mb-8 md:mb-0">
                     <h1 className="font-bold text-lg text-lightModeTextT dark:text-darkModeTextT">
                       {project.title}
                     </h1>
