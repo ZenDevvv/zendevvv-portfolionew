@@ -62,7 +62,7 @@ export default function Experience() {
                 <h1 className="text-xl font-bold text-lightModeTextT dark:text-darkModeTextT md:w-1/4 md:flex-initial">
                   {exp.company === "IPSolutions Inc." ? <IPSolutions /> : exp.company}
                 </h1>
-                <p className="text-xs text-right text-lightModeTextP dark:text-darkModeTextP md:order-2 md:w-1/4 md:flex-initial">
+                <p className="text-xs md:text-right text-lightModeTextP dark:text-darkModeTextP md:order-2 md:w-1/4 md:flex-initial">
                   {exp.period}
                 </p>
                 <h2 className="font-bold text-lightModeTextT md:order-1 dark:text-darkModeTextT md:text-xl md:w-1/2 md:flex-1">
