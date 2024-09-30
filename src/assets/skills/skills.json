@@ -30,9 +30,14 @@
     {
         "title": "Tailwind",
         "imageSrc": "skills/tailwind.png"
-    },{
+    },
+    {
         "title": "Socket.io",
         "imageSrc": "skills/icon-socket.svg"
+    },
+    {
+        "title": "Git",
+        "imageSrc": "skills/icon-git.png"
     },
     {
         "title": "Figma",
