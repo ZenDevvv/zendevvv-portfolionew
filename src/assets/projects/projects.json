@@ -42,7 +42,7 @@
   {
     "title": "Weather App",
     "imageSrc": "projects/cloudy.png",
-    "description": "A weather app that fetches weather, temperature, humidity, and wind speed based on the city name using a weather API.",
+    "description": "A simple weather app that fetches weather, temperature, humidity, and wind speed based on the city name using a weather API.",
     "skills": ["HTML", "CSS", "Javascript", "API"],
     "demo": "https://zendevvv.github.io/Weather-app/",
     "source": "https://github.com/ZenDevvv/Weather-app"

@@ -4,6 +4,8 @@ import { useState } from "react";
 import { MotionConfig, motion as m, AnimatePresence } from "framer-motion";
 import "@theme-toggles/react/css/Around.css";
 import { Around } from "@theme-toggles/react";
+import cv from "../assets/cv.pdf";
+
 
 export default function Navbar({ isDarkMode, setIsDarkMode }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -60,14 +62,16 @@ export default function Navbar({ isDarkMode, setIsDarkMode }) {
                 className="text-3xl text-lightModeTextP bg-lightBG rounded-full"
               />
             </m.div>
-            <m.button
+            <m.a
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, ease: "easeInOut", delay: 2 }}
               className="bg-darkBG font-bold text-darkModeTextP px-4 py-2 rounded-md dark:text-lightModeTextP dark:bg-lightBG"
+              href={cv}
+              target="_blank"
             >
               Download CV
-            </m.button>
+            </m.a>
           </div>
         </div>
 
