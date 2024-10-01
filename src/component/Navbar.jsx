@@ -23,8 +23,8 @@ export default function Navbar({ isDarkMode, setIsDarkMode }) {
   ];
 
   return (
-    <nav className={`bg-lightBG dark:bg-darkBG z-20 fixed top-0 left-0 w-full`}>
-      <div className="flex justify-between items-center px-4 md:py-2 max-w-[1000px] mx-auto">
+    <nav className={` bg-lightBG dark:bg-darkBG md:bg-white/30 md:dark:bg-black/30  md:backdrop-blur-md z-20 fixed top-0 left-0 w-full`}>
+      <div className={`flex justify-between items-center px-4 md:py-2 max-w-[1000px] mx-auto`}>
         <a
           href="/"
           className=" text-2xl font-extrabold text-lightModeTextT dark:text-darkModeTextT"
@@ -59,7 +59,7 @@ export default function Navbar({ isDarkMode, setIsDarkMode }) {
               <Around
                 toggled={isDarkMode}
                 toggle={setIsDarkMode}
-                className="text-3xl text-lightModeTextP bg-lightBG rounded-full"
+                className="text-3xl text-lightModeTextT bg-lightBG rounded-full"
               />
             </m.div>
             <m.a
