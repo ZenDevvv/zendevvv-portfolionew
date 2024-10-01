@@ -50,7 +50,7 @@
   {
     "title": "Scidama Online",
     "imageSrc": "projects/scidama.png",
-    "description": "Scidama is an online version of a traditional Scidama Filipino board game. Developed using Node.js and JavaScript for real-time PVP gameplay, allowing players to compete online.",
+    "description": "Scidama is an online version of a traditional Scidama Filipino board game. Developed using Node.js, JavaScript and Socket.io for real-time PVP gameplay, allowing players to compete online.",
     "skills": ["Javascript", "NodeJS", "Socket.io"],
     "demo": "https://scidama.onrender.com",
     "source": "https://github.com/ZenDevvv/Cyclic"
