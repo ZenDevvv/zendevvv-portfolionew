@@ -5,7 +5,7 @@ import { motion as m } from "framer-motion";
 
 export default function Skills({ isDarkMode }) {
   return (
-    <section className="bg-lightBG dark:bg-darkBG py-12 px-4 md:px-24 text-lightModeTextP dark:text-darkModeTextP">
+    <section className="bg-lightBG dark:bg-darkBG py-12 px-4 md:px-24 text-lightModeTextP dark:text-darkModeTextP" id="skills">
       <div className="grid place-items-center pb-12 max-w-screen-md mx-auto">
         <h1 className="inline-block text-xs px-4 py-1.5 rounded-full bg-gray-300 text-center text-lightModeTextP dark:text-darkModeTextP dark:bg-gray-600 mb-6">
           Skills

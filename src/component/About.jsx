@@ -28,7 +28,7 @@ const sections = [
 export default function About() {
   return (
     <section
-      id="#about"
+      id="about"
       className="bg-secondaryLightBG dark:bg-secondaryDarkBG overflow-hidden py-12"
     >
       <div className="grid place-items-center pb-12">
