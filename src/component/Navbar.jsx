@@ -23,7 +23,7 @@ export default function Navbar({ isDarkMode, setIsDarkMode }) {
   ];
 
   return (
-    <nav className={`bg-lightBG dark:bg-darkBG z-20 fixed top-0 left-0 w-full`}>
+    <nav className={`bg-lightBG dark:bg-darkBG z-20 fixed top-0 left-0 w-full backdrop-blur-md bg-white/30 dark:bg-black/30 border border-white/20 dark:border-black/20 shadow-lg`}>
       <div className="flex justify-between items-center px-4 md:py-2 max-w-[1000px] mx-auto">
         <a
           href="/"
