@@ -10,7 +10,7 @@ export default function Projects() {
       <div className="max-w-screen-lg mx-auto px-4">
         <div className="grid place-items-center pb-6">
           <h1 className="inline-block text-xs px-3 py-1.5 rounded-full bg-gray-300 text-center text-lightModeTextP dark:text-darkModeTextP dark:bg-gray-600">
-            Experience
+            Projects
           </h1>
         </div>
 

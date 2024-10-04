@@ -19,7 +19,7 @@ export default function Contact() {
   return (
     <section className="bg-secondaryLightBG dark:bg-secondaryDarkBG overflow-hidden py-12" id="contact">
       <div className="grid place-items-center">
-        <h1 className="inline-block text-xs px-3 py-1.5 rounded-full bg-gray-300 text-center text-lightModeTextP dark:text-darkModeTextP dark:bg-gray-600 mb-4">
+        <h1 className="inline-block text-xs px-3 py-1.5 rounded-full bg-gray-300 text-center text-lightModeTextP dark:text-darkModeTextP dark:bg-gray-600 mb-8">
           Get in touch
         </h1>
 
