@@ -23,8 +23,13 @@ export default function Navbar({ isDarkMode, setIsDarkMode }) {
   ];
 
   return (
+<<<<<<< HEAD
     <nav className={`bg-lightBG  z-20 fixed top-0 left-0 w-full backdrop-blur-md bg-white/30 dark:bg-black/30 border border-white/20 dark:border-black/20`}>
       <div className="flex justify-between items-center px-4 md:py-2 max-w-[1000px] mx-auto">
+=======
+    <nav className={` bg-lightBG dark:bg-darkBG md:bg-white/30 md:dark:bg-black/30  md:backdrop-blur-md z-20 fixed top-0 left-0 w-full`}>
+      <div className={`flex justify-between items-center px-4 md:py-2 max-w-[1000px] mx-auto`}>
+>>>>>>> newbranch
         <a
           href="/"
           className=" text-2xl font-extrabold text-lightModeTextT dark:text-darkModeTextT"
@@ -59,14 +64,14 @@ export default function Navbar({ isDarkMode, setIsDarkMode }) {
               <Around
                 toggled={isDarkMode}
                 toggle={setIsDarkMode}
-                className="text-3xl dark:text-darkModeTextT text-lightModeTextT backdrop-blur-md rounded-full"
+                className="text-3xl text-lightModeTextT bg-lightBG rounded-full"
               />
             </m.div>
             <m.a
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, ease: "easeInOut", delay: 2 }}
-              className="bg-darkBG font-bold text-darkModeTextP px-4 py-2 rounded-md dark:text-lightModeTextP dark:bg-lightBG"
+              className="bg-darkBG font-bold text-darkModeTextP px-4 py-2 rounded-md dark:text-lightModeTextTN dark:bg-lightBG"
               href={cv}
               target="_blank"
             >
