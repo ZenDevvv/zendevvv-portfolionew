@@ -66,7 +66,7 @@ export default function Navbar({ isDarkMode, setIsDarkMode }) {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, ease: "easeInOut", delay: 2 }}
-              className="bg-darkBG font-bold text-darkModeTextP px-4 py-2 rounded-md dark:text-lightModeTextT dark:bg-lightBG"
+              className="bg-darkBG font-bold text-darkModeTextP px-4 py-2 rounded-md dark:text-lightModeTextTN dark:bg-lightBG"
               href={cv}
               target="_blank"
             >
