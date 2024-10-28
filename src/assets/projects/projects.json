@@ -1,5 +1,13 @@
 [
   {
+    "title": "Fullstack Blog App",
+    "imageSrc": "projects/tailwind.png",
+    "description": "The Fullstack Blog Application lets users create, read, update, and delete blog posts with secure JWT-based authentication. Built with React, Node.js, Express, and MySQL, it features a responsive interface, efficient CRUD operations, and RESTful APIs for seamless blog and user management. This project showcases secure, scalable, and reliable frontend-backend integration.",
+    "skills": ["React", "Express.js", "Node.js", "MySQL", "Framer Motion", "JWT"],
+    "demo": "https://zendevvv-tailwindproject.netlify.app/",
+    "source": "https://github.com/ZenDevvv/tailwind-project"
+  },
+  {
     "title": "Tailwind Project",
     "imageSrc": "projects/tailwind.png",
     "description": "A simple landing page built with Tailwind CSS and enhanced with animations using Framer Motion.",

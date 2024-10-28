@@ -21,13 +21,13 @@ export default function Projects() {
                 initial={{ opacity: 0, y: 100 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, ease: "easeOut" }}
-                className={`flex flex-col  items-center shadow-lg rounded-lg md:h-[330px] ${
+                className={`flex flex-col  items-center shadow-lg rounded-xl min-h-[330px] bg-gray-100 dark:bg-gray-700 ${
                   id % 2 === 1 ? "md:flex-row-reverse" : "md:flex-row"
                 }    `}
                 key={id}
               >
                 <div
-                  className={`flex-1 p-6 border-b dark:border-none  h-full grid place-items-center bg-gray-100 dark:bg-gray-700 rounded-t-xl  ${
+                  className={`flex-1 p-6 border-b dark:border-none  h-full grid place-items-center  rounded-t-xl  ${
                     id % 2 === 1
                       ? "md:rounded-tl-none md:rounded-tr-xl md:rounded-br-xl"
                       : "md:rounded-tr-none md:rounded-bl-xl"
@@ -40,13 +40,13 @@ export default function Projects() {
                   />
                 </div>
                 <div
-                  className={`flex-1 flex flex-col justify-between h-full p-6  dark:bg-gray-800 rounded-b-xl  ${
+                  className={`flex-1 flex flex-col justify-between min-h-[330px] p-6  dark:bg-gray-800 rounded-b-xl  ${
                     id % 2 === 1
                       ? "md:rounded-tl-xl md:rounded-tr-none md:rounded-br-none"
                       : "md:rounded-bl-none md:rounded-tr-xl"
                   }`}
                 >
-                  <div className="flex flex-col gap-4 mb-8 md:mb-0">
+                  <div className="flex flex-col gap-4 mb-8 md:mb-4">
                     <h1 className="font-bold text-lg text-lightModeTextT dark:text-darkModeTextT">
                       {project.title}
                     </h1>
