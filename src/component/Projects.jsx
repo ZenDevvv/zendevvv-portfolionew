@@ -3,10 +3,14 @@ import { getImageUrl } from "../utils";
 import projects from "../assets/projects/projects.json";
 import { FiExternalLink } from "react-icons/fi";
 import { motion as m, useScroll } from "framer-motion";
+import { FiGithub } from "react-icons/fi";
 
 export default function Projects() {
   return (
-    <section className="bg-lightBG dark:bg-darkBG py-12 overflow-hidden" id="projects">
+    <section
+      className="bg-lightBG dark:bg-darkBG py-12 overflow-hidden"
+      id="projects"
+    >
       <div className="max-w-screen-lg mx-auto px-4">
         <div className="grid place-items-center pb-6">
           <h1 className="inline-block text-xs px-3 py-1.5 rounded-full bg-gray-300 text-center text-lightModeTextP dark:text-darkModeTextP dark:bg-gray-600">
@@ -67,14 +71,26 @@ export default function Projects() {
                     </ul>
                   </div>
 
-                  <m.a
-                  
-                    whileHover={{ y: -3, x: 3 }}
-                    transition={{ duration: 0.2, ease: "easeInOut" }}
-                    href={project.demo} target="_blank" className="w-fit"
+                  <div className="flex gap-2">
+                    <m.a
+                      whileHover={{ y: -3, x: 3 }}
+                      transition={{ duration: 0.2, ease: "easeInOut" }}
+                      href={project.demo}
+                      target="_blank"
+                      className="w-fit"
                     >
-                    <FiExternalLink className="relative text-xl text-lightModeTextT dark:text-darkModeTextT" />
-                  </m.a>
+                      <FiExternalLink className="relative text-xl text-lightModeTextT dark:text-darkModeTextT" />
+                    </m.a>
+                    <m.a
+                      whileHover={{ y: -3, x: 3 }}
+                      transition={{ duration: 0.2, ease: "easeInOut" }}
+                      href={project.source}
+                      target="_blank"
+                      className="w-fit"
+                    >
+                      <FiGithub className="relative text-lg text-lightModeTextT dark:text-darkModeTextT translate-y-0.5" />
+                    </m.a>
+                  </div>
                 </div>
               </m.div>
             );
