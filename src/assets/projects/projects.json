@@ -4,7 +4,7 @@
     "imageSrc": "projects/Blog.png",
     "description": "The Fullstack Blog Application lets users create, read, update, and delete blog posts with secure JWT-based authentication. Built with React, Node.js, Express, and MySQL, it features a responsive interface, efficient CRUD operations, and RESTful APIs for seamless blog and user management. This project showcases secure, scalable, and reliable frontend-backend integration.",
     "skills": ["React", "Express.js", "Node.js", "MySQL", "Framer Motion", "JWT"],
-    "demo": "https://github.com/ZenDevvv/nlog-blog",
+    "demo": "https://nlog-blog.netlify.app/",
     "source": "https://github.com/ZenDevvv/nlog-blog"
   },
   {
