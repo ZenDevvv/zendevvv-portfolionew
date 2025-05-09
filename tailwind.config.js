@@ -16,14 +16,11 @@ export default {
         secondaryDarkBG: '#101826',
         darkModeTextP: '#D1D5DB',
         darkModeTextT: '#F9FAFB',
-
       },
 
       boxShadow: {
         'right': '0 0 30px rgba(0, 0, 0, 0.9)',
       },
-
-      
     },
   },
   plugins: [],

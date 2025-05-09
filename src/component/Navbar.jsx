@@ -6,7 +6,6 @@ import "@theme-toggles/react/css/Around.css";
 import { Around } from "@theme-toggles/react";
 import cv from "../assets/cv.pdf";
 
-
 export default function Navbar({ isDarkMode, setIsDarkMode }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -23,16 +22,24 @@ export default function Navbar({ isDarkMode, setIsDarkMode }) {
   ];
 
   return (
-    <nav className={`bg-lightBG dark:bg-darkBG md:bg-white/30 md:dark:bg-black/30 md:backdrop-blur-md z-20 fixed top-0 left-0 w-full`}>
-      <div className={`flex justify-between items-center px-4 md:py-2 max-w-[1000px] mx-auto`}>
+    <nav
+      className={`bg-lightBG dark:bg-darkBG md:bg-white/30 md:dark:bg-black/30 md:backdrop-blur-md z-20 fixed top-0 left-0 w-full`}
+    >
+      <div
+        className={`flex justify-between items-center px-4 md:py-2 max-w-[1000px] mx-auto`}
+      >
         <a
           href="/"
           className=" text-2xl font-extrabold text-lightModeTextT dark:text-darkModeTextT"
         >
           <div className="relative px-2 top-0 left-4 flex items-center h-full group">
-            <span className="absolute pr-2 left-[-10px] group-hover:-translate-x-2 transition-transform">{"<"}</span>
+            <span className="absolute pr-2 left-[-10px] group-hover:-translate-x-2 transition-transform">
+              {"<"}
+            </span>
             <span className="relative">Zd</span>
-            <span className="absolute pl-4 right-[-20px] group-hover:translate-x-2 transition-transform">{" />"}</span>
+            <span className="absolute pl-4 right-[-20px] group-hover:translate-x-2 transition-transform">
+              {" />"}
+            </span>
           </div>
         </a>
 
@@ -48,6 +55,7 @@ export default function Navbar({ isDarkMode, setIsDarkMode }) {
             ))}
           </ul>
 
+          {/* Desktop Navbar */}
           <div className="hidden md:flex gap-4">
             <m.div
               initial={{ rotate: 0 }}
@@ -59,14 +67,14 @@ export default function Navbar({ isDarkMode, setIsDarkMode }) {
               <Around
                 toggled={isDarkMode}
                 toggle={setIsDarkMode}
-                className="text-3xl text-lightModeTextT bg-lightBG rounded-full"
+                className="text-3xl text-lightModeTextT bg-lightBG rounded-full hover:rotate-45 transition-all duration-[400ms]"
               />
             </m.div>
             <m.a
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, ease: "easeInOut", delay: 2 }}
-              className="bg-darkBG font-bold text-darkModeTextP px-4 py-2 rounded-md dark:text-lightModeTextT dark:bg-lightBG"
+              className="dark:hover:bg-darkBG dark:hover:text-darkModeTextP dark:hover:border-lightBG hover:bg-lightBG hover:text-lightModeTextT border-2 border-lightBG hover:border-darkBG  bg-darkBG font-bold text-darkModeTextP px-4 py-2 rounded-md dark:text-lightModeTextT dark:bg-lightBG"
               href={cv}
               target="_blank"
             >
