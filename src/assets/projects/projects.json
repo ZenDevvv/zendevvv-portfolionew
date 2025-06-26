@@ -1,6 +1,6 @@
 [
   {
-    "title": "Fullstack Blog App (Development in Progress)",
+    "title": "Fullstack Blog App (DB Hosting shutdown)",
     "imageSrc": "projects/Blog.png",
     "description": "The Fullstack Blog Application lets users create, read, update, and delete blog posts with secure JWT-based authentication. Built with React, Node.js, Express, and MySQL, it features a responsive interface, efficient CRUD operations, and RESTful APIs for seamless blog and user management. This project showcases secure, scalable, and reliable frontend-backend integration.",
     "skills": ["React", "Express.js", "Node.js", "MySQL", "Framer Motion", "JWT"],
@@ -24,7 +24,7 @@
     "source": "https://github.com/ZenDevvv/APOD-project"
   },
   {
-    "title": "Mini Expenses Tracker",
+    "title": "Mini Expenses Tracke (DB Hosting shutdown)",
     "imageSrc": "projects/expense tracker.png",
     "description": "A full-stack development and deployment project using MySQL, Express, React, and Node.js with CRUD functionalities. The frontend is hosted on Netlify, the backend on Render, and the database on Aiven using AWS services, all utilizing free-tier hosting solutions.",
     "skills": ["Fullstack", "React", "MySQL", "Node", "Express", "RESTful API"],
