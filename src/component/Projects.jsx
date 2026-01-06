@@ -1,6 +1,6 @@
 import React from "react";
 import { getImageUrl } from "../utils";
-import projects from "../assets/projects/projects.json";
+import projects from "../assets/json/projects.json";
 import { FiExternalLink } from "react-icons/fi";
 import { motion as m, useScroll } from "framer-motion";
 import { FiGithub } from "react-icons/fi";
