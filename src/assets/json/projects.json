@@ -1,5 +1,21 @@
 [
   {
+    "title": "ALMA (Alternative Learning Management App)",
+    "imageSrc": "projects/alma.png",
+    "description": "ALMA is a scalable, multi-tenant learning management platform designed to support multiple organizations, instructors, and learners within a unified system. The application enables role-based access, course management, and structured learning workflows while maintaining tenant isolation and performance. I worked as the Frontend Developer, responsible for building modular, responsive UI components, implementing state management, and integrating frontend features with backend APIs to deliver a seamless and efficient learning experience.",
+    "skills": [
+      "TypeScript",
+      "MERN",
+      "TanStack",
+      "React Hook Form",
+      "Zod",
+      "RBAC",
+      "Cloudinary"
+    ],
+    "demo": "https://lms-app-test.site/",
+    "source": ""
+  },
+  {
     "title": "Blog App",
     "imageSrc": "projects/Blog.png",
     "description": "The Fullstack Blog Application lets users create, read, update, and delete blog posts with secure JWT-based authentication. Built with React, Node.js, Express, and MySQL, it features a responsive interface, efficient CRUD operations, and RESTful APIs for seamless blog and user management. This project showcases secure, scalable, and reliable frontend-backend integration.",

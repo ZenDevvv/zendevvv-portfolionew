@@ -73,24 +73,28 @@ export default function Projects() {
                   </div>
 
                   <div className="flex gap-2">
-                    <m.a
-                      whileHover={{ y: -3, x: 3 }}
-                      transition={{ duration: 0.2, ease: "easeInOut" }}
-                      href={project.demo}
-                      target="_blank"
-                      className="w-fit"
-                    >
-                      <FiExternalLink className="relative text-xl text-lightModeTextT dark:text-darkModeTextT" />
-                    </m.a>
-                    <m.a
-                      whileHover={{ y: -3, x: 3 }}
-                      transition={{ duration: 0.2, ease: "easeInOut" }}
-                      href={project.source}
-                      target="_blank"
-                      className="w-fit"
-                    >
-                      <FiGithub className="relative text-lg text-lightModeTextT dark:text-darkModeTextT translate-y-0.5" />
-                    </m.a>
+                    {project.demo && (
+                      <m.a
+                        whileHover={{ y: -3, x: 3 }}
+                        transition={{ duration: 0.2, ease: "easeInOut" }}
+                        href={project.demo}
+                        target="_blank"
+                        className="w-fit"
+                      >
+                        <FiExternalLink className="relative text-xl text-lightModeTextT dark:text-darkModeTextT" />
+                      </m.a>
+                    )}
+                    {project.source && (
+                      <m.a
+                        whileHover={{ y: -3, x: 3 }}
+                        transition={{ duration: 0.2, ease: "easeInOut" }}
+                        href={project.source}
+                        target="_blank"
+                        className="w-fit"
+                      >
+                        <FiGithub className="relative text-lg text-lightModeTextT dark:text-darkModeTextT translate-y-0.5" />
+                      </m.a>
+                    )}
                   </div>
                 </div>
               </m.div>
