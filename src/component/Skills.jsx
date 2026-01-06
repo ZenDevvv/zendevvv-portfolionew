@@ -1,6 +1,6 @@
 import React from "react";
-import skills from "../assets/skills/skills.json";
-import { getImageUrl } from "../utils";
+import skills from "../assets/json/skills.json";
+import { getImageUrl } from "../utils"; 
 import { motion as m } from "framer-motion";
 
 export default function Skills({ isDarkMode }) {
