@@ -19,9 +19,9 @@ export default function Experience() {
           <div className="flex flex-col gap-4">
             {experiences.map((exp, index) => {
               // Find the matching company component
-              const CompanyComponent = companyComponents.find(
-                (comp) => comp.company === exp.company
-              )?.component || (() => <h1>{exp.company}</h1>); // Fallback if no match
+              const CompanyComponent =
+                companyComponents.find((comp) => comp.company === exp.company)
+                  ?.component || (() => <h1>{exp.company}</h1>); // Fallback if no match
 
               return (
                 <m.div
@@ -37,6 +37,7 @@ export default function Experience() {
                     duration: 1,
                     ease: "easeInOut",
                   }}
+                  viewport={{ once: true }}
                   key={index}
                   className="grid grid-cols-1 md:grid-cols-4 gap-4 bg-lightBG shadow-lg dark:bg-gray-800 rounded-2xl p-8"
                 >

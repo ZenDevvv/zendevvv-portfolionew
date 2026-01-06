@@ -25,6 +25,7 @@ export default function Projects() {
                 initial={{ opacity: 0, y: 100 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, ease: "easeOut" }}
+                viewport={{ once: true }}
                 className={`flex flex-col  items-center shadow-lg rounded-xl min-h-[330px] bg-gray-100 dark:bg-gray-700 ${
                   id % 2 === 1 ? "md:flex-row-reverse" : "md:flex-row"
                 }    `}
