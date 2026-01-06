@@ -3,29 +3,26 @@ import { motion as m } from "framer-motion";
 import { GoGoal } from "react-icons/go";
 import { RxAvatar } from "react-icons/rx";
 import { GrTrophy } from "react-icons/gr";
+import { FaCheckCircle } from "react-icons/fa";
 
 const sections = [
   {
     title: "Self Introduction",
-    icon: (
-      <RxAvatar className="text-lightModeTextT dark:text-darkModeTextP text-lg font-semibold" />
-    ),
+    Icon: RxAvatar,
+    isCompleted: true,
     content:
       "I’m passionate about web development, with a focus on React and modern technologies. I strive to build dynamic, user-friendly websites and spend 6 to 8 hours daily coding, taking on new challenges and exploring solutions. This dedication drives me to continuously learn and improve, bringing me closer to my goals in the ever-evolving tech landscape.",
   },
   {
     title: "Short Term Goal",
-    icon: (
-      <GoGoal className="text-lightModeTextT dark:text-darkModeTextP text-lg font-semibold" />
-    ),
+    Icon: GoGoal,
+    isCompleted: true,
     content:
       "My short-term goal is to secure a position as a junior front-end developer, where I can apply my knowledge and enthusiasm in a professional setting. I am eager to contribute to a collaborative team, engage in exciting projects, and gain valuable hands-on experience. This opportunity will help me further develop my skills in building responsive and engaging web applications while staying updated with industry trends and best practices.",
   },
   {
     title: "Long Term Plan",
-    icon: (
-      <GrTrophy className="text-lightModeTextT dark:text-darkModeTextP text-lg font-semibold" />
-    ),
+    Icon: GrTrophy,
     content:
       "My long-term goal is to become proficient in full-stack development, mastering both front-end and back-end technologies. I aspire to become a tech lead, guiding young developers and helping them succeed. I also dream of starting my own tech company, where I can innovate, solve real-world problems, and foster a collaborative and growth-focused culture.",
   },
@@ -80,9 +77,22 @@ export default function About() {
               viewport={{ once: true }}
               className="flex items-center gap-2 relative"
             >
-              {section.icon}
-              <h1 className="text-lg font-semibold text-lightModeTextT dark:text-darkModeTextP">
+              <section.Icon
+                className={`${
+                  section.isCompleted
+                    ? "text-emerald-500 dark:text-emerald-400"
+                    : "text-lightModeTextT dark:text-darkModeTextP"
+                } text-lg font-semibold`}
+              />
+              <h1
+                className={`text-lg font-semibold flex items-center gap-2 ${
+                  section.isCompleted
+                    ? "text-emerald-500 dark:text-emerald-400"
+                    : "text-lightModeTextT dark:text-darkModeTextP"
+                }`}
+              >
                 {section.title}
+                {section.isCompleted && <FaCheckCircle className="text-sm" />}
               </h1>
             </m.div>
             <m.p
