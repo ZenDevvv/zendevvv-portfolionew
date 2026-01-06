@@ -1,23 +1,21 @@
-{
-    "experiences": [
-        {
-            "company": "Uzaro Technology Solutions Inc.",
-            "period": "November 25, 2024 - present",
-            "position": "Technology Associate",
-            "tasks": [
-                "Designed and developed responsive frontend interfaces for a technology solutions application using React and TypeScript, ensuring type-safe, scalable, and user-centric UI/UX.",
-                "Integrated IoT devices with a web application, enabling seamless real-time data communication and enhancing system functionality for smart technology solutions.",
-                "Built a robust Learning Management System (LMS) using the MERN stack (MongoDB, Express.js, React, Node.js), delivering a scalable platform for efficient course management and user engagement."
-            ]
-        },
-        {
-            "company": "IPSolutions Inc.",
-            "period": "March 2024 - May 2024",
-            "position": "IT Intern",
-            "tasks": [
-                "Developed static websites utilizing HTML/CSS and Bootstrap templates, following UI/UX design principles to ensure responsive and user-friendly layouts.",
-                "Collaborated with cross-functional teams to ensure the development process adhered to Software Development Life Cycle (SDLC) practices."
-            ]
-        }
+[
+  {
+    "company": "Uzaro Technology Solutions Inc.",
+    "period": "November 25, 2024 - present",
+    "position": "Technology Developer",
+    "tasks": [
+      "Designed and developed responsive frontend interfaces for a technology solutions application using React and TypeScript, ensuring type-safe, scalable, and user-centric UI/UX.",
+      "Integrated IoT devices with a web application, enabling seamless real-time data communication and enhancing system functionality for smart technology solutions.",
+      "Built a robust Learning Management System (LMS) using the MERN stack, delivering a scalable platform for efficient course management and user engagement.",
+      "Collaborated with cross-functional teams in an Agile environment to ensure the development process followed Software Development Life Cycle (SDLC) best practices through iterative planning and continuous feedback."
     ]
-}
+  },
+  {
+    "company": "IPSolutions Inc.",
+    "period": "March 2024 - May 2024",
+    "position": "IT Intern",
+    "tasks": [
+      "Developed static websites utilizing HTML/CSS and Bootstrap templates, following UI/UX design principles to ensure responsive and user-friendly layouts."
+    ]
+  }
+]

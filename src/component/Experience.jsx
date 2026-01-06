@@ -1,6 +1,7 @@
 import React from "react";
 import { motion as m } from "framer-motion";
-import { experiences, companyComponents } from "./CompanyComponents";
+import { companyComponents } from "./CompanyComponents";
+import experiences from "../assets/json/experiences.json";
 
 export default function Experience() {
   return (
