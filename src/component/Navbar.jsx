@@ -151,14 +151,16 @@ export default function Navbar({ isDarkMode, setIsDarkMode }) {
                     />
                   </m.div>
                 </m.div>
-                <m.button
+                <m.a
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 0.7, y: 0 }}
                   transition={{ duration: 0.7, ease: "easeOut", delay: 0.8 }}
                   className="bg-darkBG font-bold text-darkModeTextT px-4 py-2 rounded-md dark:text-lightModeTextT dark:bg-lightBG"
+                  href={cv}
+                  target="_blank"
                 >
                   Download CV
-                </m.button>
+                </m.a>
               </div>
             </m.div>
           )}
