@@ -12,6 +12,10 @@
     "imageSrc": "skills/typescript.png"
   },
   {
+    "title": "Prisma",
+    "imageSrc": "skills/prisma.png"
+  },
+  {
     "title": "MongoDB",
     "imageSrc": "skills/mongodb300.png"
   },

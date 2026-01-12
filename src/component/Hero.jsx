@@ -7,7 +7,6 @@ import { FiMail } from "react-icons/fi";
 import { motion as m, useScroll } from "framer-motion";
 
 export default function Hero({ isDarkMode }) {
-
   const icons = [
     { icon: FiGithub, href: "https://github.com/ZenDevvv" },
     {
@@ -40,7 +39,7 @@ export default function Hero({ isDarkMode }) {
           />
         </m.div>
 
-        <div className="px-4 flex-1 flex flex-col justify-between md:flex-auto md:w-2/4 lg:w-3/4">
+        <div className="px-4 md:pr-0 flex-1 flex flex-col justify-between md:flex-auto md:w-2/4 lg:w-3/4">
           <div className="md:pt-12">
             <m.h1
               initial={{ opacity: 0, x: -20 }}
@@ -56,9 +55,9 @@ export default function Hero({ isDarkMode }) {
               transition={{ duration: 0.5, ease: "easeInOut", delay: 0.3 }}
               className="text-lightModeTextP dark:text-darkModeTextP"
             >
-              I am a Computer Science fresh graduate and a passionate javascript developer
-              focusing on building responsive and dynamic web applications using
-              React.js and Node.js.
+              Computer Science graduate and full-stack developer with hands-on
+              experience delivering complete web solutions, from user-facing
+              features to backend logic and data handling.
             </m.p>
           </div>
 
