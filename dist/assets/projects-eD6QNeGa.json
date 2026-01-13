@@ -1,0 +1,81 @@
+[
+  {
+    "title": "OSPAR (Inventory Management System)",
+    "imageSrc": "projects/ospar.png",
+    "description": "OSPAR is an inventory management system built on GS1 standards that tracks item movement across multiple organizations and departments, from internal transfers to final patient usage. It supports delivery requests, delivery orders, and delivery receipts, along with patient, supplier, and product management, while providing stock and batch-level tracking per department for accurate inventory control. Built-in reporting and analytics offer visibility and insights to support informed, data-driven decisions.",
+    "skills": [
+      "TypeScript",
+      "MERN",
+      "Prisma",
+      "TanStack",
+      "RBAC",
+      "GS1"
+
+    ],
+    "demo": "https://ospar-app-dev.web.app/",
+    "source": ""
+  },
+  {
+    "title": "ALMA (Alternative Learning Management App)",
+    "imageSrc": "projects/alma.png",
+    "description": "ALMA is a scalable, multi-tenant learning management platform designed to support multiple organizations, instructors, and learners within a unified system. The application enables role-based access, course management, and structured learning workflows while maintaining tenant isolation and performance. I worked as the Frontend Developer, responsible for building modular, responsive UI components, implementing state management, and integrating frontend features with backend APIs to deliver a seamless and efficient learning experience.",
+    "skills": [
+      "TypeScript",
+      "MERN",
+      "TanStack",
+      "React Hook Form",
+      "Zod",
+      "RBAC",
+      "Cloudinary"
+    ],
+    "demo": "https://lms-app-test.site/",
+    "source": ""
+  },
+  {
+    "title": "Blog App",
+    "imageSrc": "projects/Blog.png",
+    "description": "The Fullstack Blog Application lets users create, read, update, and delete blog posts with secure JWT-based authentication. Built with React, Node.js, Express, and MySQL, it features a responsive interface, efficient CRUD operations, and RESTful APIs for seamless blog and user management. This project showcases secure, scalable, and reliable frontend-backend integration.",
+    "skills": [
+      "React",
+      "Express.js",
+      "Node.js",
+      "MySQL",
+      "Framer Motion",
+      "JWT"
+    ],
+    "demo": "https://nlog-blog.netlify.app/",
+    "source": "https://github.com/ZenDevvv/nlog-blog"
+  },
+  {
+    "title": "Astronomy of the Day",
+    "imageSrc": "projects/NASA.png",
+    "description": "A React project that fetches NASA's APOD data via the NASA API, featuring the ability to view the image NASA posted on your birthday.",
+    "skills": ["HTML", "CSS", "React", "API"],
+    "demo": "https://zendevvv-apod.netlify.app",
+    "source": "https://github.com/ZenDevvv/APOD-project"
+  },
+  {
+    "title": "Mini Expenses Tracke (DB Hosting shutdown)",
+    "imageSrc": "projects/expense tracker.png",
+    "description": "A full-stack development and deployment project using MySQL, Express, React, and Node.js with CRUD functionalities. The frontend is hosted on Netlify, the backend on Render, and the database on Aiven using AWS services, all utilizing free-tier hosting solutions.",
+    "skills": ["Fullstack", "React", "MySQL", "Node", "Express", "RESTful API"],
+    "demo": "https://mini-expenses-tracker.netlify.app/",
+    "source": "https://github.com/ZenDevvv/mini-expense-tracker-backend"
+  },
+  {
+    "title": "Old Portfolio",
+    "imageSrc": "projects/oldport.jpg",
+    "description": "My first React portfolio, built using HTML, CSS, and React to showcase my projects and skills.",
+    "skills": ["HTML", "CSS", "ReactJS", "JSON"],
+    "demo": "https://zendevvv-portfolioreact.netlify.app/",
+    "source": "https://github.com/ZenDevvv/Frontend-project"
+  },
+  {
+    "title": "Scidama Online",
+    "imageSrc": "projects/scidama.png",
+    "description": "Scidama is an online version of a traditional Scidama Filipino board game. Developed using Node.js, JavaScript and Socket.io for real-time PVP gameplay, allowing players to compete online.",
+    "skills": ["Javascript", "NodeJS", "Socket.io"],
+    "demo": "https://scidama.onrender.com",
+    "source": "https://github.com/ZenDevvv/Cyclic"
+  }
+]
