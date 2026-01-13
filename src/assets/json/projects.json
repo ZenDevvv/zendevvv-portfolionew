@@ -1,5 +1,21 @@
 [
   {
+    "title": "OSPAR (Inventory Management System)",
+    "imageSrc": "projects/ospar.png",
+    "description": "OSPAR is an inventory management system built on GS1 standards that tracks item movement across multiple organizations and departments, from internal transfers to final patient usage. It supports delivery requests, delivery orders, and delivery receipts, along with patient, supplier, and product management, while providing stock and batch-level tracking per department for accurate inventory control. Built-in reporting and analytics offer visibility and insights to support informed, data-driven decisions.",
+    "skills": [
+      "TypeScript",
+      "MERN",
+      "Prisma",
+      "TanStack",
+      "RBAC",
+      "GS1"
+
+    ],
+    "demo": "https://ospar-app-dev.web.app/",
+    "source": ""
+  },
+  {
     "title": "ALMA (Alternative Learning Management App)",
     "imageSrc": "projects/alma.png",
     "description": "ALMA is a scalable, multi-tenant learning management platform designed to support multiple organizations, instructors, and learners within a unified system. The application enables role-based access, course management, and structured learning workflows while maintaining tenant isolation and performance. I worked as the Frontend Developer, responsible for building modular, responsive UI components, implementing state management, and integrating frontend features with backend APIs to deliver a seamless and efficient learning experience.",
