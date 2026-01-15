@@ -1,5 +1,35 @@
 [
   {
+    "title": "Sureone",
+    "imageSrc": "projects/sureone.webp",
+    "description": "SureOne is a modern digital insurance service in the Philippines that focuses on making insurance more accessible and affordable for everyday Filipinos. The main website provides information about SureOne’s mission and product offerings, while the customer web application allows users to calculate insurance premiums, select coverage options, and manage their policies online. Currently, the platform supports motorcycle insurance with plans to expand into other types of coverage such as car, health, and travel insurance.",
+    "skills": [
+      "TypeScript",
+      "MERN",
+      "Prisma",
+      "TanStack",
+      "Payment Integration",
+      "Xendit"
+    ],
+    "demo": "https://www.sureone.ph/",
+    "source": ""
+  },
+  {
+    "title": "RYDE",
+    "imageSrc": "projects/ryde.png",
+    "description": "RYDE is a luxury car rental and private chauffeur web application that allows users to seamlessly reserve premium vehicles and optionally book professional chauffeurs. The platform supports flexible vehicle turnover options, including pickup, meetup, or home delivery, and integrates secure online payments through Xendit. RYDE is designed to deliver a smooth, high-end booking experience with a focus on convenience, reliability, and modern web usability.",
+    "skills": [
+      "TypeScript",
+      "MERN",
+      "Prisma",
+      "TanStack",
+      "Payment Integration",
+      "Xendit"
+    ],
+    "demo": "https://ryde-luxury-app-dev.web.app/",
+    "source": ""
+  },
+  {
     "title": "OSPAR (Inventory Management System)",
     "imageSrc": "projects/ospar.png",
     "description": "OSPAR is an inventory management system built on GS1 standards that tracks item movement across multiple organizations and departments, from internal transfers to final patient usage. It supports delivery requests, delivery orders, and delivery receipts, along with patient, supplier, and product management, while providing stock and batch-level tracking per department for accurate inventory control. Built-in reporting and analytics offer visibility and insights to support informed, data-driven decisions.",
@@ -8,6 +38,8 @@
       "MERN",
       "Prisma",
       "TanStack",
+      "React Hook Form",
+      "Zod",
       "RBAC",
       "GS1"
 
