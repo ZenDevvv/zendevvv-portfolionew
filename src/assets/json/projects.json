@@ -1,5 +1,18 @@
 [
   {
+    "title": "HRIS Webapp (Development in Progress)",
+    "imageSrc": "projects/hris.webp",
+    "description": "A multi-tenant Human Resource Information System built to centralize and automate core HR operations. The platform offers end-to-end employee management, recruitment and applicant tracking, payroll processing, and timekeeping management, enabling HR teams to efficiently manage the entire employee lifecycle. It supports multiple organizations within a single system while maintaining secure and structured access through Attribute-Based Access Control (ABAC), ensuring that HR data visibility and actions align with user roles, departments, and organizational policies.",
+    "skills": [
+      "TypeScript",
+      "MERN",
+      "Prisma",
+      "TanStack"
+    ],
+    "demo": "",
+    "source": ""
+  },
+  {
     "title": "Sureone",
     "imageSrc": "projects/sureone.webp",
     "description": "SureOne is a modern digital insurance service in the Philippines that focuses on making insurance more accessible and affordable for everyday Filipinos. The main website provides information about SureOne’s mission and product offerings, while the customer web application allows users to calculate insurance premiums, select coverage options, and manage their policies online. Currently, the platform supports motorcycle insurance with plans to expand into other types of coverage such as car, health, and travel insurance.",
@@ -26,7 +39,7 @@
       "Payment Integration",
       "Xendit"
     ],
-    "demo": "https://ryde-luxury-app-dev.web.app/",
+    "demo": "https://ryde-luxury-web-dev.web.app/",
     "source": ""
   },
   {
