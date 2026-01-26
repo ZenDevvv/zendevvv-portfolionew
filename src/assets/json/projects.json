@@ -1,7 +1,7 @@
 [
   {
     "title": "HRIS Webapp (Development in Progress)",
-    "imageSrc": "projects/hris.webp",
+    "imageSrc": "projects/hris.png",
     "description": "A multi-tenant Human Resource Information System built to centralize and automate core HR operations. The platform offers end-to-end employee management, recruitment and applicant tracking, payroll processing, and timekeeping management, enabling HR teams to efficiently manage the entire employee lifecycle. It supports multiple organizations within a single system while maintaining secure and structured access through Attribute-Based Access Control (ABAC), ensuring that HR data visibility and actions align with user roles, departments, and organizational policies.",
     "skills": [
       "TypeScript",
@@ -9,7 +9,7 @@
       "Prisma",
       "TanStack"
     ],
-    "demo": "",
+    "demo": "https://hris-app-dev.web.app/",
     "source": ""
   },
   {
