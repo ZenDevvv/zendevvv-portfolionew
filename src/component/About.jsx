@@ -7,24 +7,24 @@ import { FaCheckCircle } from "react-icons/fa";
 
 const sections = [
   {
-    title: "Self Introduction",
+    title: "Who I Am",
     Icon: RxAvatar,
     isCompleted: true,
     content:
-      "I’m passionate about web development, with a focus on React and modern technologies. I strive to build dynamic, user-friendly websites and spend 6 to 8 hours daily coding, taking on new challenges and exploring solutions. This dedication drives me to continuously learn and improve, bringing me closer to my goals in the ever-evolving tech landscape.",
+      "Fullstack developer specializing in React and TypeScript with a focus on building multi-tenant enterprise systems. I've shipped 8+ production platforms across IoT, Education, Hospitality, and ERP domains — handling everything from UI architecture to backend data modeling. I work with a structured AI-augmented workflow, using tools like Claude Opus, Codex, and Gemini Pro 3 not as a crutch, but as a force multiplier — maintaining full code ownership and engineering rigor at every stage.",
   },
   {
-    title: "Short Term Goal",
+    title: "Where I'm Headed",
     Icon: GoGoal,
     isCompleted: true,
     content:
-      "My short-term goal is to secure a position as a junior front-end developer, where I can apply my knowledge and enthusiasm in a professional setting. I am eager to contribute to a collaborative team, engage in exciting projects, and gain valuable hands-on experience. This opportunity will help me further develop my skills in building responsive and engaging web applications while staying updated with industry trends and best practices.",
+      "I'm deepening my expertise in AI-augmented software engineering — the practice of directing AI tools with architectural intent, clear prompt systems, and human-driven quality control. My near-term focus is mastering Cloud infrastructure (AWS), and advanced CI/CD pipelines while refining how I integrate AI into every phase of the SDLC: from UI/UX prototyping to backend scaffolding to automated testing. The goal is to ship faster without sacrificing engineering discipline.",
   },
   {
-    title: "Long Term Plan",
+    title: "The Bigger Picture",
     Icon: GrTrophy,
     content:
-      "My long-term goal is to become proficient in full-stack development, mastering both front-end and back-end technologies. I aspire to become a tech lead, guiding young developers and helping them succeed. I also dream of starting my own tech company, where I can innovate, solve real-world problems, and foster a collaborative and growth-focused culture.",
+      "I believe the developers who will lead in the coming years aren't the ones who code the fastest — they're the ones who know how to orchestrate AI, architecture, and team workflows into reliable, scalable systems. I'm building toward a senior fullstack or tech lead role where I can shape engineering culture, mentor developers on effective AI-assisted workflows, and eventually build a product studio that ships real enterprise solutions at startup speed.",
   },
 ];
 

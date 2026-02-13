@@ -1,11 +1,12 @@
 [
-  {
-    "title": "HTML",
-    "imageSrc": "skills/html.png"
+
+    {
+    "title": "React",
+    "imageSrc": "skills/react.png"
   },
   {
-    "title": "CSS",
-    "imageSrc": "skills/css.png"
+    "title": "Next.js",
+    "imageSrc": "skills/next.jpeg"
   },
   {
     "title": "Typescript",
@@ -22,10 +23,6 @@
   {
     "title": "Express",
     "imageSrc": "skills/icon-express.svg"
-  },
-  {
-    "title": "React",
-    "imageSrc": "skills/react.png"
   },
   {
     "title": "Node",

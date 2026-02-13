@@ -4,7 +4,8 @@ import { useState } from "react";
 import { MotionConfig, motion as m, AnimatePresence } from "framer-motion";
 import "@theme-toggles/react/css/Around.css";
 import { Around } from "@theme-toggles/react";
-import cv from "../assets/cv.pdf";
+// import cv from "../assets/cv.pdf";
+import resume from "../assets/Zen Obrero RESUME.pdf";
 
 export default function Navbar({ isDarkMode, setIsDarkMode }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -75,7 +76,7 @@ export default function Navbar({ isDarkMode, setIsDarkMode }) {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, ease: "easeInOut", delay: 2 }}
               className="dark:hover:bg-darkBG dark:hover:text-darkModeTextP dark:hover:border-lightBG hover:bg-lightBG hover:text-lightModeTextT border-2 border-lightBG hover:border-darkBG  bg-darkBG font-bold text-darkModeTextP px-4 py-2 rounded-md dark:text-lightModeTextT dark:bg-lightBG"
-              href={cv}
+              href={resume}
               target="_blank"
             >
               Download CV
@@ -156,7 +157,7 @@ export default function Navbar({ isDarkMode, setIsDarkMode }) {
                   animate={{ opacity: 0.7, y: 0 }}
                   transition={{ duration: 0.7, ease: "easeOut", delay: 0.8 }}
                   className="bg-darkBG font-bold text-darkModeTextT px-4 py-2 rounded-md dark:text-lightModeTextT dark:bg-lightBG"
-                  href={cv}
+                  href={resume}
                   target="_blank"
                 >
                   Download CV

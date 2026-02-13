@@ -55,9 +55,9 @@ export default function Hero({ isDarkMode }) {
               transition={{ duration: 0.5, ease: "easeInOut", delay: 0.3 }}
               className="text-lightModeTextP dark:text-darkModeTextP"
             >
-              Computer Science graduate and full-stack developer with hands-on
-              experience delivering complete web solutions, from user-facing
-              features to backend logic and data handling.
+              Fullstack developer specializing in React and TypeScript. I build
+              multi-tenant enterprise systems — from UI architecture to backend
+              data modeling — across IoT, Education, Hospitality, and ERP.
             </m.p>
           </div>
 
