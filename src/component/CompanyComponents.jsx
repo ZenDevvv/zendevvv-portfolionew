@@ -1,5 +1,3 @@
-import React from "react";
-import { FaLaptopCode, FaNetworkWired } from "react-icons/fa";
 import uzaroLogo from "../assets/uzarologo.png";
 
 // Array of company name components with icons
