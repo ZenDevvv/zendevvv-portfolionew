@@ -1,5 +1,23 @@
 export default [
   {
+    title: "AppSite Builder",
+    imageSrc: "projects/cloudy.png",
+    description:
+      "AppSite Builder (ASB) is a no-code website and landing page builder where users can start from admin-curated templates or blank projects, edit pages through a visual drag-and-drop editor, auto-save drafts, and publish static HTML sites. It supports structured content using pages, sections, groups, and reusable blocks, plus global style settings, SEO metadata, role-based access, soft-delete protection, and non-destructive template forking.",
+    skills: [
+      "TypeScript",
+      "MERN",
+      "Prisma",
+      "TanStack",
+      "No-Code Builder",
+      "RBAC",
+      "SEO",
+      "Static Site Rendering",
+    ],
+    demo: "https://appsite-builder-cms.web.app/",
+    source: "",
+  },
+  {
     title: "HRIS Webapp",
     imageSrc: "projects/hris.png",
     description:
@@ -8,22 +26,6 @@ export default [
     demo: "https://hris-app-dev.web.app/",
     source: "",
   },
-  // {
-  //   title: "Sureone",
-  //   imageSrc: "projects/sureone.webp",
-  //   description:
-  //     "SureOne is a modern digital insurance service in the Philippines that focuses on making insurance more accessible and affordable for everyday Filipinos. The main website provides information about SureOne’s mission and product offerings, while the customer web application allows users to calculate insurance premiums, select coverage options, and manage their policies online. Currently, the platform supports motorcycle insurance with plans to expand into other types of coverage such as car, health, and travel insurance.",
-  //   skills: [
-  //     "TypeScript",
-  //     "MERN",
-  //     "Prisma",
-  //     "TanStack",
-  //     "Payment Integration",
-  //     "Xendit",
-  //   ],
-  //   demo: "https://www.sureone.ph/",
-  //   source: "",
-  // },
   {
     title: "RYDE",
     imageSrc: "projects/ryde.png",
