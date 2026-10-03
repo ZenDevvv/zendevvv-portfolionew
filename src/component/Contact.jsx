@@ -11,7 +11,7 @@ export default function Contact() {
     { icon: FiGithub, href: "https://github.com/ZenDevvv" },
     {
       icon: FaLinkedin,
-      href: "www.linkedin.com/in/zen-andrei-obrero-6b37762b5",
+      href: "https://www.linkedin.com/in/zen-andrei-obrero-6b37762b5",
     },
     { icon: FiMail, href: "mailto:zenandreiobrero@gmail.com" },
   ];
@@ -38,7 +38,7 @@ export default function Contact() {
           <MdOutlineEmail className="text-xl text-lightModeTextT dark:text-darkModeTextT" />{" "}
           <a
             className="text-lg text-lightModeTextT dark:text-darkModeTextT"
-            href="zenandreiobrero777@gmail.com"
+            href="mailto:zenandreiobrero777@gmail.com"
           >
             zenandreiobrero777@gmail.com
           </a>
