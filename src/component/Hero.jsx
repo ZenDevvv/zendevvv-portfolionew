@@ -11,7 +11,7 @@ export default function Hero({ isDarkMode }) {
     { icon: FiGithub, href: "https://github.com/ZenDevvv" },
     {
       icon: FaLinkedin,
-      href: "www.linkedin.com/in/zen-andrei-obrero-6b37762b5",
+      href: "https://www.linkedin.com/in/zen-andrei-obrero-6b37762b5",
     },
     { icon: FiMail, href: "mailto:zenandreiobrero@gmail.com" },
   ];
