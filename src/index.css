@@ -19,6 +19,16 @@
   transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out, border-color 0.3s ease-in-out, outline-color 0.3s ease-in-out, fill 0.3s ease-in-out, stroke 0.3s ease-in-out;
 }
 
+/* The hero drawings shrunk into the industry tiles: a heavier ink line so they still
+   read at icon size, and no sensor reading too small to make out. */
+.mini-drawing [stroke-width="1.6"] {
+  stroke-width: 3.2px;
+}
+
+.mini-drawing text {
+  display: none;
+}
+
 .dark-mode-filter {
   filter: invert(1) hue-rotate(180deg);
 }

@@ -82,7 +82,7 @@ function useReading(play) {
   return reading.toFixed(1);
 }
 
-function Sensor({ play }) {
+export function Sensor({ play }) {
   const reading = useReading(play);
   return (
     <svg viewBox="0 0 76 92" className="block w-[4.75em]" aria-hidden="true">
@@ -130,7 +130,7 @@ function Sensor({ play }) {
   );
 }
 
-function Books({ play }) {
+export function Books({ play }) {
   return (
     <svg viewBox="0 0 104 76" className="block w-[6.5em]" aria-hidden="true">
       <rect x="2" y="58" width="96" height="17" rx="3" className={shade} {...line} />
@@ -155,7 +155,7 @@ function Books({ play }) {
   );
 }
 
-function Bell({ play }) {
+export function Bell({ play }) {
   return (
     <svg viewBox="0 0 72 60" className="block w-[4.5em]" aria-hidden="true">
       <g
@@ -177,7 +177,7 @@ function Bell({ play }) {
   );
 }
 
-function FirstAidKit({ play }) {
+export function FirstAidKit({ play }) {
   return (
     <svg viewBox="0 0 76 64" className="block w-[4.75em]" aria-hidden="true">
       <path d="M27 14 V9 Q27 5 31 5 H45 Q49 5 49 9 V14" {...line} fill="none" />
@@ -201,7 +201,7 @@ function FirstAidKit({ play }) {
 // The gears turn at speeds in the ratio of their teeth, so they stay meshed. Each play
 // cranks both two teeth further; the crank is a transition rather than a restarted
 // animation, so rapid plays add up smoothly instead of jumping back.
-function Gears({ play }) {
+export function Gears({ play }) {
   return (
     <svg viewBox="0 0 76 76" className="block w-[4.75em]" aria-hidden="true">
       <g
@@ -231,7 +231,7 @@ function Gears({ play }) {
   );
 }
 
-function Coins({ play }) {
+export function Coins({ play }) {
   return (
     <svg viewBox="0 0 84 76" className="block w-[5.25em]" aria-hidden="true">
       {/* a stack of four coins seen slightly from above */}

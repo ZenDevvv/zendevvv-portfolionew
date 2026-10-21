@@ -3,6 +3,7 @@ import React from 'react'
 import { MotionConfig } from 'framer-motion'
 import Navbar from './component/Navbar'
 import Hero from './component/Hero'
+import Industries from './component/Industries'
 import About from './component/About'
 import Skills from './component/Skills'
 import Experience from './component/Experience'
@@ -30,6 +31,7 @@ export default function App() {
       <main className="min-h-screen bg-lightBG pb-24 dark:bg-darkBG md:pb-0">
         <Navbar isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
         <Hero />
+        <Industries />
         <About />
         <Skills isDarkMode={isDarkMode} />
         <Experience />
