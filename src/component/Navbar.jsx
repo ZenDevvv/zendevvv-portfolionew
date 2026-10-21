@@ -1,254 +1,245 @@
-import { div, nav } from "framer-motion/client";
-import React from "react";
-import { useState } from "react";
-import { MotionConfig, motion as m, AnimatePresence } from "framer-motion";
-import "@theme-toggles/react/css/Around.css";
-import { Around } from "@theme-toggles/react";
-// import cv from "../assets/cv.pdf";
+import { useEffect, useState } from "react";
+import { motion as m, AnimatePresence } from "framer-motion";
+import {
+  LuBriefcase,
+  LuFileText,
+  LuFolderGit2,
+  LuLayers,
+  LuMail,
+  LuMoon,
+  LuSun,
+  LuUser,
+} from "react-icons/lu";
 import resume from "../assets/Zen Obrero RESUME.pdf";
 
-export default function Navbar({ isDarkMode, setIsDarkMode }) {
-  const [isOpen, setIsOpen] = useState(false);
+const navItems = [
+  { id: "about", name: "About me", Icon: LuUser },
+  { id: "skills", name: "Skills", Icon: LuLayers },
+  { id: "experience", name: "Experience", Icon: LuBriefcase },
+  { id: "projects", name: "Projects", Icon: LuFolderGit2 },
+  { id: "contact", name: "Contact", Icon: LuMail },
+];
 
-  const handleNavClick = () => {
-    setIsOpen(!isOpen);
-  };
+const ease = [0.22, 1, 0.36, 1];
+const indicatorSpring = { type: "spring", stiffness: 500, damping: 40 };
 
-  const navItems = [
-    { name: "About", href: "#about" },
-    { name: "Skills", href: "#skills" },
-    { name: "Experience", href: "#experience" },
-    { name: "Projects", href: "#projects" },
-    { name: "Contact", href: "#contact" },
-  ];
+// The section crossing the middle of the screen is the active one ("home" = hero).
+function useActiveSection() {
+  const [active, setActive] = useState("home");
 
+  useEffect(() => {
+    const sections = ["home", ...navItems.map((item) => item.id)]
+      .map((id) => document.getElementById(id))
+      .filter(Boolean);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        });
+      },
+      { rootMargin: "-45% 0px -50% 0px" }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
+  return active;
+}
+
+// A run of letters that opens to its natural width and fades its letters in one by
+// one, or closes back to nothing. Opening waits `delay` seconds.
+const lettersWidth = {
+  open: (delay) => ({ width: "auto", transition: { duration: 0.55, ease, delay } }),
+  closed: { width: 0, transition: { duration: 0.45, ease } },
+};
+const letter = {
+  open: (i) => ({ opacity: 1, y: 0, transition: { duration: 0.3, ease, delay: 0.05 + i * 0.035 } }),
+  closed: { opacity: 0, y: 4, transition: { duration: 0.15, ease: "easeIn" } },
+};
+
+function Letters({ show, text, delay = 0 }) {
   return (
-    <nav
-      className={`bg-lightBG dark:bg-darkBG md:bg-white/30 md:dark:bg-black/30 md:backdrop-blur-md z-20 fixed top-0 left-0 w-full`}
+    <m.span
+      initial={false}
+      animate={show ? "open" : "closed"}
+      variants={lettersWidth}
+      custom={delay}
+      className="inline-flex overflow-hidden whitespace-nowrap"
     >
-      <div
-        className={`flex justify-between items-center px-4 md:py-2 max-w-[1000px] mx-auto`}
-      >
-        <a
-          href="/"
-          className=" text-2xl font-extrabold text-lightModeTextT dark:text-darkModeTextT"
-        >
-          <div className="relative px-2 top-0 left-4 flex items-center h-full group">
-            <span className="absolute pr-2 left-[-10px] group-hover:-translate-x-2 transition-transform">
-              {"<"}
-            </span>
-            <span className="relative">Zd</span>
-            <span className="absolute pl-4 right-[-20px] group-hover:translate-x-2 transition-transform">
-              {" />"}
-            </span>
-          </div>
-        </a>
-
-        <div className="hidden md:flex justify-between items-center gap-6">
-          <ul className="hidden md:flex gap-4 ">
-            {navItems.map((item, id) => (
-              <li
-                key={item.name}
-                className="text-lightModeTextP dark:text-darkModeTextP"
-              >
-                <a href={item.href}>{item.name}</a>
-              </li>
-            ))}
-          </ul>
-
-          {/* Desktop Navbar */}
-          <div className="hidden md:flex gap-4">
-            <m.div
-              initial={{ rotate: 0 }}
-              animate={{ rotate: 1080 }}
-              transition={{ duration: 2, ease: "easeInOut", delay: 2.2 }}
-              onClick={() => setIsDarkMode(!isDarkMode)}
-              className="flex items-center justify-between cursor-pointer"
-            >
-              <Around
-                toggled={isDarkMode}
-                toggle={setIsDarkMode}
-                className="text-3xl text-lightModeTextT bg-lightBG rounded-full hover:rotate-45 transition-all duration-[400ms]"
-              />
-            </m.div>
-            <m.a
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, ease: "easeInOut", delay: 2 }}
-              className="dark:hover:bg-darkBG dark:hover:text-darkModeTextP dark:hover:border-lightBG hover:bg-lightBG hover:text-lightModeTextT border-2 border-lightBG hover:border-darkBG  bg-darkBG font-bold text-darkModeTextP px-4 py-2 rounded-md dark:text-lightModeTextT dark:bg-lightBG"
-              href={resume}
-              target="_blank"
-            >
-              Download CV
-            </m.a>
-          </div>
-        </div>
-
-        <AnimatePresence>
-          {isOpen && (
-            <m.div
-              initial={{ x: "-100%" }}
-              animate={{ x: "0%" }}
-              exit={{ x: "-100%" }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
-              className="fixed top-0 left-0 w-4/5 h-full bg-lightBG dark:bg-darkBG flex flex-col border-r border-gray-300 dark:border-darkBG shadow-right z-20"
-            >
-              <div className="flex flex-col h-full">
-                <m.h1
-                  initial={{ opacity: 0, y: -50 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, ease: "easeInOut", delay: 0.15 }}
-                  className="text-3xl font-extrabold text-lightModeTextT dark:text-darkModeTextT px-4 py-4"
-                >
-                  {"<Zd />"}
-                </m.h1>
-                <ul className="flex flex-col  border-b border-t border-gray-300 dark:border-gray-800">
-                  {navItems.map((item, id) => (
-                    <m.li
-                      initial={{ opacity: 0, y: -50 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{
-                        duration: 0.5,
-                        ease: "easeInOut",
-                        delay: id * 0.1 + 0.3,
-                      }}
-                      whileHover={{}}
-                      key={item.name}
-                      className="text-lightModeTextP dark:text-darkModeTextP hover:bg-gray-300 dark:hover:bg-gray-800"
-                      onClick={handleNavClick}
-                    >
-                      <a
-                        className="inline-block px-4 py-2 w-full"
-                        href={item.href}
-                      >
-                        {item.name}
-                      </a>
-                    </m.li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="flex flex-col gap-4 p-4">
-                <m.div
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.7, ease: "easeInOut", delay: 1 }}
-                  onClick={() => setIsDarkMode(!isDarkMode)}
-                  className="flex items-center justify-between"
-                >
-                  <p className="text-lightModeTextP dark:text-darkModeTextP">
-                    Switch Theme
-                  </p>
-                  <m.div
-                    initial={{ rotate: 0 }}
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 1.5, ease: "easeOut", delay: 1.5 }}
-                    className="grid place-items-center"
-                  >
-                    <Around
-                      toggled={isDarkMode}
-                      toggle={setIsDarkMode}
-                      className="text-3xl  text-lightModeTextP bg-lightBG rounded-full"
-                    />
-                  </m.div>
-                </m.div>
-                <m.a
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={{ opacity: 0.7, y: 0 }}
-                  transition={{ duration: 0.7, ease: "easeOut", delay: 0.8 }}
-                  className="bg-darkBG font-bold text-darkModeTextT px-4 py-2 rounded-md dark:text-lightModeTextT dark:bg-lightBG"
-                  href={resume}
-                  target="_blank"
-                >
-                  Download CV
-                </m.a>
-              </div>
-            </m.div>
-          )}
-        </AnimatePresence>
-
-        <m.div
-          initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
-          onClick={handleNavClick}
-          className="md:hidden"
-        >
-          <AnimatedHamburgerButton active={isOpen} setActive={setIsOpen} />
-        </m.div>
-      </div>
-    </nav>
+      {[...text].map((char, index) => (
+        <m.span key={index} variants={letter} custom={index} className="inline-block">
+          {char}
+        </m.span>
+      ))}
+    </m.span>
   );
 }
 
-const AnimatedHamburgerButton = ({ active, setActive }) => {
+// "<Zd/>" spells itself out to "<ZenDevvv/>" while `expanded`: the "d" fades out as
+// "enDevvv" cascades in, and the brackets glide apart with the growing width.
+export function Wordmark({ expanded = false, className = "" }) {
   return (
-    <MotionConfig
-      transition={{
-        duration: 0.5,
-        ease: "easeInOut",
-      }}
+    <a
+      href="#home"
+      aria-label="Zen Andrei Obrero, back to top"
+      className={`group relative flex items-center text-sm font-semibold tracking-tight text-lightModeTextT dark:text-darkModeTextT ${className}`}
     >
-      <m.button
-        initial={false}
-        animate={active ? "open" : "closed"}
-        onClick={() => setActive((pv) => !pv)}
-        className="relative h-12 w-10 bg-white/0 transition-colors "
-      >
-        <m.span
-          variants={VARIANTS.top}
-          className="absolute h-[3px] w-6 bg-black dark:bg-white"
-          style={{ y: "-50%", left: "50%", x: "-50%", top: "35%" }}
-        />
-        <m.span
-          variants={VARIANTS.middle}
-          className="absolute h-[3px] w-6 bg-black dark:bg-white"
-          style={{ left: "50%", x: "-50%", top: "50%", y: "-50%" }}
-        />
-        <m.span
-          variants={VARIANTS.bottom}
-          className="absolute h-[3px] w-3 bg-black dark:bg-white"
-          style={{
-            x: "-50%",
-            y: "50%",
-            bottom: "35%",
-            left: "calc(50% + 10px)",
-          }}
-        />
-      </m.button>
-    </MotionConfig>
+      <span className="transition-transform duration-200 group-hover:-translate-x-0.5">
+        {"<"}
+      </span>
+      <span>Z</span>
+      <Letters show={!expanded} text="d" delay={0.15} />
+      <Letters show={expanded} text="enDevvv" />
+      <span className="transition-transform duration-200 group-hover:translate-x-0.5">
+        {"/>"}
+      </span>
+    </a>
   );
-};
+}
 
-const VARIANTS = {
-  top: {
-    open: {
-      rotate: ["0deg", "0deg", "45deg"],
-      top: ["35%", "50%", "50%"],
-    },
-    closed: {
-      rotate: ["45deg", "0deg", "0deg"],
-      top: ["50%", "50%", "32%"],
-    },
-  },
-  middle: {
-    open: {
-      rotate: ["0deg", "0deg", "-45deg"],
-    },
-    closed: {
-      rotate: ["-45deg", "0deg", "0deg"],
-    },
-  },
-  bottom: {
-    open: {
-      rotate: ["0deg", "0deg", "45deg"],
-      bottom: ["35%", "50%", "50%"],
-      left: "50%",
-    },
-    closed: {
-      rotate: ["45deg", "0deg", "0deg"],
-      bottom: ["50%", "50%", "32%"],
-      left: "calc(50% + 6px)",
-    },
-  },
-};
+// Labels are hidden while the rail is narrow and slide in when it expands.
+function RailLabel({ index, children }) {
+  return (
+    <span
+      style={{ transitionDelay: `${index * 15}ms` }}
+      className="-translate-x-1 whitespace-nowrap opacity-0 transition duration-200 ease-out group-hover/rail:translate-x-0 group-hover/rail:opacity-100 group-has-[:focus-visible]/rail:translate-x-0 group-has-[:focus-visible]/rail:opacity-100"
+    >
+      {children}
+    </span>
+  );
+}
+
+const railItemClass =
+  "mx-2 flex h-9 items-center gap-3 rounded-lg px-4 text-sm outline-none focus-visible:ring-2 focus-visible:ring-lightAccent dark:focus-visible:ring-darkAccent";
+const railIdle =
+  "text-lightModeTextP hover:text-lightModeTextT dark:text-darkModeTextP dark:hover:text-darkModeTextT";
+const railActive = "text-lightAccent dark:text-darkAccent";
+
+const dockItemClass =
+  "relative grid h-10 w-10 place-items-center rounded-full text-lightBG/70 outline-none focus-visible:ring-2 focus-visible:ring-lightAccent dark:text-darkModeTextP dark:focus-visible:ring-darkAccent";
+
+function ThemeIcon({ isDarkMode, className }) {
+  return (
+    <AnimatePresence mode="wait" initial={false}>
+      <m.span
+        key={isDarkMode ? "sun" : "moon"}
+        initial={{ opacity: 0, rotate: -90, scale: 0.6 }}
+        animate={{ opacity: 1, rotate: 0, scale: 1 }}
+        exit={{ opacity: 0, rotate: 90, scale: 0.6 }}
+        transition={{ duration: 0.18, ease: "easeOut" }}
+        className="relative grid shrink-0 place-items-center"
+      >
+        {isDarkMode ? <LuSun className={className} /> : <LuMoon className={className} />}
+      </m.span>
+    </AnimatePresence>
+  );
+}
+
+export default function Navbar({ isDarkMode, setIsDarkMode }) {
+  const active = useActiveSection();
+  const themeLabel = isDarkMode ? "Light mode" : "Dark mode";
+  const toggleTheme = () => setIsDarkMode(!isDarkMode);
+
+  return (
+    <>
+      {/* Desktop: the wordmark pinned top-left */}
+      <m.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, delay: 0.15 }}
+        className="fixed left-6 top-6 z-30 hidden md:block"
+      >
+        <Wordmark expanded={active !== "home"} />
+      </m.div>
+
+      {/* Desktop: a compact icon menu on the left edge, only as tall as its items,
+          that reveals its labels on hover or keyboard focus */}
+      <div className="pointer-events-none fixed inset-y-0 left-0 z-30 hidden items-center md:flex">
+        <m.nav
+          aria-label="Sections"
+          initial={{ opacity: 0, x: -12 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, ease, delay: 0.15 }}
+          className="group/rail pointer-events-auto flex w-16 flex-col overflow-hidden py-2 transition-[width] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] has-[:focus-visible]:w-52 hover:w-52"
+        >
+          {navItems.map(({ id, name, Icon }, index) => (
+            <a
+              key={id}
+              href={`#${id}`}
+              aria-label={name}
+              aria-current={active === id ? "location" : undefined}
+              className={`${railItemClass} ${active === id ? railActive : railIdle}`}
+            >
+              <Icon className="shrink-0 text-base" />
+              <RailLabel index={index}>{name}</RailLabel>
+            </a>
+          ))}
+
+          <span aria-hidden="true" className="mx-4 my-3 h-px bg-lightShade dark:bg-darkShade" />
+
+          <a
+            href={resume}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Résumé (PDF)"
+            className={`${railItemClass} ${railIdle}`}
+          >
+            <LuFileText className="shrink-0 text-base" />
+            <RailLabel index={navItems.length}>Résumé</RailLabel>
+          </a>
+          <button
+            type="button"
+            onClick={toggleTheme}
+            aria-label={themeLabel}
+            className={`${railItemClass} ${railIdle}`}
+          >
+            <ThemeIcon isDarkMode={isDarkMode} className="text-base" />
+            <RailLabel index={navItems.length + 1}>{themeLabel}</RailLabel>
+          </button>
+        </m.nav>
+      </div>
+
+      {/* Phone: the same icons as a dock at the bottom of the screen */}
+      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-30 flex justify-center pb-[max(1rem,env(safe-area-inset-bottom))] md:hidden">
+        <m.nav
+          aria-label="Sections"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease, delay: 0.3 }}
+          className="pointer-events-auto flex items-center gap-0.5 rounded-full bg-lightModeTextT p-1 shadow-[0_10px_30px_-10px_rgba(28,27,24,0.45)] dark:bg-secondaryDarkBG"
+        >
+          {navItems.map(({ id, name, Icon }) => (
+            <a
+              key={id}
+              href={`#${id}`}
+              aria-label={name}
+              aria-current={active === id ? "location" : undefined}
+              className={`${dockItemClass} ${
+                active === id ? "!text-lightModeTextT dark:!text-darkModeTextT" : ""
+              }`}
+            >
+              {active === id && (
+                <m.span
+                  layoutId="dock-active"
+                  transition={indicatorSpring}
+                  className="absolute inset-0 rounded-full bg-lightBG dark:bg-darkShade"
+                />
+              )}
+              <Icon className="relative text-[17px]" />
+            </a>
+          ))}
+          <button
+            type="button"
+            onClick={toggleTheme}
+            aria-label={themeLabel}
+            className={dockItemClass}
+          >
+            <ThemeIcon isDarkMode={isDarkMode} className="text-[17px]" />
+          </button>
+        </m.nav>
+      </div>
+    </>
+  );
+}

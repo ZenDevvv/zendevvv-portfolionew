@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import React from 'react'
+import { MotionConfig } from 'framer-motion'
 import Navbar from './component/Navbar'
 import Hero from './component/Hero'
 import About from './component/About'
@@ -10,17 +11,32 @@ import Contact from './component/Contact'
 import Footer from './component/Footer'
 
 export default function App() {
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  // Light by default; index.html restores a saved dark choice before first paint.
+  const [isDarkMode, setIsDarkMode] = useState(() =>
+    document.documentElement.classList.contains("dark")
+  );
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", isDarkMode);
+    try {
+      localStorage.setItem("theme", isDarkMode ? "dark" : "light");
+    } catch {
+      // storage can be unavailable (private mode); the toggle still works for this visit
+    }
+  }, [isDarkMode]);
+
   return (
-    <main className={`${isDarkMode ? "dark" : ""} h-screen bg-darkBG`}>
-      <Navbar isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
-      <Hero isDarkMode={isDarkMode} />
-      <About />
-      <Skills isDarkMode={isDarkMode} />
-      <Experience />
-      <Projects />
-      <Contact />
-      <Footer />
-    </main>
+    <MotionConfig reducedMotion="user">
+      <main className="min-h-screen bg-lightBG pb-24 dark:bg-darkBG md:pb-0">
+        <Navbar isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
+        <Hero />
+        <About />
+        <Skills isDarkMode={isDarkMode} />
+        <Experience />
+        <Projects />
+        <Contact />
+        <Footer />
+      </main>
+    </MotionConfig>
   )
 }

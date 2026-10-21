@@ -1,111 +1,183 @@
-import React, { useRef } from "react";
-import profile from "../assets/profile.jpg";
-import { GrLocation } from "react-icons/gr";
-import { FiGithub } from "react-icons/fi";
-import { FaLinkedin } from "react-icons/fa";
-import { FiMail } from "react-icons/fi";
-import { motion as m, useScroll } from "framer-motion";
+import { Fragment, useEffect, useRef } from "react";
+import {
+  motion as m,
+  useMotionValue,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "framer-motion";
+import { LuArrowUpRight, LuChevronsDown, LuMapPin } from "react-icons/lu";
+import resume from "../assets/Zen Obrero RESUME.pdf";
+import { FloatingObjects, Keycaps } from "./HeroObjects";
+import { Wordmark } from "./Navbar";
 
-export default function Hero({ isDarkMode }) {
-  const icons = [
-    { icon: FiGithub, href: "https://github.com/ZenDevvv" },
-    {
-      icon: FaLinkedin,
-      href: "https://www.linkedin.com/in/zen-andrei-obrero-6b37762b5",
-    },
-    { icon: FiMail, href: "mailto:zenandreiobrero@gmail.com" },
-  ];
+const ease = [0.22, 1, 0.36, 1];
+const nameWords = ["Zen", "Andrei", "Obrero"];
+const pointerSpring = { stiffness: 60, damping: 18, mass: 0.8 };
+
+// Moves a layer `distance` px while the hero scrolls out of view.
+function useScrollDepth(progress, distance, reduceMotion) {
+  return useTransform(progress, [0, 1], [0, reduceMotion ? 0 : distance]);
+}
+
+export default function Hero() {
+  const sectionRef = useRef(null);
+  const reduceMotion = useReducedMotion();
+
+  // Pointer position from -1 to 1 on each axis, eased so layers glide rather than jump.
+  const rawX = useMotionValue(0);
+  const rawY = useMotionValue(0);
+  const pointer = { x: useSpring(rawX, pointerSpring), y: useSpring(rawY, pointerSpring) };
+
+  useEffect(() => {
+    if (reduceMotion || !window.matchMedia("(pointer: fine)").matches) return;
+    const onMove = (event) => {
+      rawX.set((event.clientX / window.innerWidth) * 2 - 1);
+      rawY.set((event.clientY / window.innerHeight) * 2 - 1);
+    };
+    window.addEventListener("pointermove", onMove);
+    return () => window.removeEventListener("pointermove", onMove);
+  }, [reduceMotion, rawX, rawY]);
+
+  // Scroll parallax: upper layers rise faster and lower ones lag, so the
+  // intro spreads apart as it leaves instead of sliding up as one block.
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+  const greetingY = useScrollDepth(scrollYProgress, -150, reduceMotion);
+  const nameY = useScrollDepth(scrollYProgress, -110, reduceMotion);
+  const introY = useScrollDepth(scrollYProgress, -70, reduceMotion);
+  const linksY = useScrollDepth(scrollYProgress, -35, reduceMotion);
+  const textOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const cueOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 0]);
+  const textX = useTransform(pointer.x, (value) => value * 5);
 
   return (
-    <section className="h-[100svh] bg-lightBG dark:bg-darkBG grid place-items-center">
-      <div className="max-w-[1000px] mx-auto h-full flex flex-col md:flex-row-reverse md:h-auto">
-        <m.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeOut", delay: 1.5 }}
-          className="relative flex justify-center items-center py-10 pt-[80px] flex-none md:py-0 md:flex-auto md:w-1/3"
+    <section
+      ref={sectionRef}
+      id="home"
+      className="relative flex min-h-[100svh] flex-col overflow-hidden bg-lightBG dark:bg-darkBG"
+    >
+      <m.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        className="relative z-10 flex items-center justify-between px-5 pt-5 md:justify-end md:px-8 md:pt-6"
+      >
+        <Wordmark className="md:hidden" />
+        <a
+          href={resume}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group flex items-center gap-1 rounded-sm text-[13px] font-medium text-lightModeTextP outline-none hover:text-lightModeTextT focus-visible:ring-2 focus-visible:ring-lightAccent dark:text-darkModeTextP dark:hover:text-darkModeTextT dark:focus-visible:ring-darkAccent"
         >
-          <div
-            initial={{ opacity: 0, y: -50 }}
-            animate={{ opacity: 1, y: 25 }}
-            transition={{ duration: 1, ease: "easeOut", delay: 1.2 }}
-            className="absolute w-[255px] h-[280px] translate-y-[25px] bg-[#d1d1d1] dark:bg-[#374151]  z-0 md:w-[210px] md:h-[280 px] md:translate-x-[25px]"
+          Résumé
+          <LuArrowUpRight className="transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+        </a>
+      </m.div>
+
+      <div className="relative flex flex-1 flex-col items-center justify-center px-5 pb-20 pt-6 text-center md:pb-16">
+        <div className="relative">
+          <FloatingObjects
+            motion={{ pointer, progress: scrollYProgress, reduceMotion }}
           />
-          <m.img
-            whileHover={{ x: -5, y: -5 }}
-            className="w-[210px] outline outline-8 outline-lightBG dark:outline-darkBG z-10  dark:border md:m-6"
-            src={profile}
-            alt="profile"
-          />
-        </m.div>
 
-        <div className="px-4 md:pr-0 flex-1 flex flex-col justify-between md:flex-auto md:w-2/4 lg:w-3/4">
-          <div className="md:pt-12">
-            <m.h1
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, ease: "easeInOut", delay: 0.1 }}
-              className="text-4xl font-extrabold text-lightModeTextT dark:text-darkModeTextT py-4 md:text-5xl"
-            >
-              Hi, I'm Zen
-            </m.h1>
-            <m.p
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, ease: "easeInOut", delay: 0.3 }}
-              className="text-lightModeTextP dark:text-darkModeTextP"
-            >
-              Fullstack developer specializing in React and TypeScript. I build
-              multi-tenant enterprise systems — from UI architecture to backend
-              data modeling — across IoT, Education, Hospitality, and ERP.
-            </m.p>
-          </div>
+          <m.div style={{ x: textX }} className="relative z-10 flex flex-col items-center">
+            <h1 className="flex flex-col items-center">
+              <m.span style={{ y: greetingY, opacity: textOpacity }} className="block">
+                <m.span
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, ease, delay: 0.1 }}
+                  className="block text-sm font-normal text-lightModeTextP dark:text-darkModeTextP md:text-[15px]"
+                >
+                  Kumusta! I&apos;m
+                </m.span>
+              </m.span>
 
-          <m.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, ease: "easeInOut", delay: 0.5 }}
-          >
-            <div className="flex items-center gap-2 ">
-              <GrLocation
-                className="text-xl font-bold"
-                color={isDarkMode ? "#D1D5DB" : "#4B5563"}
-              />
-              <p className="text-lightModeTextP dark:text-darkModeTextP">
-                Dasmariñas, Cavite
-              </p>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-green-500 rounded-full m-1.5"></div>
-              <p className="text-lightModeTextP dark:text-darkModeTextP">
-                Open to work
-              </p>
-            </div>
-          </m.div>
-
-          <div className="flex items-center gap-4 pb-4 md:py-0">
-            {icons.map((icon, id) => (
-              <m.a
-                initial={{ opacity: 0, x: 20 }}
-                animate={{
-                  opacity: 1,
-                  x: 0,
-                  transition: {
-                    duration: 0.5,
-                    ease: "easeInOut",
-                    delay: 0.8 + id * 0.2,
-                  },
-                }}
-                whileHover={{ y: -6, transition: { duration: 0.15, delay: 0 } }}
-                href={icon.href}
-                key={icon.href}
+              <m.span
+                style={{ y: nameY, opacity: textOpacity }}
+                className="mt-2 block text-[clamp(2.25rem,1.1rem+2.7vw,3.25rem)] font-semibold leading-[1.05] tracking-[-0.035em] text-lightModeTextT dark:text-darkModeTextT"
               >
-                <icon.icon className="text-lightModeTextP dark:text-darkModeTextP text-xl" />
-              </m.a>
-            ))}
-          </div>
+                {nameWords.map((word, index) => (
+                  <Fragment key={word}>
+                    <span className="inline-block overflow-hidden pb-[0.06em] align-bottom">
+                      <m.span
+                        initial={{ y: "110%" }}
+                        animate={{ y: "0%" }}
+                        transition={{ duration: 0.8, ease, delay: 0.2 + index * 0.08 }}
+                        className="inline-block"
+                      >
+                        {word}
+                      </m.span>
+                    </span>
+                    {index < nameWords.length - 1 && " "}
+                  </Fragment>
+                ))}
+              </m.span>
+            </h1>
+
+            <m.div style={{ y: introY, opacity: textOpacity }}>
+              <m.p
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, ease, delay: 0.45 }}
+                className="mx-auto mt-4 max-w-[27rem] text-[15px] leading-relaxed text-lightModeTextP dark:text-darkModeTextP md:text-base"
+              >
+                I&apos;m a{" "}
+                <span className="font-medium text-lightModeTextT dark:text-darkModeTextT">
+                  fullstack developer
+                </span>{" "}
+                building <span className="whitespace-nowrap">multi-tenant</span> platforms
+                for IoT, healthcare, finance, education and more.
+              </m.p>
+            </m.div>
+
+            <m.div style={{ y: linksY, opacity: textOpacity }} className="mt-8">
+              <Keycaps />
+            </m.div>
+
+            <m.div style={{ opacity: textOpacity }}>
+              <m.ul
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6, delay: 1.1 }}
+                className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5 text-[13px] text-lightModeTextP dark:text-darkModeTextP"
+              >
+                <li className="flex items-center gap-1.5">
+                  <LuMapPin className="text-sm" />
+                  Dasmariñas, Cavite, PH
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-lightAccent dark:bg-darkAccent" />
+                  Open to work
+                </li>
+              </m.ul>
+            </m.div>
+          </m.div>
         </div>
       </div>
+
+      <m.a
+        href="#about"
+        aria-label="Scroll to About"
+        style={{ opacity: cueOpacity }}
+        className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 rounded-full p-1 text-lightModeTextP outline-none hover:text-lightModeTextT focus-visible:ring-2 focus-visible:ring-lightAccent dark:text-darkModeTextP dark:hover:text-darkModeTextT md:left-[calc(50%+32px)] md:block"
+      >
+        <m.span
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, y: [0, 5, 0] }}
+          transition={{
+            opacity: { duration: 0.6, delay: 1.6 },
+            y: { duration: 1.8, ease: "easeInOut", repeat: Infinity, delay: 1.6 },
+          }}
+          className="block"
+        >
+          <LuChevronsDown className="text-base" />
+        </m.span>
+      </m.a>
     </section>
   );
 }
