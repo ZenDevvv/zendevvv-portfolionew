@@ -8,7 +8,7 @@ import {
   useTransform,
 } from "framer-motion";
 import { LuArrowUpRight, LuChevronsDown, LuMapPin } from "react-icons/lu";
-import resume from "../assets/Zen Obrero RESUME.pdf";
+import resume from "../assets/Zen Andrei Obrero resume.pdf";
 import { FloatingObjects, Keycaps } from "./HeroObjects";
 import { Wordmark } from "./Navbar";
 
@@ -161,8 +161,8 @@ export default function Hero() {
       </div>
 
       <m.a
-        href="#about"
-        aria-label="Scroll to About"
+        href="#experience"
+        aria-label="Scroll to Experience"
         style={{ opacity: cueOpacity }}
         className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 rounded-full p-1 text-lightModeTextP outline-none hover:text-lightModeTextT focus-visible:ring-2 focus-visible:ring-lightAccent dark:text-darkModeTextP dark:hover:text-darkModeTextT md:left-[calc(50%+32px)] md:block"
       >
