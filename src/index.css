@@ -2,9 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  body {
+    @apply bg-lightBG text-lightModeTextT antialiased dark:bg-darkBG dark:text-darkModeTextT;
+  }
+
+  /* Leave room for the fixed side rail. */
+  @media (min-width: 768px) {
+    main > section {
+      padding-left: 64px;
+    }
+  }
+}
+
 * {
-  font-family: "Inter", sans-serif;
-  transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out, border-color 0.3s ease-in-out, outline-color 0.3s ease-in-out;
+  transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out, border-color 0.3s ease-in-out, outline-color 0.3s ease-in-out, fill 0.3s ease-in-out, stroke 0.3s ease-in-out;
 }
 
 .dark-mode-filter {
@@ -16,7 +28,7 @@ html {
 }
 
 main {
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 ::-webkit-scrollbar {
