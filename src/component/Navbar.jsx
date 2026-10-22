@@ -79,11 +79,16 @@ function Letters({ show, text, delay = 0 }) {
 
 // "<Zd/>" spells itself out to "<ZenDevvv/>" while `expanded`: the "d" fades out as
 // "enDevvv" cascades in, and the brackets glide apart with the growing width.
-export function Wordmark({ expanded = false, className = "" }) {
+export function Wordmark({
+  expanded = false,
+  href = "#home",
+  label = "Zen Andrei Obrero, back to top",
+  className = "",
+}) {
   return (
     <a
-      href="#home"
-      aria-label="Zen Andrei Obrero, back to top"
+      href={href}
+      aria-label={label}
       className={`group relative flex items-center text-sm font-semibold tracking-tight text-lightModeTextT dark:text-darkModeTextT ${className}`}
     >
       <span className="transition-transform duration-200 group-hover:-translate-x-0.5">
@@ -137,8 +142,24 @@ function ThemeIcon({ isDarkMode, className }) {
   );
 }
 
-export default function Navbar({ isDarkMode, setIsDarkMode }) {
-  const active = useActiveSection();
+// `page` is "home", "projects" (all projects) or "project" (one project). Away from the home
+// page the section links lead back to it, the wordmark goes home, spelled out from the start
+// since no hero shows the name, and "Projects" stays marked and leads to the all-projects
+// page (its top, when you're on it).
+export default function Navbar({ page = "home", isDarkMode, setIsDarkMode }) {
+  const onHome = page === "home";
+  const section = useActiveSection();
+  const active = onHome ? section : "projects";
+  const linkTo = (id) => {
+    if (onHome) return `#${id}`;
+    if (id === "projects") return page === "projects" ? "#home" : "/projects/";
+    return `/#${id}`;
+  };
+  const current = (id) => {
+    if (active !== id) return undefined;
+    if (onHome) return "location";
+    return page === "projects" ? "page" : "true";
+  };
   const themeLabel = isDarkMode ? "Light mode" : "Dark mode";
   const toggleTheme = () => setIsDarkMode(!isDarkMode);
 
@@ -151,7 +172,11 @@ export default function Navbar({ isDarkMode, setIsDarkMode }) {
         transition={{ duration: 0.6, delay: 0.15 }}
         className="fixed left-6 top-6 z-30 hidden md:block"
       >
-        <Wordmark expanded={active !== "home"} />
+        {onHome ? (
+          <Wordmark expanded={active !== "home"} />
+        ) : (
+          <Wordmark expanded href="/" label="Zen Andrei Obrero, home page" />
+        )}
       </m.div>
 
       {/* Desktop: a compact icon menu on the left edge, only as tall as its items,
@@ -167,9 +192,9 @@ export default function Navbar({ isDarkMode, setIsDarkMode }) {
           {navItems.map(({ id, name, Icon }, index) => (
             <a
               key={id}
-              href={`#${id}`}
+              href={linkTo(id)}
               aria-label={name}
-              aria-current={active === id ? "location" : undefined}
+              aria-current={current(id)}
               className={`${railItemClass} ${active === id ? railActive : railIdle}`}
             >
               <Icon className="shrink-0 text-base" />
@@ -213,9 +238,9 @@ export default function Navbar({ isDarkMode, setIsDarkMode }) {
           {navItems.map(({ id, name, Icon }) => (
             <a
               key={id}
-              href={`#${id}`}
+              href={linkTo(id)}
               aria-label={name}
-              aria-current={active === id ? "location" : undefined}
+              aria-current={current(id)}
               className={`${dockItemClass} ${
                 active === id ? "!text-lightModeTextT dark:!text-darkModeTextT" : ""
               }`}

@@ -1,16 +1,41 @@
-// selected: true shows the project in the home page's Selected works section,
-//   in the order listed here. The full list is for the all-projects page.
-// role: your part in the project, shown on its slide.
-// stack: technologies shown as icons on the slide. Each name must be a key of `tech`
-//   in src/component/Projects.jsx (typescript, react, tanstack, node, mongodb, ...).
-// cover: optional vertical image for the slide; falls back to imageSrc.
+// Every project is listed on the all-projects page (/projects/), in the order listed here,
+// and has its own page at /projects/<slug>/.
+// slug: the project's address; lowercase letters, digits and dashes.
+// kind: "professional" (work) or "personal"; the all-projects page groups them by it.
+// selected: true also shows the project in the home page's Selected works section.
+// role: your part in the project, shown on its slide and its entry.
+// stack: technologies shown as icons. Each name must be a key of `tech`
+//   in src/component/ProjectStack.jsx (typescript, react, tanstack, node, mongodb, ...).
+// demo: the live site. source: the code; each is linked when it isn't "".
+// gallery: optional screenshots, in order: { src, caption, focus }, with src relative to
+//   src/assets like imageSrc (1440×900 WebP, in projects/<slug>/), made by
+//   `npm run shots -- <slug>`. They fill the project page's gallery and play as the preview on
+//   the slide and in the all-projects list, in place of the logo. focus (0 left to 1 right,
+//   0.5 if left out) is where the preview crops a shot to portrait. Deleting a shot's image
+//   file takes it out of the site; its line here can stay. See "Project media" in DESIGN.md.
 export default [
   {
     title: "AppSite Builder",
+    slug: "asb",
+    kind: "professional",
     selected: true,
     role: "Full-stack Developer",
     stack: ["typescript", "react", "tanstack", "node", "express", "mongodb", "prisma"],
     imageSrc: "projects/asb.png",
+    // From the live demo (scripts/shots/asb.mjs); the admin area behind login isn't shown.
+    gallery: [
+      { src: "projects/asb/landing.webp", caption: "Landing page" },
+      { src: "projects/asb/editor-section.webp", caption: "Editor, with a section's layout and background", focus: 0 },
+      { src: "projects/asb/editor-block.webp", caption: "Editing a heading block", focus: 0.3 },
+      { src: "projects/asb/editor-group.webp", caption: "A group's columns and its blocks", focus: 1 },
+      { src: "projects/asb/editor-add-section.webp", caption: "Adding a section from presets" },
+      { src: "projects/asb/editor-mobile.webp", caption: "Phone view and global page styles" },
+      { src: "projects/asb/preview.webp", caption: "Live preview of the page", focus: 0 },
+      { src: "projects/asb/features.webp", caption: "Features" },
+      { src: "projects/asb/cms-studio.webp", caption: "CMS Studio", focus: 0.05 },
+      { src: "projects/asb/templates.webp", caption: "Website templates" },
+      { src: "projects/asb/register.webp", caption: "Sign-up" },
+    ],
     description:
       "AppSite Builder (ASB) is a no-code website and landing page builder where users can start from admin-curated templates or blank projects, edit pages through a visual drag-and-drop editor, auto-save drafts, and publish static HTML sites. It supports structured content using pages, sections, groups, and reusable blocks, plus global style settings, SEO metadata, role-based access, soft-delete protection, and non-destructive template forking.",
     skills: [
@@ -27,11 +52,28 @@ export default [
     source: "",
   },
   {
-    title: "HRIS Webapp",
+    title: "Human Resources Information System",
+    slug: "hris",
+    kind: "professional",
     selected: true,
     role: "Full-stack Developer",
     stack: ["typescript", "react", "tanstack", "node", "express", "mongodb", "prisma"],
     imageSrc: "projects/hris.png",
+    // From the app's own mocked smoke tests (scripts/shots/hris.mjs): fake data only.
+    gallery: [
+      { src: "projects/hris/sign-in.webp", caption: "Sign-in", focus: 0 },
+      { src: "projects/hris/dashboard.webp", caption: "An employee's dashboard", focus: 0.2 },
+      { src: "projects/hris/notifications.webp", caption: "Notifications for requests and approvals", focus: 0.2 },
+      { src: "projects/hris/departments.webp", caption: "Departments, in the admin configuration", focus: 0.35 },
+      { src: "projects/hris/sections.webp", caption: "Sections and their line leaders", focus: 0.35 },
+      { src: "projects/hris/devices.webp", caption: "Biometric devices and their status", focus: 0.35 },
+      { src: "projects/hris/device-events.webp", caption: "Events from the biometric devices", focus: 0.3 },
+      { src: "projects/hris/device-event.webp", caption: "A device event matched to an employee" },
+      { src: "projects/hris/sync-logs.webp", caption: "Syncing attendance logs from a device", focus: 0.15 },
+      { src: "projects/hris/csv-import.webp", caption: "Importing device users from a CSV" },
+      { src: "projects/hris/sync-center.webp", caption: "Sync Center: device users across terminals" },
+      { src: "projects/hris/job-application.webp", caption: "A public job application" },
+    ],
     description:
       "A multi-tenant Human Resource Information System built to centralize and automate core HR operations. The platform offers end-to-end employee management, recruitment and applicant tracking, payroll processing, and timekeeping management, enabling HR teams to efficiently manage the entire employee lifecycle. It supports multiple organizations within a single system while maintaining secure and structured access through Attribute-Based Access Control (ABAC), ensuring that HR data visibility and actions align with user roles, departments, and organizational policies.",
     skills: ["TypeScript", "MERN", "Prisma", "TanStack"],
@@ -40,7 +82,9 @@ export default [
   },
   {
     title: "RYDE",
-    selected: true,
+    slug: "ryde",
+    kind: "professional",
+    selected: false,
     role: "Full-stack Developer",
     stack: ["typescript", "react", "tanstack", "node", "express", "mongodb", "prisma"],
     imageSrc: "projects/ryde.png",
@@ -59,10 +103,28 @@ export default [
   },
   {
     title: "OSPAR (Inventory Management System)",
+    slug: "ospar",
+    kind: "professional",
     selected: true,
     role: "Full-stack Developer",
     stack: ["typescript", "react", "tanstack", "hookform", "zod", "node", "express", "mongodb", "prisma"],
     imageSrc: "projects/ospar.png",
+    // From the app's own mocked end-to-end tests (scripts/shots/ospar.mjs): fake data only.
+    gallery: [
+      { src: "projects/ospar/dashboard.webp", caption: "Management dashboard", focus: 0 },
+      { src: "projects/ospar/product.webp", caption: "A product's stock overview and batches", focus: 0.25 },
+      { src: "projects/ospar/stock-movements.webp", caption: "Stock movement history", focus: 0.25 },
+      { src: "projects/ospar/transaction.webp", caption: "A stock movement's transaction details", focus: 0.1 },
+      { src: "projects/ospar/delivery-requests.webp", caption: "Delivery requests between departments", focus: 0.25 },
+      { src: "projects/ospar/delivery-orders.webp", caption: "Delivery orders", focus: 0.25 },
+      { src: "projects/ospar/stock-in.webp", caption: "Receiving stock from a supplier", focus: 0.25 },
+      { src: "projects/ospar/report.webp", caption: "Inventory movement report by product", focus: 0.25 },
+      { src: "projects/ospar/variance.webp", caption: "Reconciling a stock count", focus: 0.25 },
+      { src: "projects/ospar/patients.webp", caption: "Patient management", focus: 0.25 },
+      { src: "projects/ospar/billing.webp", caption: "A billing record and its reference trail", focus: 0.25 },
+      { src: "projects/ospar/receipt.webp", caption: "A printable return receipt", focus: 0.65 },
+      { src: "projects/ospar/statement.webp", caption: "A statement of account and its payments", focus: 0.25 },
+    ],
     description:
       "OSPAR is an inventory management system built on GS1 standards that tracks item movement across multiple organizations and departments, from internal transfers to final patient usage. It supports delivery requests, delivery orders, and delivery receipts, along with patient, supplier, and product management, while providing stock and batch-level tracking per department for accurate inventory control. Built-in reporting and analytics offer visibility and insights to support informed, data-driven decisions.",
     skills: [
@@ -80,6 +142,8 @@ export default [
   },
   {
     title: "ALMA (Alternative Learning Management App)",
+    slug: "alma",
+    kind: "professional",
     selected: true,
     role: "Frontend Developer",
     stack: ["typescript", "react", "tanstack", "hookform", "zod", "node", "express", "mongodb", "cloudinary"],
@@ -100,6 +164,8 @@ export default [
   },
   {
     title: "Blog App",
+    slug: "blog-app",
+    kind: "personal",
     selected: false,
     role: "Personal project",
     stack: ["react", "framer", "node", "express", "mysql", "jwt"],
@@ -112,6 +178,8 @@ export default [
   },
   {
     title: "Astronomy of the Day",
+    slug: "apod",
+    kind: "personal",
     selected: true,
     role: "Personal project",
     stack: ["html", "css", "react"],
@@ -124,6 +192,8 @@ export default [
   },
   {
     title: "Scidama Online",
+    slug: "scidama",
+    kind: "personal",
     selected: true,
     role: "Personal project",
     stack: ["javascript", "node", "socketio"],
@@ -135,7 +205,9 @@ export default [
     source: "https://github.com/ZenDevvv/Cyclic",
   },
   {
-    title: "Mini Expenses Tracke (DB Hosting shutdown)",
+    title: "Mini Expenses Tracker (DB Hosting shutdown)",
+    slug: "expense-tracker",
+    kind: "personal",
     selected: false,
     role: "Personal project",
     stack: ["react", "node", "express", "mysql"],
@@ -148,6 +220,8 @@ export default [
   },
   {
     title: "Old Portfolio",
+    slug: "old-portfolio",
+    kind: "personal",
     selected: false,
     role: "Personal project",
     stack: ["html", "css", "react"],

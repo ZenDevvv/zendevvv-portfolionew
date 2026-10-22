@@ -106,7 +106,10 @@
   }
 }
 
-html {
+/* Section links glide where Lenis doesn't run (touch screens). Only once the page has loaded
+   (`glide` is added in Layout.jsx), so arriving at a /#section address jumps straight there
+   instead of scrolling past everything above it. */
+html.glide {
   scroll-behavior: smooth;
 }
 

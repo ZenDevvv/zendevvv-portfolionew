@@ -5,3 +5,10 @@
 
 [build.environment]
   NODE_VERSION = "24"
+
+# Every project's address (/projects/asb/) shows the one project page, which reads the
+# project from the address. vite.config.js does the same for the dev server.
+[[redirects]]
+  from = "/projects/:slug/"
+  to = "/projects/detail/index.html"
+  status = 200

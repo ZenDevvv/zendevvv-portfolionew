@@ -1,58 +1,13 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef } from "react";
 import { motion as m, useReducedMotion } from "framer-motion";
-import { LuArrowUpRight } from "react-icons/lu";
-import {
-  SiCloudinary,
-  SiCss3,
-  SiExpress,
-  SiFramer,
-  SiHtml5,
-  SiJavascript,
-  SiJsonwebtokens,
-  SiMongodb,
-  SiMysql,
-  SiNodedotjs,
-  SiPrisma,
-  SiReact,
-  SiReacthookform,
-  SiReactquery,
-  SiSocketdotio,
-  SiTypescript,
-  SiZod,
-} from "react-icons/si";
+import { LuArrowRight } from "react-icons/lu";
 import projects from "../assets/json/projects.js";
-import { getImageUrl } from "../utils";
+import { projectPath } from "../utils";
+import { galleryOf } from "../gallery";
 import { watchLenis } from "../smoothScroll";
 import { CURVE, handedOver, lift } from "../scrollCurve";
-import { Keycap } from "./HeroObjects";
-import { soundOn } from "../sounds";
-import { brandColors } from "../brandColor";
-
-// The names a project's `stack` can use, each shown as its logo. `color` is the logo's brand
-// colour (the hex on its simpleicons.org page), which it lights up in while its key is down.
-const tech = {
-  typescript: { name: "TypeScript", Icon: SiTypescript, color: "#3178C6" },
-  javascript: { name: "JavaScript", Icon: SiJavascript, color: "#F7DF1E" },
-  react: { name: "React", Icon: SiReact, color: "#61DAFB" },
-  tanstack: { name: "TanStack Query", Icon: SiReactquery, color: "#FF4154" },
-  hookform: { name: "React Hook Form", Icon: SiReacthookform, color: "#EC5990" },
-  zod: { name: "Zod", Icon: SiZod, color: "#408AFF" },
-  framer: { name: "Framer Motion", Icon: SiFramer, color: "#0055FF" },
-  html: { name: "HTML", Icon: SiHtml5, color: "#E34F26" },
-  css: { name: "CSS", Icon: SiCss3, color: "#1572B6" },
-  node: { name: "Node.js", Icon: SiNodedotjs, color: "#5FA04E" },
-  express: { name: "Express", Icon: SiExpress, color: "#0A0A0A" },
-  socketio: { name: "Socket.IO", Icon: SiSocketdotio, color: "#010101" },
-  jwt: { name: "JWT", Icon: SiJsonwebtokens, color: "#000000" },
-  mongodb: { name: "MongoDB", Icon: SiMongodb, color: "#47A248" },
-  prisma: { name: "Prisma", Icon: SiPrisma, color: "#2D3748" },
-  mysql: { name: "MySQL", Icon: SiMysql, color: "#4479A1" },
-  cloudinary: { name: "Cloudinary", Icon: SiCloudinary, color: "#3448C5" },
-};
-// Each logo's lit colour in both themes, by stack name.
-const lit = Object.fromEntries(
-  Object.entries(tech).map(([key, { color }]) => [key, brandColors(color)])
-);
+import Stack from "./ProjectStack";
+import ProjectCover from "./ProjectCover";
 
 const ease = [0.22, 1, 0.36, 1];
 
@@ -69,6 +24,14 @@ const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 const glide = (lead) => (t) => lead * (t ** 3 - 2 * t ** 2 + t) + 3 * t ** 2 - 2 * t ** 3;
 // Seconds for a snap: longer for longer distances.
 const glideTime = (distance) => clamp(0.4 + distance / 1800, 0.45, 0.85);
+
+// While the frame is still rising into its pin, or lifting away after it, the slides
+// already drift sideways at this share of the scroll, so they move from the moment any of
+// the frame shows until the last of it has gone; the turn adds the rest. It's slower where
+// it would start the first slide more than ENTRY_OFFSET of a slide to the right, so some
+// of it is always in view as the frame comes in (tall, narrow screens).
+const DRIFT = 0.35;
+const ENTRY_OFFSET = 0.75;
 
 // How far the slides have moved sideways once the page is `u` px past the top of the
 // runway: 1:1 in the middle, and around each end exactly the speed `lift` takes off the
@@ -87,57 +50,19 @@ function travel(u, length, curve) {
 const line = "border-lightShade dark:border-darkShade";
 const label = "text-sm font-medium text-lightModeTextT dark:text-darkModeTextT";
 
-// The stack as keycaps, the same keys as the hero's links, set straight in a row. Hovering
-// one presses it, lights its logo, clicks like the hero's keys and names it beside the
-// "Stack" label; a label above each key, as in the hero, would land on the heading or on
-// the row above.
-// `project` keeps each key's sound cooldown its own, so a quick sweep clicks every key.
-function Stack({ names, project }) {
-  const [hovered, setHovered] = useState({ title: "", shown: false });
-  const keys = names.filter((name) => tech[name]);
-  if (!keys.length) return null;
-
-  return (
-    <div>
-      <p className={`${label} mb-3`}>
-        Stack
-        {/* Keeps the last name while it fades out */}
-        <span
-          aria-hidden="true"
-          className={`ml-2 font-normal text-lightModeTextP transition-opacity duration-150 dark:text-darkModeTextP ${hovered.shown ? "opacity-100" : "opacity-0"}`}
-        >
-          {hovered.title}
-        </span>
-      </p>
-      <ul className="flex flex-wrap gap-1.5 text-[13px] text-lightModeTextT dark:text-darkModeTextT">
-        {keys.map((name) => {
-          const { name: title, Icon } = tech[name];
-          const sound = soundOn("key", `${project}:${name}`);
-          return (
-            <li
-              key={name}
-              onPointerEnter={(event) => {
-                sound.onPointerEnter(event);
-                if (event.pointerType === "mouse") setHovered({ title, shown: true });
-              }}
-              onPointerLeave={() => setHovered((last) => ({ ...last, shown: false }))}
-              onClick={sound.onClick}
-              className="group cursor-pointer touch-manipulation select-none"
-            >
-              <Keycap Icon={Icon} color={lit[name]} />
-              <span className="sr-only">{title}</span>
-            </li>
-          );
-        })}
-      </ul>
-    </div>
-  );
-}
+// A slide's picture fills its whole cell until the cell starts to come on screen, then
+// scales down into its frame as the slide comes in, tied to the scroll. `arrived` runs from
+// 0 (first pixel showing) to 1 (the slide at rest); most of the zoom happens early, so it
+// moves the moment the slide appears and settles as it lands.
+const zoomAt = (fill, arrived) => 1 + (fill - 1) * (1 - arrived) ** 3;
 
 // One project across the frame: title and description, the image, then role and stack.
-// Phones stack the three; tablets put the image beside the other two.
-function Slide({ project, onFocus }) {
-  const { title, description, demo, role, stack = [], cover, imageSrc } = project;
+// Phones stack the three; tablets put the image beside the other two. The title and the
+// image open the project's own page. `coverRef` gets the image's cell, for the runway's zoom.
+function Slide({ project, onFocus, coverRef }) {
+  const { title, description, role, stack = [], imageSrc } = project;
+  const shots = galleryOf(project);
+  const href = projectPath(project);
 
   return (
     <article
@@ -146,44 +71,39 @@ function Slide({ project, onFocus }) {
     >
       <div className="min-h-0 px-5 pt-10 md:px-10 md:pt-[clamp(4.5rem,11svh,7rem)] lg:px-[clamp(2.5rem,3.5vw,3.5rem)]">
         <h3 className="text-[clamp(1.5rem,1.1rem+1vw,2rem)] font-semibold leading-tight tracking-[-0.03em] text-lightModeTextT dark:text-darkModeTextT">
-          {demo ? (
-            <a
-              href={demo}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group/link rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-lightAccent dark:focus-visible:ring-darkAccent"
-            >
-              {title}
-              <LuArrowUpRight
-                aria-hidden="true"
-                className="ml-1 inline-block align-[-0.08em] text-[0.7em] text-lightModeTextP transition-transform duration-200 group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5 dark:text-darkModeTextP"
-              />
-            </a>
-          ) : (
-            title
-          )}
+          <a
+            href={href}
+            className="group/link rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-lightAccent dark:focus-visible:ring-darkAccent"
+          >
+            {title}
+            <LuArrowRight
+              aria-hidden="true"
+              className="ml-1.5 inline-block align-[-0.08em] text-[0.7em] text-lightModeTextP transition-transform duration-200 group-hover/link:translate-x-1 dark:text-darkModeTextP"
+            />
+          </a>
         </h3>
         <p className="mt-4 line-clamp-5 max-w-[30rem] text-pretty text-[15px] leading-relaxed text-lightModeTextP dark:text-darkModeTextP md:mt-5 md:line-clamp-none md:text-base">
           {description}
         </p>
       </div>
 
-      {/* The image keeps 4:5 at the largest size the cell allows */}
+      {/* The image keeps 4:5 at the largest size the cell allows. The cell clips it while it
+          zooms out from filling the column. */}
       <div
-        className={`flex min-h-0 items-center justify-center px-5 py-6 [container-type:size] md:col-start-2 md:row-span-2 md:row-start-1 md:border-l md:px-10 md:py-[clamp(3rem,9svh,5.5rem)] lg:px-[clamp(2rem,3.5vw,3.5rem)] ${line}`}
+        ref={coverRef}
+        className={`flex min-h-0 items-center justify-center overflow-hidden px-5 py-6 [container-type:size] md:col-start-2 md:row-span-2 md:row-start-1 md:border-l md:px-10 md:py-[clamp(3rem,9svh,5.5rem)] lg:px-[clamp(2rem,3.5vw,3.5rem)] ${line}`}
       >
-        {/* Until a project has a vertical cover its logo sits on a dark mat, which keeps
+        {/* Until a project has screenshots its logo sits on a dark mat, which keeps
             the white ones (RYDE) visible in light mode */}
-        <div
-          className={`aspect-[4/5] w-[min(100cqw,80cqh)] overflow-hidden ${cover ? "bg-secondaryLightBG" : "bg-lightModeTextT"} dark:bg-secondaryDarkBG`}
+        {/* The title's link again, for the mouse; keyboards and screen readers use the title */}
+        <a
+          href={href}
+          tabIndex={-1}
+          aria-hidden="true"
+          className={`block aspect-[4/5] w-[min(100cqw,80cqh)] overflow-hidden ${shots.length ? "bg-secondaryLightBG" : "bg-lightModeTextT"} dark:bg-secondaryDarkBG`}
         >
-          <img
-            src={getImageUrl(cover ?? imageSrc)}
-            alt=""
-            decoding="async"
-            className={`h-full w-full ${cover ? "object-cover" : "object-contain"}`}
-          />
-        </div>
+          <ProjectCover shots={shots} imageSrc={imageSrc} />
+        </a>
       </div>
 
       <div
@@ -200,13 +120,15 @@ function Slide({ project, onFocus }) {
 }
 
 // The page scrolls down a tall runway while a full-screen frame stays pinned and the
-// slides move sideways. On the way in the frame slows to a stop as the slides pick up
-// speed, and on the way out it does the reverse, so the scroll curves round the corner.
+// slides move sideways. They start drifting as soon as the frame shows; then the frame
+// slows to a stop as the slides pick up speed, and on the way out it does the reverse, so
+// the scroll curves round the corner.
 function Runway({ projects }) {
   const runwayRef = useRef(null);
   const frameRef = useRef(null);
   const trackRef = useRef(null);
   const barRef = useRef(null);
+  const coversRef = useRef([]);
   const goToRef = useRef(() => {});
   const count = projects.length;
 
@@ -215,10 +137,13 @@ function Runway({ projects }) {
     const frame = frameRef.current;
     const track = trackRef.current;
     const bar = barRef.current;
-    // top: the runway's top on the page. length: how far the frame stays pinned, which is
-    // also how far the slides travel. slide: one slide's width. curve: see CURVE.
-    const geometry = { top: 0, slide: 0, curve: 0, length: 0 };
+    // top: the runway's top on the page. length: how far the frame stays pinned. slide: one
+    // slide's width. height: the frame's. curve: see CURVE. drift: see DRIFT.
+    const geometry = { top: 0, slide: 0, height: 0, curve: 0, length: 0, drift: 0 };
     const shown = { x: NaN, y: NaN, progress: NaN };
+    // Each slide's picture: where its cell sits in the slide (left) and in the frame (top),
+    // and the scale at which it fills the cell.
+    let covers = [];
     // How fast Lenis is moving the page, so a snap can pick up at the same speed.
     const motion = { at: 0, time: 0, speed: 0 };
     let lenis = null;
@@ -227,19 +152,43 @@ function Runway({ projects }) {
     let measureRequest = 0;
 
     const update = () => {
-      const { top, slide, curve, length } = geometry;
+      const { top, slide, height, curve, length, drift } = geometry;
       const u = window.scrollY - top;
-      const moved = travel(u, length, curve);
-      const x = curve - moved;
+      const viewport = window.innerHeight;
+      // The drift runs from the frame's top showing at the bottom of the window (u is minus
+      // the window's height) to its bottom leaving the top. Both ends fall where none of the
+      // frame is on screen, so its start and stop can't be seen. In the middle this comes to
+      // curve - u, as without the drift, so the slides rest at the same places.
+      const reach = Math.max(viewport, height);
+      const x =
+        curve -
+        drift * clamp(u, -reach, length + reach) -
+        (1 - drift) * travel(u, length, curve);
       // Touch screens scroll off the main thread, where an eased pin would trail behind
       // the finger, so only scrolling run by Lenis gets the slow landing.
       const y = lenis ? lift(u, length, curve) : 0;
-      const progress = count > 1 ? clamp((moved - curve) / ((count - 1) * slide), 0, 1) : 1;
+      const progress = count > 1 ? clamp(-x / ((count - 1) * slide), 0, 1) : 1;
 
       if (x !== shown.x) track.style.transform = `translate3d(${x}px, 0, 0)`;
       if (y !== shown.y) frame.style.transform = y ? `translate3d(0, ${y}px, 0)` : "";
       if (progress !== shown.progress) bar.style.transform = `scaleX(${progress})`;
       Object.assign(shown, { x, y, progress });
+
+      // Each picture zooms as its cell comes on screen: from the right edge to its place as
+      // the slides move sideways, and up from the bottom of the window as the frame rises
+      // into its pin. The first slide does both at once round the corner, so the two are
+      // multiplied: it keeps zooming while either moves. Past its place (gone off to the
+      // left, or lifted away above) it stays at rest.
+      const frameTop = (u < 0 ? -u : Math.min(length - u, 0)) + y;
+      covers.forEach((cover, index) => {
+        const slideLeft = index * slide + x;
+        const across = (slide - cover.left - slideLeft) / Math.max(slide - cover.left, 1);
+        const up = (viewport - frameTop - cover.top) / Math.max(viewport - cover.top, 1);
+        const scale = zoomAt(cover.fill, clamp(across, 0, 1) * clamp(up, 0, 1));
+        if (scale === cover.shown) return;
+        cover.picture.style.transform = scale === 1 ? "" : `scale(${scale})`;
+        cover.shown = scale;
+      });
     };
 
     const measure = () => {
@@ -247,11 +196,31 @@ function Runway({ projects }) {
       const slide = frame.clientWidth;
       const curve = Math.min(CURVE * height, slide / 2);
       const length = (count - 1) * slide + 2 * curve;
+      // The first slide starts curve + drift × height to the right of its place.
+      const drift = clamp((ENTRY_OFFSET * slide - curve) / height, 0, DRIFT);
       runway.style.height = `${length + height}px`;
       runway.style.setProperty("--curve", `${curve}px`);
       runway.style.setProperty("--slide", `${slide}px`);
       const top = runway.getBoundingClientRect().top + window.scrollY;
-      Object.assign(geometry, { top, slide, curve, length });
+      Object.assign(geometry, { top, slide, height, curve, length, drift });
+
+      // The frame's and the track's own transforms apply to the cells too, so they cancel
+      // out here. The cell's padding box is the column; the picture is centred in it.
+      const frameBox = frame.getBoundingClientRect();
+      const trackBox = track.getBoundingClientRect();
+      covers = coversRef.current.slice(0, count).map((cell, index) => {
+        const picture = cell.firstElementChild;
+        const box = cell.getBoundingClientRect();
+        return {
+          picture,
+          left: box.left - trackBox.left - index * slide,
+          top: box.top - frameBox.top,
+          fill: picture.offsetWidth
+            ? Math.max(cell.clientWidth / picture.offsetWidth, cell.clientHeight / picture.offsetHeight)
+            : 1,
+          shown: NaN,
+        };
+      });
       update();
     };
 
@@ -356,6 +325,7 @@ function Runway({ projects }) {
             <Slide
               key={project.title}
               project={project}
+              coverRef={(cell) => (coversRef.current[index] = cell)}
               // Tabbing to a slide's link scrolls that slide into the frame.
               onFocus={(event) => {
                 if (event.target.matches(":focus-visible")) goToRef.current(index);
@@ -405,12 +375,19 @@ export default function Projects() {
   if (!selected.length) return null;
 
   return (
-    <section id="projects" aria-labelledby="projects-title" className="bg-lightBG dark:bg-darkBG">
+    // The section has no top padding (Experience's bottom padding is the gap), so links to
+    // #projects stop a little above the heading rather than on it.
+    <section
+      id="projects"
+      aria-labelledby="projects-title"
+      className="scroll-mt-16 bg-lightBG dark:bg-darkBG md:scroll-mt-24 lg:scroll-mt-28"
+    >
       <m.header
         initial="hidden"
         whileInView="shown"
         viewport={{ once: true, margin: "0px 0px -12% 0px" }}
-        className="mx-auto max-w-[66rem] px-5 pb-14 md:px-10 md:pb-20"
+        variants={{ hidden: {}, shown: { transition: { staggerChildren: 0.08 } } }}
+        className="mx-auto flex max-w-[66rem] flex-wrap items-end justify-between gap-x-8 gap-y-4 px-5 pb-14 md:px-10 md:pb-20"
       >
         <h2
           id="projects-title"
@@ -428,6 +405,24 @@ export default function Projects() {
             </m.span>
           </span>
         </h2>
+        {/* The rest live on their own page, professional and personal */}
+        <m.a
+          href="/projects/"
+          variants={{
+            hidden: { opacity: 0, y: 20 },
+            shown: { opacity: 1, y: 0, transition: { duration: 0.7, ease } },
+          }}
+          className="group mb-[0.35em] inline-flex items-center gap-1.5 rounded-sm text-[15px] font-medium text-lightModeTextT outline-none focus-visible:ring-2 focus-visible:ring-lightAccent dark:text-darkModeTextT dark:focus-visible:ring-darkAccent md:text-base"
+        >
+          See all projects
+          <span className="tabular-nums text-lightModeTextP dark:text-darkModeTextP">
+            {projects.length}
+          </span>
+          <LuArrowRight
+            aria-hidden="true"
+            className="transition-transform duration-200 group-hover:translate-x-0.5"
+          />
+        </m.a>
       </m.header>
 
       {reduceMotion ? <StillStrip projects={selected} /> : <Runway projects={selected} />}
