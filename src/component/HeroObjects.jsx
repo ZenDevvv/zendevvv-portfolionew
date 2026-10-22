@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { motion as m, useTransform } from "framer-motion";
 import { LuGithub, LuLinkedin, LuMail } from "react-icons/lu";
 import { useDrift } from "../pointer";
 import { playSound, soundOn } from "../sounds";
+import { brandVars } from "../brandColor";
 
 // One line-art language for every object: ink strokes, flat fills from the theme.
 const line = {
@@ -366,15 +367,80 @@ export function Magnifier({ radius }) {
   );
 }
 
+// Contact's drawing: a paper plane with a dashed line where it has flown. Playing it loops
+// the loop: it swings once round a point above itself, nose first, and comes back to rest.
+export function PaperPlane({ play }) {
+  return (
+    <svg viewBox="0 0 110 60" className="block w-[6.25em] overflow-visible" aria-hidden="true">
+      <path
+        d="M50 40 C41 48 30 50 23 44 C16 38 22 29 28 35 C34 42 20 54 4 51"
+        {...line}
+        fill="none"
+        strokeDasharray="2.5 4.5"
+        opacity="0.5"
+      />
+      <g
+        key={play}
+        className={`${pivot} origin-[70px_-10px] ${replay(play, "animate-loop")} motion-reduce:!animate-none`}
+      >
+        <path d="M106 7 L58 31 L64 45 Z" className={shade} {...line} />
+        <path d="M106 7 L32 25 L58 31 Z" className={paper} {...line} />
+        <path d="M106 7 L45 28" {...line} fill="none" opacity="0.45" />
+      </g>
+    </svg>
+  );
+}
+
+// Four wavy cancellation lines off the right of the postmark's ring, starting under it.
+const cancelLines = [33, 43.5, 54, 64.5]
+  .map((y) => `M88 ${y} q4 -4.5 8 0${" t8 0".repeat(12)}`)
+  .join(" ");
+
+// A rubber-stamped postmark in the drawings' ink line: the town round the ring, `date` in the
+// middle, and wavy lines trailing off to the right. Contact stamps one when the email is
+// copied. The ring's centre is a quarter of the way across and halfway down. Its waves are
+// drawn before the ring, so they run out from under it.
+export function Postmark({ date }) {
+  const ring = `postmark-${useId().replace(/:/g, "")}`;
+  return (
+    <svg viewBox="0 0 200 100" className="block w-full overflow-visible" aria-hidden="true">
+      <path id={ring} d="M17 50 A33 33 0 1 1 83 50 A33 33 0 1 1 17 50" fill="none" />
+      <path d={cancelLines} {...line} fill="none" />
+      {/* on paper, so it reads over the email's ink; only the wavy lines cross the letters */}
+      <circle cx="50" cy="50" r="46" className={paper} {...line} />
+      <circle cx="50" cy="50" r="27" {...line} fill="none" />
+      <text fontSize="8" fontWeight="600" fill="currentColor">
+        <textPath href={`#${ring}`} textLength="205" lengthAdjust="spacing">
+          DASMARIÑAS · CAVITE · PHILIPPINES ·
+        </textPath>
+      </text>
+      <text x="50" y="52" textAnchor="middle" fontSize="12" fontWeight="700" fill="currentColor">
+        COPIED
+      </text>
+      <text x="50" y="63" textAnchor="middle" fontSize="6.5" fontWeight="500" fill="currentColor">
+        {date}
+      </text>
+    </svg>
+  );
+}
+
+// A lit logo's colour, by state: ink at rest, its brand colour (for the theme) while the key
+// is hovered or pressed. It lights quickly and fades out slowly, so a quick tap still shows it.
+const brandText =
+  "transition-colors duration-500 ease-out [--brand:var(--light)] dark:[--brand:var(--dark)] group-active:text-[color:var(--brand)] group-active:duration-75 [@media(hover:hover)]:group-hover:text-[color:var(--brand)] [@media(hover:hover)]:group-hover:duration-100";
+
 // A keycap with an icon on it, sized in em. It presses down while its nearest `group`
-// ancestor is hovered or pressed. Also used for the stack on the project slides.
-export function Keycap({ Icon }) {
+// ancestor is hovered or pressed. Also used for the stack on the project slides, where
+// `color` (from `brandColors`) lights the logo in its brand colour as the key goes down.
+export function Keycap({ Icon, color }) {
   return (
     <svg viewBox="0 0 46 46" className="block w-[2.875em]" aria-hidden="true">
       <rect x="1.5" y="3" width="43" height="42" rx="8" className={shade} {...line} />
       <g className="transition-transform duration-150 ease-out group-hover:translate-y-[2.5px] group-active:translate-y-[4px]">
         <rect x="6.5" y="5" width="33" height="29" rx="6" className={paper} {...line} />
-        <Icon x="15" y="11.5" size={16} />
+        <g style={color && brandVars(color)} className={color ? brandText : undefined}>
+          <Icon x="15" y="11.5" size={16} />
+        </g>
       </g>
     </svg>
   );
@@ -425,7 +491,9 @@ export function Toy({ Drawing, sound, label, bob, order, rotate, onTap }) {
           className="pointer-events-none absolute inset-0 m-auto h-[5.5em] w-[5.5em] animate-ripple rounded-full bg-lightShade motion-reduce:hidden dark:bg-darkShade"
         />
       )}
-      <m.div style={{ rotate }} className="relative">
+      {/* above the label, so a drawing that travels while it plays (the paper plane's loop)
+          passes in front of it rather than behind its paper */}
+      <m.div style={{ rotate }} className="relative z-10">
         <div className="animate-float motion-reduce:animate-none" style={bobTiming}>
           <Drawing play={plays} />
         </div>
@@ -437,6 +505,36 @@ export function Toy({ Drawing, sound, label, bob, order, rotate, onTap }) {
       />
       <ObjectLabel>{label}</ObjectLabel>
     </m.div>
+  );
+}
+
+// Something kept beside a section's content, at its own depth: it drifts against the pointer
+// like the hero's objects, rises a little as the section scrolls past (`progress`), and pops
+// in, `delay` seconds after its parent's `shown` variant starts, the first time it's seen.
+// About's cap and trophy, and Contact's paper plane.
+export function Keepsake({ pointer, progress, reduceMotion, place, depth, rise, size = 1, order, delay = 0.8, children }) {
+  const drift = useDrift(pointer, depth);
+  const scrollY = useTransform(progress, [0, 1], reduceMotion ? [0, 0] : [rise / 2, -rise / 2]);
+  const y = useTransform([drift.y, scrollY], ([a, b]) => a + b);
+
+  return (
+    <div className={`pointer-events-auto absolute z-10 -translate-x-1/2 -translate-y-1/2 ${place}`}>
+      <m.div style={{ x: drift.x, y }}>
+        <m.div
+          variants={{
+            hidden: { opacity: 0, scale: 0.6 },
+            shown: {
+              opacity: 1,
+              scale: 1,
+              transition: { type: "spring", bounce: 0.45, duration: 0.8, delay: delay + order * 0.12 },
+            },
+          }}
+          style={{ fontSize: `${size}em` }}
+        >
+          {children}
+        </m.div>
+      </m.div>
+    </div>
   );
 }
 

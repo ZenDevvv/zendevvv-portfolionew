@@ -9,9 +9,9 @@ import {
 } from "framer-motion";
 import { LuArrowRight } from "react-icons/lu";
 import profile from "../assets/profile.jpg";
-import { Magnifier, Tape, Toy, Trophy } from "./HeroObjects";
+import { Keepsake, Magnifier, Tape, Toy, Trophy } from "./HeroObjects";
 import GradCap, { ScoreBoard } from "./GradCap";
-import { useDrift, usePointer } from "../pointer";
+import { usePointer } from "../pointer";
 import { playSound } from "../sounds";
 
 const ease = [0.22, 1, 0.36, 1];
@@ -47,35 +47,6 @@ const develop = {
 function Ink({ children }) {
   return (
     <span className="font-medium text-lightModeTextT dark:text-darkModeTextT">{children}</span>
-  );
-}
-
-// Something kept by the photo, at its own depth: it drifts against the pointer like the
-// hero's objects, rises a little as the section scrolls past, and pops in the first time
-// it's seen. Two facts from the résumé: the degree and the Algolympics win.
-function Keepsake({ pointer, progress, reduceMotion, place, depth, rise, size = 1, order, children }) {
-  const drift = useDrift(pointer, depth);
-  const scrollY = useTransform(progress, [0, 1], reduceMotion ? [0, 0] : [rise / 2, -rise / 2]);
-  const y = useTransform([drift.y, scrollY], ([a, b]) => a + b);
-
-  return (
-    <div className={`pointer-events-auto absolute z-10 -translate-x-1/2 -translate-y-1/2 ${place}`}>
-      <m.div style={{ x: drift.x, y }}>
-        <m.div
-          variants={{
-            hidden: { opacity: 0, scale: 0.6 },
-            shown: {
-              opacity: 1,
-              scale: 1,
-              transition: { type: "spring", bounce: 0.45, duration: 0.8, delay: 0.8 + order * 0.12 },
-            },
-          }}
-          style={{ fontSize: `${size}em` }}
-        >
-          {children}
-        </m.div>
-      </m.div>
-    </div>
   );
 }
 

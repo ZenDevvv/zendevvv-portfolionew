@@ -9,7 +9,8 @@
 
   /* Leave room for the fixed side rail. */
   @media (min-width: 768px) {
-    main > section {
+    main > section,
+    main > footer {
       padding-left: 64px;
     }
   }
@@ -67,8 +68,42 @@
   filter: grayscale(1) invert(1) contrast(0.8);
 }
 
-.dark-mode-filter {
-  filter: invert(1) hue-rotate(180deg);
+/* The footer's wordmark. Each letter is drawn in an ink outline, and an ink copy over it fills
+   from the bottom as the page reaches its end. --fill runs from 0 to 1 with the scroll; the
+   letters fill one after another, each over 4 of --steps (the letter count plus 3), so a few
+   are filling at once. The clip reaches past the box so the glyphs' overhang fills too. */
+.ink-fill {
+  --ink: theme("colors.lightModeTextT");
+}
+
+.dark .ink-fill {
+  --ink: theme("colors.darkModeTextT");
+}
+
+.ink-fill > span {
+  position: relative;
+  display: inline-block;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--ink);
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ink-fill > span::after {
+  --level: clamp(0, (var(--fill) * var(--steps) - var(--i)) / 4, 1);
+  content: attr(data-char);
+  position: absolute;
+  inset: 0;
+  color: var(--ink);
+  -webkit-text-stroke: 0;
+  clip-path: inset(calc(125% - var(--level) * 135%) -10% -25% -10%);
+}
+
+/* A letter lifts a little under the mouse. */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .ink-fill > span:hover {
+    transform: translateY(-0.06em);
+    transition-duration: 0.15s;
+  }
 }
 
 html {

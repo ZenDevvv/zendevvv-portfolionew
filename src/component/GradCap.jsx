@@ -24,8 +24,8 @@ import { playSound } from "../sounds";
 // the game faster, louder and busier, and the count bigger. Later milestones still
 // celebrate, and losing on the last stage throws a burst of confetti up from the bottom.
 
-// Hits between milestones. 10 is the intended setting; 3 while the stages are tried out.
-const MILESTONE = 1;
+// Hits between milestones.
+const MILESTONE = 10;
 
 // What each stage turns up. Stage 0 is before the first milestone.
 // gravity, kick: multiply the physics, so the cap falls faster and flies wider.
@@ -314,8 +314,8 @@ function Flight({ start, onScore, onGone, throwConfetti }) {
           <span
             key={score}
             className={`pointer-events-none absolute inset-0 m-auto h-[5.5em] w-[5.5em] animate-ripple rounded-full ${stage.shake
-                ? "border-[1.5px] border-lightAccent dark:border-darkAccent"
-                : "bg-lightShade dark:bg-darkShade"
+              ? "border-[1.5px] border-lightAccent dark:border-darkAccent"
+              : "bg-lightShade dark:bg-darkShade"
               }`}
           />
           <m.div
@@ -397,8 +397,8 @@ export function ScoreBoard({ score, playing }) {
               <m.span
                 style={{ scale: beat, opacity: ink }}
                 className={`block text-[90vmin] font-semibold leading-none tracking-[-0.06em] tabular-nums ${stage.accent
-                    ? "text-lightAccent dark:text-darkAccent"
-                    : "text-lightModeTextT dark:text-darkModeTextT"
+                  ? "text-lightAccent dark:text-darkAccent"
+                  : "text-lightModeTextT dark:text-darkModeTextT"
                   }`}
               >
                 {score}

@@ -38,7 +38,7 @@ export default function App() {
         <Experience />
         <Projects />
         <About />
-        <Skills isDarkMode={isDarkMode} />
+        <Skills />
         <Contact />
         <Footer />
       </main>

@@ -180,7 +180,61 @@ const sounds = {
     tone({ type: "triangle", freq: 1900, to: 900, decay: 0.02, gain: 0.05 });
     noise({ type: "lowpass", freq: 700, at: 0.028, decay: 0.035, gain: 0.25 });
   },
+
+  // Wide keys (the Skills keyboard's row names): a deeper thock, with the faint tick of
+  // the stabilizer wire under a long key
+  thock() {
+    noise({ type: "highpass", freq: 2200, decay: 0.01, gain: 0.18 });
+    tone({ type: "triangle", freq: 420, to: 170, decay: 0.05, gain: 0.1 });
+    noise({ type: "lowpass", freq: 420, at: 0.022, decay: 0.07, gain: 0.4 });
+    noise({ freq: 3200, q: 6, at: 0.038, decay: 0.012, gain: 0.2 });
+  },
+
+  // Typing a skill that isn't on the Skills keyboard: a dull, muffled tap
+  miss() {
+    noise({ type: "lowpass", freq: 500, decay: 0.04, gain: 0.3 });
+    tone({ freq: 120, to: 90, decay: 0.04, gain: 0.06 });
+  },
+
+  // Backspace held down in the Skills finder: a light tick for each character that goes,
+  // quick enough that a long hold runs like a ratchet
+  erase() {
+    noise({ type: "highpass", freq: 4200, decay: 0.008, gain: 0.16 });
+    tone({ type: "triangle", freq: 1400, to: 1000, decay: 0.012, gain: 0.03 });
+  },
+
+  // Contact's postmark: a rubber stamp slapped onto paper, with the thump of the desk under it
+  stamp() {
+    noise({ freq: 1800, q: 0.8, decay: 0.015, gain: 0.2 });
+    noise({ type: "lowpass", freq: 900, decay: 0.06, gain: 0.5 });
+    tone({ freq: 150, to: 65, decay: 0.1, gain: 0.22 });
+  },
+
+  // Contact's paper plane looping the loop: air rushing past, rising and falling away
+  whoosh() {
+    noise({ freq: 450, to: 2400, q: 0.8, attack: 0.2, decay: 0.4, gain: 0.2 });
+    noise({ type: "highpass", freq: 5000, at: 0.15, attack: 0.1, decay: 0.25, gain: 0.03 });
+  },
 };
+
+// The footer's switch turns every sound off; the choice is kept for later visits.
+let muted = false;
+try {
+  muted = localStorage.getItem("sound") === "off";
+} catch {
+  // storage can be unavailable (private mode); sound stays on
+}
+
+export const isMuted = () => muted;
+
+export function setMuted(value) {
+  muted = value;
+  try {
+    localStorage.setItem("sound", value ? "off" : "on");
+  } catch {
+    // the switch still works for this visit
+  }
+}
 
 // `force` skips the cooldown: hovering in and out quickly shouldn't stack a sound,
 // but every click should play, even over the end of the last one. The cooldown belongs
@@ -188,6 +242,7 @@ const sounds = {
 // keycaps) each still play when the mouse sweeps across them. `rate` tunes it up
 // (above 1) or down, the way the cap game climbs in pitch as it goes on.
 export function playSound(name, { force = false, source = name, rate = 1 } = {}) {
+  if (muted) return;
   if (navigator.userActivation && !navigator.userActivation.hasBeenActive) return;
 
   const now = performance.now();
