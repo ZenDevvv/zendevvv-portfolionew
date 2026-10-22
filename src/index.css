@@ -29,6 +29,44 @@
   display: none;
 }
 
+/* The About photo as a halftone print. The photo goes grey, a screen of soft dots is laid
+   over it at half strength, and a steep contrast turns every pixel to ink or paper, so
+   each dot grows where the photo is dark. The About section tints the ink and paper with
+   the theme. In dark mode the photo is inverted first and the print inverted back: light
+   dots that grow where the photo is bright, on a dark sheet. */
+.halftone {
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  filter: contrast(14);
+}
+
+.halftone img {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(0.8);
+}
+
+.halftone::after {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  opacity: 0.5;
+  background: radial-gradient(circle, #000, #fff 3.2px) 0 0 / 4.5px 4.5px;
+  transform: rotate(45deg);
+}
+
+.dark .halftone {
+  filter: contrast(14) invert(1);
+}
+
+.dark .halftone img {
+  filter: grayscale(1) invert(1) contrast(0.8);
+}
+
 .dark-mode-filter {
   filter: invert(1) hue-rotate(180deg);
 }

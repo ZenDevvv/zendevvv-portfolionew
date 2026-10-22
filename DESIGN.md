@@ -4,7 +4,7 @@ The basis for edits to this portfolio. Read it before changing anything visual. 
 
 ## Status
 
-Redesigned so far: **Hero, side nav, Industries strip, Experience, Selected works (Projects)**. Everything else (About, Skills, Contact, Footer) still has the old look: grey pill headings, emerald accents, shadowed cards. Bring each in line with the rules below as it is redesigned, and don't copy its current style into new work.
+Redesigned so far: **Hero, side nav, Industries strip, Experience, Selected works (Projects), About**. Everything else (Skills, Contact, Footer) still has the old look: grey pill headings, emerald accents, shadowed cards. Bring each in line with the rules below as it is redesigned, and don't copy its current style into new work.
 
 Section order: Hero, Industries, Experience, Selected works (`#projects`), About, Skills, Contact, Footer. The nav order and the hero's scroll cue follow it.
 
@@ -12,7 +12,7 @@ Section order: Hero, Industries, Experience, Selected works (`#projects`), About
 
 - **Minimal and warm.** Paper and ink with one green accent. Few lines, no shadows on things at rest, no gradients, no glass.
 - **Walk away from cards.** Sections are laid out with type, space and thin lines, not boxed panels. The user rejected the card layout for Experience; treat that as site-wide.
-- **Line-art is the personality.** The hero drawings (ink strokes, flat fills from the theme) are the one illustrative language. Reuse them rather than adding icons or stock imagery. The one exception is the tech logos on the project slides, kept monochrome in ink.
+- **Line-art is the personality.** The hero drawings (ink strokes, flat fills from the theme) are the one illustrative language. Reuse them, or draw new ones in the same language, rather than adding icons or stock imagery. The exceptions are the tech logos on the project slides, kept monochrome in ink, and the one photograph, in About, printed as an ink halftone.
 - **Real content only.** Copy comes from the résumé, paraphrased and shortened. No invented numbers or claims. The project `role` values are placeholders the user hasn't confirmed yet (Full-stack Developer for the Uzaro projects, Frontend Developer for ALMA, "Personal project" for the rest).
 
 ## Tokens (`tailwind.config.js`)
@@ -27,7 +27,7 @@ Section order: Hero, Industries, Experience, Selected works (`#projects`), About
 | Accent (only one) | `lightAccent` #1f7a4d | `darkAccent` #5fcf92 |
 
 - Always write both modes (`dark:` variants). Light is the default; `index.html` restores a saved dark choice before first paint, and the choice is stored in `localStorage` under `theme`.
-- The accent is for small things: the "Open to work" dot, the active nav item, focus rings. Never a large fill.
+- The accent is for small things: the "Open to work" dot, the active nav item, focus rings. Never a large fill, except the cap game's top-stage score (see About), which is a faint tint that only lasts while someone is playing well.
 
 ## Type
 
@@ -56,9 +56,9 @@ Section order: Hero, Industries, Experience, Selected works (`#projects`), About
 - Centred intro framed by floating line-art objects, one per industry (IoT, manufacturing, finance, education, healthcare, hospitality), with pointer and scroll parallax.
 - An object's label is the industry name alone ("IoT", "Healthcare"); never a project or client name. ERP is a kind of system, not an industry, so it has no hero object.
 - Pointer parallax is by depth, not in unison. Each object's `depth` (0 far to 1 near) sets how far it drifts against the pointer (up to `POINTER_REACH`, 56px) and its own spring. Near objects settle in about 0.2 s; far ones trail to about 0.5 s with a little float. Depths alternate near and far around the ring, with the large gears nearest. The intro text follows the pointer slightly the other way, on its own spring.
-- Hover and click play each object's animation and a synthesized sound (`src/sounds.js`, Web Audio, no audio files). Sound is a hero, Industries and project-stack feature only; it starts only after the visitor's first click, tap or keypress.
+- Hover and click play each object's animation and a synthesized sound (`src/sounds.js`, Web Audio, no audio files). Sound is a hero, Industries, project-stack and About feature only; it starts only after the visitor's first click, tap or keypress.
 - The 300 ms hover cooldown belongs to the element, not the sound (`source` in `playSound` / `soundOn`). Elements that share a sound, like the three keycaps, each play when the mouse sweeps across them.
-- The drawings and shared pieces live in `HeroObjects.jsx`; Industries imports the drawings.
+- The drawings and shared pieces live in `HeroObjects.jsx`, including `Toy` (a drawing that plays on hover and click, with its bob, ripple and label); Industries and About import them. The pointer parallax (`usePointer`, `useDrift`, `POINTER_REACH`) is in `src/pointer.js`.
 
 ## Industries strip
 
@@ -89,6 +89,24 @@ Section order: Hero, Industries, Experience, Selected works (`#projects`), About
 - Reduced motion: no pinning; the slides sit in a plain strip scrolled sideways by hand, with its scrollbar showing.
 - Tabbing to a slide's link scrolls that slide into the frame. The frame is `overflow-clip`, not `hidden`, so focus can't scroll it sideways.
 
+## About
+
+- Text on the left (heading, three short paragraphs, a "Say hello" link to Contact), the photo on the right; phones stack the text, then the photo. Keep it this short. The copy comes from the résumé and the user's old About: BS Computer Science with honors (2024), Algolympics in second year, owning features end to end, AI tools with every line reviewed, heading for a senior fullstack or tech lead role.
+- The photo (`src/assets/profile.jpg`, the graduation portrait) is a print: a paper frame with an ink line, taped at the top, resting at -3° and straightening on hover like the keycaps. Its caption reads "Class of 2024" with a hint ("Click to develop", "Tap to develop" without hover, "Back to ink").
+- The filter is an ink halftone in CSS (`.halftone` in `src/index.css`): the photo in grey, a screen of soft dots over it at half opacity, then `contrast(14)` turns every pixel to ink or paper. Two blended layers (`mix-blend-lighten` with the ink token, `mix-blend-darken` with the paper token) tint it. Dark mode inverts before and after, so the dots are light on a dark sheet. The dot cell is 4.5px, and the photo is toned down (`contrast(0.8)`) so its dark backdrop stays dotted instead of solid ink.
+- Over the photo the mouse holds a line-art magnifier (`Magnifier`) that shows the true colours at 1.25×; the cursor hides while it's out. A click, tap or Enter takes a shot: a flash, the `shutter` sound, and the colour spreads from that point over the whole photo (`aria-pressed`). The next one, or the mouse leaving, prints it back in ink. Touch has no lens; a tap develops from where it lands.
+- Entering, the print drops in and the photo develops: it fades in under the dot screen, so the dots grow out of blank paper.
+- Two keepsakes float by the print like the hero's objects (`Toy`, depth parallax, a little scroll rise): a mortarboard ("BS Computer Science", 1.5× the trophy's size) and a trophy ("Algolympics champion", a wiggle and sparkle, `trophy` sound). Keep them over the frame or the page, never the dark photo, where ink lines vanish; the cap sits above the photo's top-left corner for this. Object labels have a paper backing for the same reason.
+- The mortarboard is a keep-it-up game (`GradCap.jsx`). Hovering it only swings the tassel, silently. A click throws it; from then it is drawn over the page (fixed, z-40, above the nav), falls under gravity and is lost off the bottom of the screen unless it's hit again. Every hit (pointer down, so taps feel instant) throws it up about 30% of the screen's height. Where it's hit sets the sideways kick, away from the hit and growing with the square of the distance from the middle: a hit a third of the way out barely moves it sideways, one on the very edge sends it hard the other way and spins it. The sides and the top of the screen bounce it back, so the only way out is the bottom; then it pops back into its place. Sounds: `toss` on each hit, `bump` off an edge, `fall` as it drops out of sight. All the tuning is at the top of `GradCap.jsx`. With reduced motion there is no game; a click only swings the tassel.
+- The game keeps score: every hit counts, the throw included. Every `MILESTONE` hits (intended 10; **set to 3 for testing**, so change it back) is a milestone with a rising chord (`milestone`), and the first five each turn the game up a stage (`STAGES` at the top of `GradCap.jsx`):
+  1. The score appears: a huge, faint number (`ScoreBoard`) centred on the screen behind the section's content (it is fixed inside About at z-0, with the content at `relative z-10`). Gravity ×1.1.
+  2. Bigger; afterimages trail the cap. Gravity ×1.2, harder edge kicks.
+  3. Bigger; a burst of line-art confetti (ink dashes, green dots, shaded chips) from the cap at each milestone.
+  4. Bigger; the score jolts sideways on every hit, and the hit ring turns into a green outline.
+  5. Biggest and green; it beats like a heart with the `heartbeat` sound every 0.9 s. Gravity ×1.6. Losing here is still a party: instead of the falling whistle, a `popper` and a last chord, and 80 bits of confetti shoot up from where the cap dropped out.
+  Each stage's sounds are pitched a little higher. The score grows by scale (the text is set at the top size), springing to each new size; every milestone also slams it and flashes it darker. Later milestones keep celebrating at stage 5. Confetti lives in its own layer (`Confetti` in `GradCap.jsx`), not in the flight, so a burst plays out after the cap is gone. When the cap is lost, the final score holds for 1.2 s, then fades. On phones the print covers the middle of the screen, so the score shows around it.
+- `profile.jpg` is only 389×519, so the colour view is soft once enlarged; a larger original would sharpen it.
+
 ## Motion
 
 - Easing `[0.22, 1, 0.36, 1]` (strong ease-out) for entrances; the Experience line uses ease-in-out `[0.77, 0, 0.175, 1]` because it travels on screen.
@@ -111,6 +129,9 @@ Section order: Hero, Industries, Experience, Selected works (`#projects`), About
 - Scroll-linked code that must land in the same frame as the scroll reads the running instance through `watchLenis` (it is `null` when Lenis isn't running, so always handle that).
 
 ## Decided against
+
+- **A canned toss for the mortarboard** (up 1.6em with one turn, back onto its spot, on hover and click). The user wanted a game instead: it falls off the screen unless you keep hitting it.
+- **About as three columns** ("Who I am", "Where I'm headed", "The bigger picture") with icons and check marks. The user discarded it for a short bio beside a photo.
 
 - **A full-height side rail** that widened on hover with a background and a drop shadow. Replaced by the item-height rail with no background or shadow.
 - **Project names in hero object labels** ("IoT · real-time devices", "ERP · OSPAR & HRIS", "Education · ALMA", "Hospitality · RYDE"), and an ERP crate object. Labels are the industry only; the industry list grew to six (healthcare, manufacturing, finance added, ERP dropped).

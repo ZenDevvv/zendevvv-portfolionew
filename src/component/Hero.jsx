@@ -1,15 +1,9 @@
-import { Fragment, useEffect, useRef } from "react";
-import {
-  motion as m,
-  useMotionValue,
-  useReducedMotion,
-  useScroll,
-  useSpring,
-  useTransform,
-} from "framer-motion";
+import { Fragment, useRef } from "react";
+import { motion as m, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
 import { LuArrowUpRight, LuChevronsDown, LuMapPin } from "react-icons/lu";
 import resume from "../assets/Zen Andrei Obrero resume.pdf";
 import { FloatingObjects, Keycaps } from "./HeroObjects";
+import { usePointer } from "../pointer";
 import { Wordmark } from "./Navbar";
 
 const ease = [0.22, 1, 0.36, 1];
@@ -27,19 +21,8 @@ export default function Hero() {
 
   // Pointer position from -1 to 1 on each axis. The text follows an eased copy; each
   // floating object eases the raw position on its own spring, set by its depth.
-  const rawX = useMotionValue(0);
-  const rawY = useMotionValue(0);
-  const textPointerX = useSpring(rawX, pointerSpring);
-
-  useEffect(() => {
-    if (reduceMotion || !window.matchMedia("(pointer: fine)").matches) return;
-    const onMove = (event) => {
-      rawX.set((event.clientX / window.innerWidth) * 2 - 1);
-      rawY.set((event.clientY / window.innerHeight) * 2 - 1);
-    };
-    window.addEventListener("pointermove", onMove);
-    return () => window.removeEventListener("pointermove", onMove);
-  }, [reduceMotion, rawX, rawY]);
+  const pointer = usePointer(reduceMotion);
+  const textPointerX = useSpring(pointer.x, pointerSpring);
 
   // Scroll parallax: upper layers rise faster and lower ones lag, so the
   // intro spreads apart as it leaves instead of sliding up as one block.
@@ -82,7 +65,7 @@ export default function Hero() {
       <div className="relative flex flex-1 flex-col items-center justify-center px-5 pb-20 pt-6 text-center md:pb-16">
         <div className="relative">
           <FloatingObjects
-            motion={{ pointer: { x: rawX, y: rawY }, progress: scrollYProgress, reduceMotion }}
+            motion={{ pointer, progress: scrollYProgress, reduceMotion }}
           />
 
           <m.div style={{ x: textX }} className="relative z-10 flex flex-col items-center">

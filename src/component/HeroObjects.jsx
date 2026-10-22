@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { motion as m, useSpring, useTransform } from "framer-motion";
+import { motion as m, useTransform } from "framer-motion";
 import { LuGithub, LuLinkedin, LuMail } from "react-icons/lu";
+import { useDrift } from "../pointer";
 import { playSound, soundOn } from "../sounds";
 
 // One line-art language for every object: ink strokes, flat fills from the theme.
@@ -257,6 +258,114 @@ export function Coins({ play }) {
   );
 }
 
+// The About drawings. Playing the cap swings its tassel; being thrown is the About
+// section's own game (`GradCap.jsx`).
+export function Mortarboard({ play }) {
+  return (
+    <svg viewBox="0 0 72 52" className="block w-[4.5em]" aria-hidden="true">
+      <path d="M20 22 V33 Q36 40 52 33 V22" className={ink} {...line} />
+      <path d="M36 7 L68 17.5 L36 28 L4 17.5 Z" className={ink} {...line} />
+      <path
+        d="M15 17.5 L34 11.3"
+        {...line}
+        fill="none"
+        opacity="0.45"
+        className="stroke-lightBG dark:stroke-darkBG"
+      />
+      <g
+        key={play}
+        className={`${pivot} origin-[36px_17.5px] ${replay(play, "animate-swing")} motion-reduce:!animate-none`}
+      >
+        <path d="M36 17.5 L60 23 V35" {...line} fill="none" className={accentLine} />
+        <path d="M60 34 V41" {...line} strokeWidth="4" className={accentLine} />
+      </g>
+      <circle cx="36" cy="17.5" r="2.2" className={accent} />
+    </svg>
+  );
+}
+
+export function Trophy({ play }) {
+  return (
+    <svg viewBox="0 0 68 76" className="block w-[4.25em]" aria-hidden="true">
+      <g key={`shine-${play}`} {...line} fill="none" className={`opacity-0 ${replay(play, "animate-flash")}`}>
+        <path d="M11 8 L6 3 M9 16 L2 15" />
+        <path d="M57 8 L62 3 M59 16 L66 15" />
+      </g>
+      <g
+        key={play}
+        className={`${pivot} origin-[34px_74px] ${replay(play, "animate-ding")} motion-reduce:!animate-none`}
+      >
+        <path d="M18 15 H11 Q6 15 6 20 Q6 30 20 32 M50 15 H57 Q62 15 62 20 Q62 30 48 32" {...line} fill="none" />
+        <path d="M17 8 H51 V23 C51 35 43 43 34 43 C25 43 17 35 17 23 Z" className={paper} {...line} />
+        <path
+          d="M34 17.5 L35.6 21.8 L40.2 22 L36.6 24.8 L37.8 29.3 L34 26.7 L30.2 29.3 L31.4 24.8 L27.8 22 L32.4 21.8 Z"
+          className={`${accent} ${accentLine}`}
+          strokeWidth="1"
+          strokeLinejoin="round"
+        />
+        <rect x="30" y="43" width="8" height="9" className={ink} {...line} />
+        <rect x="22" y="52" width="24" height="8" rx="2" className={shade} {...line} />
+        <rect x="17" y="60" width="34" height="13" rx="3" className={ink} {...line} />
+      </g>
+    </svg>
+  );
+}
+
+// A strip of tape with torn ends, holding the About photo up.
+export function Tape() {
+  return (
+    <svg viewBox="0 0 84 26" className="block w-full" aria-hidden="true">
+      <path
+        d="M4 3 H80 L78 7.5 L81 12 L78 16.5 L81 21 L79 23 H4 L6 19 L3 14.5 L6 10 L3 6 Z"
+        className={shade}
+        {...line}
+      />
+    </svg>
+  );
+}
+
+// A magnifying glass, ring of `radius` px, its handle down and to the right. Its box
+// starts at the ring's top-left, so the ring's centre is (radius, radius).
+export function Magnifier({ radius }) {
+  const size = radius * 2 + 34;
+  const along = (distance) => radius + distance * Math.SQRT1_2;
+  const glint = radius - 9;
+  const onGlint = (degrees) => {
+    const angle = (degrees * Math.PI) / 180;
+    return `${radius + glint * Math.cos(angle)} ${radius + glint * Math.sin(angle)}`;
+  };
+  return (
+    <svg
+      viewBox={`0 0 ${size} ${size}`}
+      width={size}
+      height={size}
+      className="block overflow-visible"
+      aria-hidden="true"
+    >
+      <circle cx={radius} cy={radius} r={radius - 0.8} {...line} fill="none" />
+      {/* a glint on the glass */}
+      <path
+        d={`M${onGlint(195)} A${glint} ${glint} 0 0 1 ${onGlint(245)}`}
+        {...line}
+        fill="none"
+        className="stroke-white opacity-70"
+      />
+      <path d={`M${along(radius)} ${along(radius)} L${along(radius + 8)} ${along(radius + 8)}`} {...line} fill="none" />
+      <path
+        d={`M${along(radius + 10)} ${along(radius + 10)} L${along(radius + 30)} ${along(radius + 30)}`}
+        {...line}
+        strokeWidth="9"
+      />
+      <path
+        d={`M${along(radius + 10)} ${along(radius + 10)} L${along(radius + 30)} ${along(radius + 30)}`}
+        {...line}
+        strokeWidth="5.8"
+        className="stroke-lightShade dark:stroke-darkShade"
+      />
+    </svg>
+  );
+}
+
 // A keycap with an icon on it, sized in em. It presses down while its nearest `group`
 // ancestor is hovered or pressed. Also used for the stack on the project slides.
 export function Keycap({ Icon }) {
@@ -271,97 +380,86 @@ export function Keycap({ Icon }) {
   );
 }
 
+// On paper, so it still reads where it lands over something, like the About photo.
 function ObjectLabel({ children }) {
   return (
-    <span className="pointer-events-none absolute bottom-full left-1/2 mb-2 -translate-x-1/2 translate-y-1 whitespace-nowrap text-[12px] font-medium text-lightModeTextT opacity-0 transition duration-200 ease-out group-focus-within:translate-y-0 group-focus-within:opacity-100 group-hover:translate-y-0 group-hover:opacity-100 dark:text-darkModeTextT">
+    <span className="pointer-events-none absolute bottom-full left-1/2 mb-1.5 -translate-x-1/2 translate-y-1 whitespace-nowrap rounded-sm bg-lightBG px-1.5 py-0.5 text-[12px] font-medium text-lightModeTextT opacity-0 transition duration-200 ease-out group-focus-within:translate-y-0 group-focus-within:opacity-100 group-hover:translate-y-0 group-hover:opacity-100 dark:bg-darkBG dark:text-darkModeTextT">
       {children}
     </span>
   );
 }
 
-// How far the nearest object drifts against the pointer at the edge of the screen, in px.
-const POINTER_REACH = 56;
-
-// Pointer parallax: `depth` runs from 0 (far) to 1 (near). Near objects drift further and
-// follow the pointer quickly (settling in about 0.2 s); far ones drift less and trail
-// behind on a looser spring (about 0.5 s, with a touch of float), so the six never move
-// as one block.
-function followSpring(depth) {
-  const speed = 3 + 15 * depth;
-  const settle = 0.8 + 0.2 * depth;
-  return { stiffness: speed ** 2, damping: 2 * settle * speed, mass: 1 };
-}
-
-// One object floating at its own depth: it drifts against the pointer (see `followSpring`),
-// rises `rise` px and tips further as the hero scrolls away, and bobs while idle.
-// Hovering plays its animation and sound; every click plays them again (even mid-play,
-// so they can be spammed), squashes the object and pulses a circle out behind it.
-function Floater({ motion, place, depth, rise, tilt, size, bob, order, label, sound, Drawing }) {
-  const { pointer, progress, reduceMotion } = motion;
-  const reach = depth * POINTER_REACH;
-  const spring = followSpring(depth);
-  const x = useSpring(
-    useTransform(pointer.x, (value) => -value * reach),
-    spring
-  );
-  const pointerY = useSpring(
-    useTransform(pointer.y, (value) => -value * reach * 0.6),
-    spring
-  );
-  const scrollY = useTransform(progress, [0, 1], [0, reduceMotion ? 0 : rise]);
-  const y = useTransform([pointerY, scrollY], ([a, b]) => a + b);
-  const rotate = useTransform(progress, [0, 1], [tilt, reduceMotion ? tilt : tilt * 3]);
-  const opacity = useTransform(progress, [0.15, 0.6], [1, 0]);
+// A drawing to play with. Hovering plays its animation and sound; every click plays them
+// again (even mid-play, so they can be spammed), squashes it and pulses a circle out
+// behind it, then calls `onTap` with the click. It bobs over its shadow while idle, tipped
+// by `rotate`. Without a `sound` it plays silently.
+export function Toy({ Drawing, sound, label, bob, order, rotate, onTap }) {
   const bobTiming = { animationDuration: `${bob}s`, animationDelay: `-${order * 1.7}s` };
   const [plays, setPlays] = useState(0);
   const [clicks, setClicks] = useState(0);
 
   const onPointerEnter = (event) => {
     if (event.pointerType !== "mouse") return;
-    playSound(sound);
+    if (sound) playSound(sound);
     setPlays((count) => count + 1);
   };
-  const onClick = () => {
-    playSound(sound, { force: true });
+  const onClick = (event) => {
+    if (sound) playSound(sound, { force: true });
     setPlays((count) => count + 1);
     setClicks((count) => count + 1);
+    onTap?.(event);
   };
 
   return (
+    <m.div
+      whileTap={{ scale: 0.86 }}
+      transition={{ type: "spring", stiffness: 700, damping: 14 }}
+      onPointerEnter={onPointerEnter}
+      onClick={onClick}
+      className="group relative flex cursor-pointer touch-manipulation select-none flex-col items-center"
+    >
+      {clicks > 0 && (
+        <span
+          key={clicks}
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 m-auto h-[5.5em] w-[5.5em] animate-ripple rounded-full bg-lightShade motion-reduce:hidden dark:bg-darkShade"
+        />
+      )}
+      <m.div style={{ rotate }} className="relative">
+        <div className="animate-float motion-reduce:animate-none" style={bobTiming}>
+          <Drawing play={plays} />
+        </div>
+      </m.div>
+      <span
+        aria-hidden="true"
+        style={bobTiming}
+        className="mt-[0.7em] h-[0.4em] w-[62%] animate-float-shadow rounded-[50%] bg-lightShade motion-reduce:animate-none dark:bg-darkShade"
+      />
+      <ObjectLabel>{label}</ObjectLabel>
+    </m.div>
+  );
+}
+
+// One object floating at its own depth: it drifts against the pointer (see `followSpring`),
+// rises `rise` px and tips further as the hero scrolls away, and plays like any `Toy`.
+function Floater({ motion, place, depth, rise, tilt, size, order, ...toy }) {
+  const { pointer, progress, reduceMotion } = motion;
+  const drift = useDrift(pointer, depth);
+  const scrollY = useTransform(progress, [0, 1], [0, reduceMotion ? 0 : rise]);
+  const y = useTransform([drift.y, scrollY], ([a, b]) => a + b);
+  const rotate = useTransform(progress, [0, 1], [tilt, reduceMotion ? tilt : tilt * 3]);
+  const opacity = useTransform(progress, [0.15, 0.6], [1, 0]);
+
+  return (
     <div className={`pointer-events-auto absolute -translate-x-1/2 -translate-y-1/2 ${place}`}>
-      <m.div style={{ x, y, opacity }}>
+      <m.div style={{ x: drift.x, y, opacity }}>
         <m.div
           initial={{ opacity: 0, scale: 0.6 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ type: "spring", bounce: 0.45, duration: 0.8, delay: 0.6 + order * 0.1 }}
           style={{ fontSize: `${size}em` }}
         >
-          <m.div
-            whileTap={{ scale: 0.86 }}
-            transition={{ type: "spring", stiffness: 700, damping: 14 }}
-            onPointerEnter={onPointerEnter}
-            onClick={onClick}
-            className="group relative flex cursor-pointer touch-manipulation select-none flex-col items-center"
-          >
-            {clicks > 0 && (
-              <span
-                key={clicks}
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-0 m-auto h-[5.5em] w-[5.5em] animate-ripple rounded-full bg-lightShade motion-reduce:hidden dark:bg-darkShade"
-              />
-            )}
-            <m.div style={{ rotate }} className="relative">
-              <div className="animate-float motion-reduce:animate-none" style={bobTiming}>
-                <Drawing play={plays} />
-              </div>
-            </m.div>
-            <span
-              aria-hidden="true"
-              style={bobTiming}
-              className="mt-[0.7em] h-[0.4em] w-[62%] animate-float-shadow rounded-[50%] bg-lightShade motion-reduce:animate-none dark:bg-darkShade"
-            />
-            <ObjectLabel>{label}</ObjectLabel>
-          </m.div>
+          <Toy order={order} rotate={rotate} {...toy} />
         </m.div>
       </m.div>
     </div>

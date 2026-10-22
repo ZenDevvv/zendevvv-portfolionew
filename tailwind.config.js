@@ -82,6 +82,10 @@ export default {
           '0%': { transform: 'scale(0.4)', opacity: '0.9' },
           '100%': { transform: 'scale(1.35)', opacity: '0' },
         },
+        snap: {
+          '0%': { opacity: '0.85' },
+          '100%': { opacity: '0' },
+        },
       },
       animation: {
         signal: 'signal 2.4s ease-in-out infinite',
@@ -95,6 +99,7 @@ export default {
         transmit: 'transmit 0.5s ease-out',
         flash: 'flash 0.7s ease-out forwards',
         ripple: 'ripple 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards',
+        snap: 'snap 0.5s ease-out forwards',
         // 10 and 7 teeth: the small gear turns 10/7 as fast, the other way
         'spin-slow': 'spin 14s linear infinite',
         'spin-slow-reverse': 'spin 9.8s linear infinite reverse',

@@ -125,6 +125,55 @@ const sounds = {
     noise({ type: "highpass", freq: 6000, decay: 0.01, gain: 0.15 });
   },
 
+  // About photo: a camera shutter, the blades opening and snapping shut
+  shutter() {
+    noise({ type: "highpass", freq: 2500, decay: 0.018, gain: 0.35 });
+    tone({ type: "triangle", freq: 1200, to: 500, decay: 0.03, gain: 0.05 });
+    noise({ freq: 1500, q: 1.5, at: 0.06, decay: 0.04, gain: 0.3 });
+    noise({ type: "lowpass", freq: 600, at: 0.06, decay: 0.05, gain: 0.2 });
+  },
+
+  // Mortarboard, each time it's hit: a soft knock on the board and a rush of air
+  toss() {
+    tone({ freq: 260, to: 140, decay: 0.05, gain: 0.12 });
+    noise({ type: "lowpass", freq: 1200, decay: 0.03, gain: 0.2 });
+    noise({ freq: 600, to: 2200, q: 1.2, attack: 0.04, decay: 0.16, gain: 0.16 });
+  },
+
+  // Mortarboard glancing off the side of the screen
+  bump() {
+    noise({ type: "lowpass", freq: 800, decay: 0.03, gain: 0.22 });
+    tone({ freq: 180, to: 120, decay: 0.05, gain: 0.07 });
+  },
+
+  // Cap game milestone: a bright rising chord with a shimmer
+  milestone() {
+    [784, 988, 1175, 1568].forEach((freq, i) => {
+      tone({ type: "triangle", freq, at: i * 0.05, decay: i === 3 ? 0.6 : 0.18, gain: 0.07 });
+    });
+    noise({ type: "highpass", freq: 6000, at: 0.15, attack: 0.02, decay: 0.35, gain: 0.04 });
+  },
+
+  // Cap game lost on its last stage: a party popper going off
+  popper() {
+    noise({ type: "highpass", freq: 1800, decay: 0.05, gain: 0.5 });
+    tone({ freq: 140, to: 60, decay: 0.08, gain: 0.2 });
+    noise({ type: "highpass", freq: 7000, at: 0.04, attack: 0.03, decay: 0.6, gain: 0.05 });
+  },
+
+  // Mortarboard dropping out of sight: a falling whistle
+  fall() {
+    tone({ type: "triangle", freq: 880, to: 220, attack: 0.01, decay: 0.45, gain: 0.07 });
+  },
+
+  // Trophy: a quick rising fanfare with a shimmer on top
+  trophy() {
+    [1047, 1319, 1568, 2093].forEach((freq, i) => {
+      tone({ type: "triangle", freq, at: i * 0.07, decay: i === 3 ? 0.5 : 0.14, gain: 0.07 });
+    });
+    noise({ type: "highpass", freq: 7000, at: 0.21, attack: 0.02, decay: 0.3, gain: 0.05 });
+  },
+
   // Keycaps: a mechanical switch clicking and bottoming out
   key() {
     noise({ type: "highpass", freq: 3500, decay: 0.012, gain: 0.3 });
@@ -136,8 +185,9 @@ const sounds = {
 // `force` skips the cooldown: hovering in and out quickly shouldn't stack a sound,
 // but every click should play, even over the end of the last one. The cooldown belongs
 // to `source`, the element making the sound, so things that share a sound (the three
-// keycaps) each still play when the mouse sweeps across them.
-export function playSound(name, { force = false, source = name } = {}) {
+// keycaps) each still play when the mouse sweeps across them. `rate` tunes it up
+// (above 1) or down, the way the cap game climbs in pitch as it goes on.
+export function playSound(name, { force = false, source = name, rate = 1 } = {}) {
   if (navigator.userActivation && !navigator.userActivation.hasBeenActive) return;
 
   const now = performance.now();
@@ -147,7 +197,7 @@ export function playSound(name, { force = false, source = name } = {}) {
   const ctx = getContext();
   if (!ctx || !sounds[name]) return;
   if (ctx.state === "suspended") ctx.resume().catch(() => {});
-  pitch = 1 + (Math.random() - 0.5) * 0.08;
+  pitch = rate * (1 + (Math.random() - 0.5) * 0.08);
   sounds[name]();
 }
 
