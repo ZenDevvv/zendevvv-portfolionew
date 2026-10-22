@@ -37,6 +37,12 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Touch screens scroll natively, so the browser settles the projects on each slide.
+   Where Lenis runs (mouse and trackpad) the projects section snaps itself instead. */
+html:not(.lenis) {
+  scroll-snap-type: y proximity;
+}
+
 main {
   overflow-x: clip;
 }

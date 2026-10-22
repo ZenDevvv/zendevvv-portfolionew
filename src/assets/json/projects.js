@@ -1,6 +1,15 @@
+// selected: true shows the project in the home page's Selected works section,
+//   in the order listed here. The full list is for the all-projects page.
+// role: your part in the project, shown on its slide.
+// stack: technologies shown as icons on the slide. Each name must be a key of `tech`
+//   in src/component/Projects.jsx (typescript, react, tanstack, node, mongodb, ...).
+// cover: optional vertical image for the slide; falls back to imageSrc.
 export default [
   {
     title: "AppSite Builder",
+    selected: true,
+    role: "Full-stack Developer",
+    stack: ["typescript", "react", "tanstack", "node", "express", "mongodb", "prisma"],
     imageSrc: "projects/asb.png",
     description:
       "AppSite Builder (ASB) is a no-code website and landing page builder where users can start from admin-curated templates or blank projects, edit pages through a visual drag-and-drop editor, auto-save drafts, and publish static HTML sites. It supports structured content using pages, sections, groups, and reusable blocks, plus global style settings, SEO metadata, role-based access, soft-delete protection, and non-destructive template forking.",
@@ -19,6 +28,9 @@ export default [
   },
   {
     title: "HRIS Webapp",
+    selected: true,
+    role: "Full-stack Developer",
+    stack: ["typescript", "react", "tanstack", "node", "express", "mongodb", "prisma"],
     imageSrc: "projects/hris.png",
     description:
       "A multi-tenant Human Resource Information System built to centralize and automate core HR operations. The platform offers end-to-end employee management, recruitment and applicant tracking, payroll processing, and timekeeping management, enabling HR teams to efficiently manage the entire employee lifecycle. It supports multiple organizations within a single system while maintaining secure and structured access through Attribute-Based Access Control (ABAC), ensuring that HR data visibility and actions align with user roles, departments, and organizational policies.",
@@ -28,6 +40,9 @@ export default [
   },
   {
     title: "RYDE",
+    selected: true,
+    role: "Full-stack Developer",
+    stack: ["typescript", "react", "tanstack", "node", "express", "mongodb", "prisma"],
     imageSrc: "projects/ryde.png",
     description:
       "RYDE is a luxury car rental and private chauffeur web application that allows users to seamlessly reserve premium vehicles and optionally book professional chauffeurs. The platform supports flexible vehicle turnover options, including pickup, meetup, or home delivery, and integrates secure online payments through Xendit. RYDE is designed to deliver a smooth, high-end booking experience with a focus on convenience, reliability, and modern web usability.",
@@ -44,6 +59,9 @@ export default [
   },
   {
     title: "OSPAR (Inventory Management System)",
+    selected: true,
+    role: "Full-stack Developer",
+    stack: ["typescript", "react", "tanstack", "hookform", "zod", "node", "express", "mongodb", "prisma"],
     imageSrc: "projects/ospar.png",
     description:
       "OSPAR is an inventory management system built on GS1 standards that tracks item movement across multiple organizations and departments, from internal transfers to final patient usage. It supports delivery requests, delivery orders, and delivery receipts, along with patient, supplier, and product management, while providing stock and batch-level tracking per department for accurate inventory control. Built-in reporting and analytics offer visibility and insights to support informed, data-driven decisions.",
@@ -62,6 +80,9 @@ export default [
   },
   {
     title: "ALMA (Alternative Learning Management App)",
+    selected: true,
+    role: "Frontend Developer",
+    stack: ["typescript", "react", "tanstack", "hookform", "zod", "node", "express", "mongodb", "cloudinary"],
     imageSrc: "projects/alma.png",
     description:
       "ALMA is a scalable, multi-tenant learning management platform designed to support multiple organizations, instructors, and learners within a unified system. The application enables role-based access, course management, and structured learning workflows while maintaining tenant isolation and performance. I worked as the Frontend Developer, responsible for building modular, responsive UI components, implementing state management, and integrating frontend features with backend APIs to deliver a seamless and efficient learning experience.",
@@ -79,6 +100,9 @@ export default [
   },
   {
     title: "Blog App",
+    selected: false,
+    role: "Personal project",
+    stack: ["react", "framer", "node", "express", "mysql", "jwt"],
     imageSrc: "projects/Blog.png",
     description:
       "The Fullstack Blog Application lets users create, read, update, and delete blog posts with secure JWT-based authentication. Built with React, Node.js, Express, and MySQL, it features a responsive interface, efficient CRUD operations, and RESTful APIs for seamless blog and user management. This project showcases secure, scalable, and reliable frontend-backend integration.",
@@ -88,6 +112,9 @@ export default [
   },
   {
     title: "Astronomy of the Day",
+    selected: true,
+    role: "Personal project",
+    stack: ["html", "css", "react"],
     imageSrc: "projects/NASA.png",
     description:
       "A React project that fetches NASA's APOD data via the NASA API, featuring the ability to view the image NASA posted on your birthday.",
@@ -96,7 +123,22 @@ export default [
     source: "https://github.com/ZenDevvv/APOD-project",
   },
   {
+    title: "Scidama Online",
+    selected: true,
+    role: "Personal project",
+    stack: ["javascript", "node", "socketio"],
+    imageSrc: "projects/scidama.png",
+    description:
+      "Scidama is an online version of a traditional Scidama Filipino board game. Developed using Node.js, JavaScript and Socket.io for real-time PVP gameplay, allowing players to compete online.",
+    skills: ["Javascript", "NodeJS", "Socket.io"],
+    demo: "https://scidama.onrender.com",
+    source: "https://github.com/ZenDevvv/Cyclic",
+  },
+  {
     title: "Mini Expenses Tracke (DB Hosting shutdown)",
+    selected: false,
+    role: "Personal project",
+    stack: ["react", "node", "express", "mysql"],
     imageSrc: "projects/expense tracker.png",
     description:
       "A full-stack development and deployment project using MySQL, Express, React, and Node.js with CRUD functionalities. The frontend is hosted on Netlify, the backend on Render, and the database on Aiven using AWS services, all utilizing free-tier hosting solutions.",
@@ -106,20 +148,14 @@ export default [
   },
   {
     title: "Old Portfolio",
+    selected: false,
+    role: "Personal project",
+    stack: ["html", "css", "react"],
     imageSrc: "projects/oldport.jpg",
     description:
       "My first React portfolio, built using HTML, CSS, and React to showcase my projects and skills.",
     skills: ["HTML", "CSS", "ReactJS", "JSON"],
     demo: "https://zendevvv-portfolioreact.netlify.app/",
     source: "https://github.com/ZenDevvv/Frontend-project",
-  },
-  {
-    title: "Scidama Online",
-    imageSrc: "projects/scidama.png",
-    description:
-      "Scidama is an online version of a traditional Scidama Filipino board game. Developed using Node.js, JavaScript and Socket.io for real-time PVP gameplay, allowing players to compete online.",
-    skills: ["Javascript", "NodeJS", "Socket.io"],
-    demo: "https://scidama.onrender.com",
-    source: "https://github.com/ZenDevvv/Cyclic",
   },
 ];

@@ -14,9 +14,9 @@ import resume from "../assets/Zen Andrei Obrero resume.pdf";
 
 const navItems = [
   { id: "experience", name: "Experience", Icon: LuBriefcase },
+  { id: "projects", name: "Projects", Icon: LuFolderGit2 },
   { id: "about", name: "About me", Icon: LuUser },
   { id: "skills", name: "Skills", Icon: LuLayers },
-  { id: "projects", name: "Projects", Icon: LuFolderGit2 },
   { id: "contact", name: "Contact", Icon: LuMail },
 ];
 

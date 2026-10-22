@@ -134,13 +134,15 @@ const sounds = {
 };
 
 // `force` skips the cooldown: hovering in and out quickly shouldn't stack a sound,
-// but every click should play, even over the end of the last one.
-export function playSound(name, { force = false } = {}) {
+// but every click should play, even over the end of the last one. The cooldown belongs
+// to `source`, the element making the sound, so things that share a sound (the three
+// keycaps) each still play when the mouse sweeps across them.
+export function playSound(name, { force = false, source = name } = {}) {
   if (navigator.userActivation && !navigator.userActivation.hasBeenActive) return;
 
   const now = performance.now();
-  if (!force && now - (lastPlayed[name] ?? -Infinity) < COOLDOWN_MS) return;
-  lastPlayed[name] = now;
+  if (!force && now - (lastPlayed[source] ?? -Infinity) < COOLDOWN_MS) return;
+  lastPlayed[source] = now;
 
   const ctx = getContext();
   if (!ctx || !sounds[name]) return;
@@ -150,12 +152,13 @@ export function playSound(name, { force = false } = {}) {
 }
 
 // Event props for an element that makes a sound: on hover for a mouse,
-// and on tap or click everywhere (touch screens have no hover).
-export function soundOn(name) {
+// and on tap or click everywhere (touch screens have no hover). Elements sharing a
+// sound pass their own `source` so each keeps its own hover cooldown.
+export function soundOn(name, source = name) {
   return {
     onPointerEnter: (event) => {
-      if (event.pointerType === "mouse") playSound(name);
+      if (event.pointerType === "mouse") playSound(name, { source });
     },
-    onClick: () => playSound(name, { force: true }),
+    onClick: () => playSound(name, { force: true, source }),
   };
 }

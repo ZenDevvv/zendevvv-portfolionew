@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { motion as m, useTransform } from "framer-motion";
+import { motion as m, useSpring, useTransform } from "framer-motion";
 import { LuGithub, LuLinkedin, LuMail } from "react-icons/lu";
 import { playSound, soundOn } from "../sounds";
 
@@ -257,7 +257,9 @@ export function Coins({ play }) {
   );
 }
 
-function Keycap({ Icon }) {
+// A keycap with an icon on it, sized in em. It presses down while its nearest `group`
+// ancestor is hovered or pressed. Also used for the stack on the project slides.
+export function Keycap({ Icon }) {
   return (
     <svg viewBox="0 0 46 46" className="block w-[2.875em]" aria-hidden="true">
       <rect x="1.5" y="3" width="43" height="42" rx="8" className={shade} {...line} />
@@ -277,14 +279,35 @@ function ObjectLabel({ children }) {
   );
 }
 
-// One object floating at its own depth: it drifts against the pointer by `depth` px,
+// How far the nearest object drifts against the pointer at the edge of the screen, in px.
+const POINTER_REACH = 56;
+
+// Pointer parallax: `depth` runs from 0 (far) to 1 (near). Near objects drift further and
+// follow the pointer quickly (settling in about 0.2 s); far ones drift less and trail
+// behind on a looser spring (about 0.5 s, with a touch of float), so the six never move
+// as one block.
+function followSpring(depth) {
+  const speed = 3 + 15 * depth;
+  const settle = 0.8 + 0.2 * depth;
+  return { stiffness: speed ** 2, damping: 2 * settle * speed, mass: 1 };
+}
+
+// One object floating at its own depth: it drifts against the pointer (see `followSpring`),
 // rises `rise` px and tips further as the hero scrolls away, and bobs while idle.
 // Hovering plays its animation and sound; every click plays them again (even mid-play,
 // so they can be spammed), squashes the object and pulses a circle out behind it.
 function Floater({ motion, place, depth, rise, tilt, size, bob, order, label, sound, Drawing }) {
   const { pointer, progress, reduceMotion } = motion;
-  const x = useTransform(pointer.x, (value) => value * depth);
-  const pointerY = useTransform(pointer.y, (value) => value * depth * 0.6);
+  const reach = depth * POINTER_REACH;
+  const spring = followSpring(depth);
+  const x = useSpring(
+    useTransform(pointer.x, (value) => -value * reach),
+    spring
+  );
+  const pointerY = useSpring(
+    useTransform(pointer.y, (value) => -value * reach * 0.6),
+    spring
+  );
   const scrollY = useTransform(progress, [0, 1], [0, reduceMotion ? 0 : rise]);
   const y = useTransform([pointerY, scrollY], ([a, b]) => a + b);
   const rotate = useTransform(progress, [0, 1], [tilt, reduceMotion ? tilt : tilt * 3]);
@@ -347,14 +370,15 @@ function Floater({ motion, place, depth, rise, tilt, size, bob, order, label, so
 
 // The industries Zen builds for, floating around the intro. The frame is
 // centred on the intro and grows with it, so the objects circle the text at
-// every screen size; positions are percentages of that frame.
+// every screen size; positions are percentages of that frame. Depths alternate
+// near and far around the ring, with the large gears nearest.
 const floaters = [
   {
     label: "IoT",
     Drawing: Sensor,
     sound: "sensor",
     place: "left-[15%] top-[9%] md:left-[9%] md:top-[12%] lg:left-[12%] lg:top-[15%]",
-    depth: -22,
+    depth: 0.55,
     rise: -280,
     tilt: -8,
     size: 0.95,
@@ -365,7 +389,7 @@ const floaters = [
     Drawing: Gears,
     sound: "gears",
     place: "left-[50%] top-[0%] md:left-[74%] md:top-[3%] lg:left-[71%] lg:top-[4%]",
-    depth: -28,
+    depth: 1,
     rise: -300,
     tilt: 0,
     size: 1.2,
@@ -376,7 +400,7 @@ const floaters = [
     Drawing: Coins,
     sound: "coins",
     place: "left-[84%] top-[12%] md:left-[91%] md:top-[45%] lg:left-[90%] lg:top-[47%]",
-    depth: -32,
+    depth: 0.7,
     rise: -200,
     tilt: 6,
     size: 1.15,
@@ -387,7 +411,7 @@ const floaters = [
     Drawing: Books,
     sound: "books",
     place: "left-[18%] top-[90%] md:left-[8%] md:top-[70%] lg:left-[6%] lg:top-[63%]",
-    depth: -16,
+    depth: 0.4,
     rise: -140,
     tilt: -4,
     size: 1,
@@ -398,7 +422,7 @@ const floaters = [
     Drawing: FirstAidKit,
     sound: "heartbeat",
     place: "left-[50%] top-[102%] md:left-[30%] md:top-[98%] lg:left-[31%] lg:top-[95%]",
-    depth: -20,
+    depth: 0.85,
     rise: -90,
     tilt: -6,
     size: 0.95,
@@ -409,7 +433,7 @@ const floaters = [
     Drawing: Bell,
     sound: "bell",
     place: "left-[83%] top-[91%] md:left-[85%] md:top-[95%] lg:left-[79%] lg:top-[92%]",
-    depth: -26,
+    depth: 0.3,
     rise: -70,
     tilt: 5,
     size: 1,
@@ -442,7 +466,7 @@ export function Keycaps() {
           transition={{ type: "spring", bounce: 0.5, duration: 0.7, delay: 0.7 + index * 0.08 }}
           style={{ marginBottom: lift, "--tilt": `${tilt}deg` }}
           className="group relative"
-          {...soundOn("key")}
+          {...soundOn("key", label)}
         >
           <a
             href={href}

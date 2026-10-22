@@ -25,10 +25,11 @@ export default function Hero() {
   const sectionRef = useRef(null);
   const reduceMotion = useReducedMotion();
 
-  // Pointer position from -1 to 1 on each axis, eased so layers glide rather than jump.
+  // Pointer position from -1 to 1 on each axis. The text follows an eased copy; each
+  // floating object eases the raw position on its own spring, set by its depth.
   const rawX = useMotionValue(0);
   const rawY = useMotionValue(0);
-  const pointer = { x: useSpring(rawX, pointerSpring), y: useSpring(rawY, pointerSpring) };
+  const textPointerX = useSpring(rawX, pointerSpring);
 
   useEffect(() => {
     if (reduceMotion || !window.matchMedia("(pointer: fine)").matches) return;
@@ -52,7 +53,7 @@ export default function Hero() {
   const linksY = useScrollDepth(scrollYProgress, -35, reduceMotion);
   const textOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const cueOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 0]);
-  const textX = useTransform(pointer.x, (value) => value * 5);
+  const textX = useTransform(textPointerX, (value) => value * 5);
 
   return (
     <section
@@ -81,7 +82,7 @@ export default function Hero() {
       <div className="relative flex flex-1 flex-col items-center justify-center px-5 pb-20 pt-6 text-center md:pb-16">
         <div className="relative">
           <FloatingObjects
-            motion={{ pointer, progress: scrollYProgress, reduceMotion }}
+            motion={{ pointer: { x: rawX, y: rawY }, progress: scrollYProgress, reduceMotion }}
           />
 
           <m.div style={{ x: textX }} className="relative z-10 flex flex-col items-center">

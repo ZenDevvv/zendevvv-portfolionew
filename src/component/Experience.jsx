@@ -1,8 +1,10 @@
+import { useRef } from "react";
 import { motion as m } from "framer-motion";
 import { LuArrowUpRight } from "react-icons/lu";
 import experiences from "../assets/json/experiences.json";
 import resume from "../assets/Zen Andrei Obrero resume.pdf";
 import uzaroLogo from "../assets/uzarologo.png";
+import { useEasedSticky } from "../scrollCurve";
 
 const ease = [0.22, 1, 0.36, 1];
 const logos = { "Uzaro Solutions Technology Inc.": uzaroLogo };
@@ -171,6 +173,11 @@ function Stop({ company, location, position, start, end, highlights, tasks, last
 }
 
 export default function Experience() {
+  // The heading pins beside the timeline on wide screens; it eases in and out of the pin
+  // on the same curve the projects take when they turn sideways.
+  const headerRef = useRef(null);
+  useEasedSticky(headerRef);
+
   return (
     <section
       id="experience"
@@ -179,6 +186,7 @@ export default function Experience() {
     >
       <div className="mx-auto grid max-w-[66rem] gap-y-14 px-5 md:px-10 lg:grid-cols-12 lg:gap-x-10">
         <m.header
+          ref={headerRef}
           initial="hidden"
           whileInView="shown"
           viewport={{ once: true, margin: "0px 0px -12% 0px" }}

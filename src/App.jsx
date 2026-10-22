@@ -10,12 +10,15 @@ import Experience from './component/Experience'
 import Projects from './component/Projects'
 import Contact from './component/Contact'
 import Footer from './component/Footer'
+import { useSmoothScroll } from './smoothScroll'
 
 export default function App() {
   // Light by default; index.html restores a saved dark choice before first paint.
   const [isDarkMode, setIsDarkMode] = useState(() =>
     document.documentElement.classList.contains("dark")
   );
+
+  useSmoothScroll();
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", isDarkMode);
@@ -33,9 +36,9 @@ export default function App() {
         <Hero />
         <Industries />
         <Experience />
+        <Projects />
         <About />
         <Skills isDarkMode={isDarkMode} />
-        <Projects />
         <Contact />
         <Footer />
       </main>
