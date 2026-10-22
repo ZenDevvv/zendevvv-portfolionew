@@ -342,7 +342,7 @@ export default function Skills() {
     <section
       id="skills"
       aria-labelledby="skills-title"
-      className="bg-lightBG py-28 dark:bg-darkBG md:py-36 lg:py-44"
+      className="scroll-mt-28 bg-lightBG dark:bg-darkBG md:scroll-mt-36 lg:scroll-mt-44"
     >
       <div className="mx-auto grid max-w-[66rem] gap-y-12 px-5 md:gap-y-16 md:px-10 lg:grid-cols-12 lg:gap-x-10">
         <m.div

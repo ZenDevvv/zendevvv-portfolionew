@@ -39,7 +39,7 @@ Section order: Hero, Industries, Experience, Selected works (`#projects`), About
 ## Layout
 
 - Desktop has a fixed 64px left rail, so every top-level `<section>` gets `padding-left: 64px` from `md` (`src/index.css`). Keep sections as direct children of `<main>`.
-- Content width: `max-w-[66rem]`, `px-5` on phones, `md:px-10`. Section padding is generous (`py-28 md:py-36 lg:py-44` for Experience); the gap between sections is clearly bigger than gaps inside one.
+- Content width: `max-w-[66rem]`, `px-5` on phones, `md:px-10`. Section padding is generous (`py-28 md:py-36 lg:py-44` for Experience); the gap between sections is clearly bigger than gaps inside one. The gap between two sections is one padding (112px on phones, 144px from `md`, 176px from `lg`), never two stacked: Skills, between About and Contact, has no vertical padding of its own, and a matching `scroll-mt` so its nav link still lands the heading where padding would.
 - Two-column pattern for content sections (Experience): sticky heading and a short line on the left (4 of 12 columns), content on the right (8 of 12). On phones it stacks. A sticky heading eases in and out of its pin with `useEasedSticky` (see "Scroll curve").
 - Headings name their section; each `<section>` has `aria-labelledby` or `aria-label`.
 - Phone navigation is a bottom icon dock; keep `pb-24` room at the bottom of `<main>`.
@@ -180,6 +180,7 @@ Section order: Hero, Industries, Experience, Selected works (`#projects`), About
 - **Skill logos as local image files** (mixed colour PNGs and SVGs in `src/assets/skills`, inverted by a filter in dark mode). Replaced by Simple Icons from the CDN, masked in ink.
 - **A line and a hint under the Skills heading** ("The tools behind the work above, grouped the way my résumé groups them." and "Hover to press a key. Click a row's name to run it."). The user removed them as unnecessary.
 - **The Skills keyboard across the full width under its heading.** The Frontend row ran the whole width and the other rows trailed off; replaced by the two-column layout from `lg`.
+- **Skills with its own section padding** (`py-28 md:py-36 lg:py-44`). Stacked on About's and Contact's padding it doubled the gap on both sides (352px from `lg`), and the section came out about a screen tall. The user wanted the usual gap; the padding was removed.
 
 ## Checking changes
 
