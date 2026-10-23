@@ -1,15 +1,15 @@
 // Screenshots from a project's own mocked end-to-end tests, for apps that only work behind a
 // login and a backend: used by capture-shots.mjs when a shot list exports `e2e`.
 //
-// Copies the app (without node_modules) to a scratch folder, so the project's repo is never
-// touched, installs it with install scripts off, and runs only the tests the shots name with
+// Copies the app to a scratch folder and installs it there (installCopy), then runs only the
+// tests the shots name with
 // Playwright, at 1440×900, against the app's dev server with the tests' own mocked API
 // responses (fake data, no database), with the browser cut off from every server but this
 // machine. The screenshot taken as each test finishes is the shot.
 // Scan the repo for security problems before pointing this at it (see "Project media" in
 // DESIGN.md).
 import { execFileSync, spawnSync } from "node:child_process";
-import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 const escapeRegex = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -66,23 +66,40 @@ function results(report) {
   return found;
 }
 
+// How an app's dev server starts, unless its shot list says otherwise.
+export const DEV_COMMAND = "npm run dev -- --host 127.0.0.1 --port 4173";
+export const DEV_URL = "http://127.0.0.1:4173";
+
+// Copies the app (without node_modules or builds) to a scratch folder, so the project's repo is
+// never touched, and installs it there with install scripts off. With a git `ref` (a branch or
+// commit) it copies the app as committed there instead of the folder as it is. An `install`
+// command replaces `npm ci` for an app that isn't a Node one. Returns the copy's path. Also
+// used by capture-shots.mjs for a site run locally.
+export function installCopy(app, scratch, { ref, install } = {}) {
+  const work = join(scratch, "app");
+  if (ref) {
+    const tar = join(scratch, "app.tar");
+    execFileSync("git", ["-C", app, "archive", "-o", tar, ref]);
+    mkdirSync(work);
+    execFileSync("tar", ["-xf", tar, "-C", work]);
+  } else {
+    const skip = ["node_modules", "dist", "build", ".react-router", "test-results", "shots-results", ".venv"];
+    execFileSync("rsync", ["-a", ...skip.flatMap((dir) => ["--exclude", dir]), `${app}/`, `${work}/`]);
+  }
+  console.log(`installing ${app} in a scratch copy…`);
+  if (install) {
+    execFileSync("sh", ["-c", install], { cwd: work, stdio: "inherit" });
+    return work;
+  }
+  if (!existsSync(join(work, "package-lock.json"))) throw new Error(`No package-lock.json in ${app}`);
+  execFileSync("npm", ["ci", "--ignore-scripts", "--no-audit", "--no-fund"], { cwd: work, stdio: "inherit" });
+  return work;
+}
+
 // Returns each shot's PNG path, by shot name.
 export function captureFromE2e({ e2e, shots, scratch, chromePath }) {
-  const {
-    app,
-    testDir = "./e2e",
-    ignore = [],
-    devCommand = "npm run dev -- --host 127.0.0.1 --port 4173",
-    url = "http://127.0.0.1:4173",
-    env = {},
-  } = e2e;
-  if (!existsSync(join(app, "package-lock.json"))) throw new Error(`No package-lock.json in ${app}`);
-
-  const work = join(scratch, "app");
-  const skip = ["node_modules", "dist", "build", ".react-router", "test-results", "shots-results"];
-  execFileSync("rsync", ["-a", ...skip.flatMap((dir) => ["--exclude", dir]), `${app}/`, `${work}/`]);
-  console.log(`installing ${app} in a scratch copy (install scripts off)…`);
-  execFileSync("npm", ["ci", "--ignore-scripts", "--no-audit", "--no-fund"], { cwd: work, stdio: "inherit" });
+  const { app, testDir = "./e2e", ignore = [], devCommand = DEV_COMMAND, url = DEV_URL, env = {} } = e2e;
+  const work = installCopy(app, scratch);
   writeFileSync(join(work, "portfolio-shots.config.ts"), config({ testDir, ignore, devCommand, url, env }));
 
   const grep = shots.map(({ test }) => escapeRegex(test)).join("|");

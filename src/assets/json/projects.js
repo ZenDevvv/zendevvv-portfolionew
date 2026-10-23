@@ -1,12 +1,16 @@
 // Every project is listed on the all-projects page (/projects/), in the order listed here,
 // and has its own page at /projects/<slug>/.
 // slug: the project's address; lowercase letters, digits and dashes.
-// kind: "professional" (work) or "personal"; the all-projects page groups them by it.
+// kind: "professional" (work projects), "side" (paid projects outside work) or "personal" (for
+//   fun and upskilling); the all-projects page groups them by it, in that order.
 // selected: true also shows the project in the home page's Selected works section.
 // role: your part in the project, shown on its slide and its entry.
 // stack: technologies shown as icons. Each name must be a key of `tech`
 //   in src/component/ProjectStack.jsx (typescript, react, tanstack, node, mongodb, ...).
 // demo: the live site. source: the code; each is linked when it isn't "".
+// highlights: optional, what you did in the project, as bullets: { title, text }, a short lead
+//   and a sentence or two. The project page lists them under the description, behind a
+//   "Show more" button. Facts from the project's own repo and docs only.
 // gallery: optional screenshots, in order: { src, caption, focus }, with src relative to
 //   src/assets like imageSrc (1440×900 WebP, in projects/<slug>/), made by
 //   `npm run shots -- <slug>`. They fill the project page's gallery and play as the preview on
@@ -17,7 +21,7 @@ export default [
   {
     title: "AppSite Builder",
     slug: "asb",
-    kind: "professional",
+    kind: "side",
     selected: true,
     role: "Full-stack Developer",
     stack: ["typescript", "react", "tanstack", "node", "express", "mongodb", "prisma"],
@@ -83,7 +87,7 @@ export default [
   {
     title: "RYDE",
     slug: "ryde",
-    kind: "professional",
+    kind: "side",
     selected: false,
     role: "Full-stack Developer",
     stack: ["typescript", "react", "tanstack", "node", "express", "mongodb", "prisma"],
@@ -163,6 +167,61 @@ export default [
     source: "",
   },
   {
+    title: "MediaGrab",
+    slug: "mediagrab",
+    kind: "personal",
+    selected: false,
+    role: "Personal project",
+    stack: ["python", "fastapi", "javascript", "kotlin", "android"],
+    imageSrc: "projects/mediagrab.png",
+    description:
+      "A self-hosted media downloader for over 1,750 sites, from YouTube and TikTok to SoundCloud: trim a clip and save it as an MP4, an MP3 or SRT captions. It runs as a hosted web app, a desktop app for Windows and Linux, and an Android app.",
+    skills: ["Python", "FastAPI", "yt-dlp", "FFmpeg", "Kotlin", "Android"],
+    demo: "",
+    source: "https://github.com/ZenDevvv/MediaGrab",
+    highlights: [
+      {
+        title: "One frontend, four ways to run it",
+        text: "A single web frontend in plain JavaScript runs as the hosted site, the desktop app, the Android app and an installable PWA, all against one API, kept in an OpenAPI contract that the Android tests check against.",
+      },
+      {
+        title: "Hosted on a Linux VM",
+        text: "A FastAPI server on a Freestyle VM, running as a systemd service, set up by a re-runnable provisioning script and deployed by pushing the working tree. It also ships as a Docker image.",
+      },
+      {
+        title: "Guardrails for the hosted server",
+        text: "Hosted mode caps quality at 1080p, length at 60 minutes and size at 1 GB, checked against the server's own metadata so they can't be spoofed. Files are deleted 60 seconds after they're saved, and a signed session cookie plus a per-IP limit share the download slots fairly.",
+      },
+      {
+        title: "Desktop app for Windows and Linux",
+        text: "Packaged with PyInstaller, with FFmpeg and Deno bundled so there's nothing to install. It opens in a native window, falls back to a Chromium or Edge app window or the browser, and saves straight to Downloads. A run on a real Windows machine found five bugs no Linux test could reach, and CI now checks for them.",
+      },
+      {
+        title: "Android app",
+        text: "A Kotlin (Ktor) server inside the app serves the same frontend to a WebView, and downloads run on the phone with youtubedl-android, so YouTube sees the phone's own connection. Links can be shared to MediaGrab from any app, and downloads carry on in the background with a progress notification.",
+      },
+      {
+        title: "The download pipeline",
+        text: "yt-dlp and FFmpeg: MP4 by copying the streams rather than re-encoding them where the formats allow, trimming that fetches only the chosen clip, MP3 at a chosen bitrate with tags and the thumbnail as cover art, and captions as SRT without downloading the media. Progress streams live over Server-Sent Events.",
+      },
+      {
+        title: "Tests and releases",
+        text: "pytest in both the hosted and desktop modes, with a headless-Chromium run through the UI. GitHub Actions builds the Windows, Linux and signed Android releases together on each version tag, and smoke-tests a real download on Windows and Linux.",
+      },
+    ],
+    // From the app run locally (scripts/shots/mediagrab.mjs); its hosted instance is offline.
+    gallery: [
+      { src: "projects/mediagrab/paste.webp", caption: "The hosted web app: paste a link", focus: 0.1 },
+      { src: "projects/mediagrab/choose-video.webp", caption: "Choosing a quality; the hosted server keeps 4K for the apps", focus: 1 },
+      { src: "projects/mediagrab/choose-audio.webp", caption: "MP3 at a chosen bitrate, tagged, with the thumbnail as cover art", focus: 1 },
+      { src: "projects/mediagrab/working.webp", caption: "Live progress over Server-Sent Events: speed, time left and each stage", focus: 0.2 },
+      { src: "projects/mediagrab/ready.webp", caption: "Ready to save; the hosted server deletes it 60 seconds later", focus: 0.15 },
+      { src: "projects/mediagrab/dark.webp", caption: "Dark mode", focus: 0 },
+      { src: "projects/mediagrab/desktop.webp", caption: "The desktop app for Windows and Linux saves straight to Downloads", focus: 0.15 },
+      { src: "projects/mediagrab/phone.webp", caption: "On a phone: the screens the Android app shows" },
+    ],
+  },
+  {
     title: "Blog App",
     slug: "blog-app",
     kind: "personal",
@@ -177,18 +236,56 @@ export default [
     source: "https://github.com/ZenDevvv/nlog-blog",
   },
   {
-    title: "Astronomy of the Day",
+    title: "Skypost",
     slug: "apod",
     kind: "personal",
-    selected: true,
+    selected: false,
     role: "Personal project",
-    stack: ["html", "css", "react"],
-    imageSrc: "projects/NASA.png",
+    stack: ["typescript", "react", "html", "css"],
+    imageSrc: "projects/skypost.png",
     description:
-      "A React project that fetches NASA's APOD data via the NASA API, featuring the ability to view the image NASA posted on your birthday.",
-    skills: ["HTML", "CSS", "React", "API"],
+      "Skypost is NASA's Astronomy Picture of the Day as a stamp collection: every day since June 1995 is a perforated stamp whose postmark is the date control. Travel day by day, open any date or your birthday, browse a month as a sheet of stamps, keep an album, and guess the year a picture was published. A Live section adds the whole Earth from NASA's EPIC camera, the space station's position and passes over you, and tonight's sky.",
+    skills: ["TypeScript", "React", "Vite", "REST APIs", "SVG", "d3-geo", "satellite.js", "GitHub Actions"],
     demo: "https://zendevvv-apod.netlify.app",
     source: "https://github.com/ZenDevvv/APOD-project",
+    highlights: [
+      {
+        title: "Kept working through NASA's API move",
+        text: "When NASA moved APOD to science.nasa.gov in September 2026, the old API started answering every date with a placeholder. The app now reads NASA's new endpoint, recovers the pictures and videos the migration left inside each record's HTML, and caches what it fetches.",
+      },
+      {
+        title: "Every day as a stamp",
+        text: "About 11,400 days, each printed as a perforated stamp with a postmark that strikes when the day loads and rolls its date wheels. The same stamp works at every size: one day full screen, a month as a sheet, a birthday in every year, and an album held under glassine strips.",
+      },
+      {
+        title: "A loupe on the full-resolution file",
+        text: "A magnifier reads the full-resolution image (up to 4,096 px) under the pointer, steered by mouse, touch or arrow keys. Its power stops at the detail the file really holds, and a hint explains it the moment it's picked up.",
+      },
+      {
+        title: "Live sky",
+        text: "The whole Earth from NASA's EPIC camera as a round stamp; the ISS on a d3-geo route chart, its position and passes computed in the browser from its orbit with satellite.js; and tonight's clouds hour by hour (Open-Meteo), an aurora estimate from NOAA's Kp index and a countdown to the next launch (Launch Library 2).",
+      },
+      {
+        title: "Static and keyless",
+        text: "No backend and no API keys: every source is public, readable from the browser and cached within its free limits. Location is asked for only on request and stays in the browser. GitHub Actions lints, builds and deploys it to GitHub Pages.",
+      },
+    ],
+    // From the live demo (scripts/shots/apod.mjs); the Live shots save a place first.
+    gallery: [
+      { src: "projects/apod/day.webp", caption: "A day's picture, printed as a stamp", focus: 0.9 },
+      { src: "projects/apod/catalogue.webp", caption: "The catalogue entry, with the astronomer's explanation", focus: 1 },
+      { src: "projects/apod/loupe.webp", caption: "The loupe, with the hint that explains it" },
+      { src: "projects/apod/date.webp", caption: "Re-setting the postmark to any day since 1995", focus: 0.9 },
+      { src: "projects/apod/film.webp", caption: "A film day, played in place" },
+      { src: "projects/apod/birthday.webp", caption: "The picture published on your birthday", focus: 0 },
+      { src: "projects/apod/birthday-sheet.webp", caption: "One birthday in every year since 1995", focus: 0.1 },
+      { src: "projects/apod/archive.webp", caption: "A month of the archive as a sheet of stamps", focus: 0.1 },
+      { src: "projects/apod/album.webp", caption: "The album of kept stamps", focus: 0.15 },
+      { src: "projects/apod/earth.webp", caption: "Live: the whole Earth from NASA's EPIC camera, as a round stamp", focus: 0.35 },
+      { src: "projects/apod/iss.webp", caption: "Live: the space station on a route chart, with its passes over you", focus: 1 },
+      { src: "projects/apod/tonight.webp", caption: "Live: tonight's clouds hour by hour, the aurora chance and the next launch", focus: 0.1 },
+      { src: "projects/apod/game.webp", caption: "Smudged postmark: guess the year a picture was issued", focus: 0.9 },
+    ],
   },
   {
     title: "Scidama Online",
@@ -196,16 +293,63 @@ export default [
     kind: "personal",
     selected: true,
     role: "Personal project",
-    stack: ["javascript", "node", "socketio"],
+    stack: ["typescript", "react", "tailwind", "node", "express", "socketio", "zod"],
     imageSrc: "projects/scidama.png",
+    // From the rewrite on the repo's scidama-v2 branch, run locally with its own demo data
+    // (scripts/shots/scidama.mjs); the live site still serves the original until it's merged.
+    gallery: [
+      { src: "projects/scidama/title.webp", caption: "The title screen plays itself: a bot-vs-bot game on a giant chip, with a game-style menu", focus: 0.85 },
+      { src: "projects/scidama/lobby.webp", caption: "Quick match by rating, private rooms by invite link, open rooms and the top players", focus: 0.1 },
+      { src: "projects/scidama/bot.webp", caption: "Against the bot, taken over from the demo game; the ledger writes each capture as its sum", focus: 0.1 },
+      { src: "projects/scidama/capture-preview.webp", caption: "Picking a chip shows what each landing square would score, before you commit", focus: 0.1 },
+      { src: "projects/scidama/spectate.webp", caption: "Watching a live game, with the ledger and room chat", focus: 0.1 },
+      { src: "projects/scidama/replay.webp", caption: "Every finished game has a replay, stepped through the ledger", focus: 0.1 },
+      { src: "projects/scidama/leaderboard.webp", caption: "Elo ratings and the leaderboard", focus: 0.3 },
+      { src: "projects/scidama/profile.webp", caption: "A player's rating history, record and recent games", focus: 0.2 },
+      { src: "projects/scidama/learn.webp", caption: "The Learn page, with live boards that run the real rules engine", focus: 0.9 },
+      { src: "projects/scidama/phone.webp", caption: "On a phone: joining a friend's invite, the game and the result" },
+    ],
     description:
-      "Scidama is an online version of a traditional Scidama Filipino board game. Developed using Node.js, JavaScript and Socket.io for real-time PVP gameplay, allowing players to compete online.",
-    skills: ["Javascript", "NodeJS", "Socket.io"],
+      "Scidama Online is a real-time, two-player math checkers game: a science variant of Damath, the Filipino math checkers, where every chip is a quantity in pesos or kilowatt-hours and a capture scores only when the arithmetic still makes a quantity (₱8 + ₱4 scores; ₱8 × ₱4 and ₱8 + 3 kWh don't). Play a rated quick match, invite a friend to a private room, watch live games, replay finished ones, or practise against a bot, all without signing up.",
+    skills: [
+      "TypeScript",
+      "React",
+      "Node.js",
+      "Socket.IO",
+      "SQLite",
+      "Tailwind CSS",
+      "Zod",
+      "Zustand",
+      "Real-time Multiplayer",
+      "Playwright",
+    ],
     demo: "https://scidama.onrender.com",
     source: "https://github.com/ZenDevvv/Cyclic",
+    highlights: [
+      {
+        title: "Rebuilt so the server decides",
+        text: "The original relayed whatever a client sent, so any player could move any piece, award themselves points or declare a win from the console. The rewrite is server-authoritative: clients send intents, the server validates them, applies them and broadcasts the state, and owns the clocks and results. Every inbound payload is checked with a zod schema.",
+      },
+      {
+        title: "One rules engine, shared",
+        text: "The rules live in a single pure-TypeScript engine used by the server, the browser, the bot and the Learn page's live boards: unit-aware scoring, mandatory and backward captures, a flying dama that doubles the result. It has its own tests, and the server and two real browsers are tested on top of it.",
+      },
+      {
+        title: "Online play without an account",
+        text: "A guest is created on the first visit, and a password can be set later to sign in elsewhere. Quick matches pair players by Elo rating in three time controls; rooms are private by invite link and six-character code, or listed in the lobby, with spectators and chat. Resign, draw offers and rematches with the sides swapped are built in, and a dropped connection has 90 seconds to return.",
+      },
+      {
+        title: "The capture ledger",
+        text: "The move list is written as the equations each capture scored, with the reason when one doesn't (\"Not pesos\", \"Units differ\"). While you choose a capture, each landing square previews its score before you commit. Every finished game keeps a replay that steps through the same ledger.",
+      },
+      {
+        title: "A title screen that plays itself",
+        text: "A giant chip carries a bot-vs-bot demo game, with a menu you drive by arrow keys and Enter, and \"Play from here\" takes over the demo position against the bot. The bot has three levels and runs in a Web Worker, so thinking never freezes the page.",
+      },
+    ],
   },
   {
-    title: "Mini Expenses Tracker (DB Hosting shutdown)",
+    title: "Mini Expenses Tracker",
     slug: "expense-tracker",
     kind: "personal",
     selected: false,
@@ -215,12 +359,35 @@ export default [
     description:
       "A full-stack development and deployment project using MySQL, Express, React, and Node.js with CRUD functionalities. The frontend is hosted on Netlify, the backend on Render, and the database on Aiven using AWS services, all utilizing free-tier hosting solutions.",
     skills: ["Fullstack", "React", "MySQL", "Node", "Express", "RESTful API"],
-    demo: "https://mini-expenses-tracker.netlify.app/",
+    demo: "",
     source: "https://github.com/ZenDevvv/mini-expense-tracker-backend",
   },
   {
-    title: "Old Portfolio",
-    slug: "old-portfolio",
+    title: "Portfolio v2",
+    slug: "portfolio-v2",
+    kind: "personal",
+    selected: false,
+    role: "Personal project",
+    stack: ["react", "tailwind", "framer"],
+    imageSrc: "profile.jpg",
+    description:
+      "My second portfolio, the one before this redesign: a single page built with React, Tailwind CSS and Framer Motion, with a dark and a light mode, an about section, skills, experience and project cards.",
+    skills: ["React", "Tailwind CSS", "Framer Motion"],
+    demo: "",
+    source: "https://github.com/ZenDevvv/zendevvv-portfolionew",
+    gallery: [
+      { src: "projects/portfolio-v2/hero.webp", caption: "The hero, in dark mode", focus: 0.3 },
+      { src: "projects/portfolio-v2/hero-light.webp", caption: "The hero, in light mode", focus: 0.3 },
+      { src: "projects/portfolio-v2/about.webp", caption: "About me and skills", focus: 0.3 },
+      { src: "projects/portfolio-v2/experience.webp", caption: "Experience", focus: 0.3 },
+      { src: "projects/portfolio-v2/projects.webp", caption: "Projects" },
+      { src: "projects/portfolio-v2/projects-light.webp", caption: "Projects, in light mode" },
+      { src: "projects/portfolio-v2/contact.webp", caption: "Contact" },
+    ],
+  },
+  {
+    title: "Portfolio v1",
+    slug: "portfolio-v1",
     kind: "personal",
     selected: false,
     role: "Personal project",

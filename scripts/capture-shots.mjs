@@ -1,8 +1,11 @@
-// Captures a project's gallery screenshots: `npm run shots -- <slug>`.
+// Captures a project's gallery screenshots: `npm run shots -- <slug>`, or
+// `npm run shots -- <slug> <name> ...` to retake only the shots with those names.
 //
 // Reads the shot list in scripts/shots/<slug>.mjs and takes each shot at 1440×900 in the
 // cached Chromium, in one of two ways:
-// - from a site: opens each page on `base` and gets it into the shot's state (asb.mjs);
+// - from a site: opens each page on `base` and gets it into the shot's state (asb.mjs), or,
+//   when the list exports `local` instead of `base`, on the app run from its repo: a scratch
+//   copy's dev server, for an app whose live site is out of date (apod.mjs);
 // - from the project's own mocked end-to-end tests, when the list exports `e2e`: runs the
 //   tests the shots name and keeps each one's final screen (capture-e2e.mjs, ospar.mjs).
 // Saves every shot as a WebP (quality 82) in src/assets/projects/<slug>/, then prints the
@@ -10,14 +13,14 @@
 // DESIGN.md for the whole routine.
 //
 // Needs the Chromium that Playwright caches (~/.cache/ms-playwright/chromium-*), ImageMagick
-// (`magick`), and for the e2e way rsync and npm.
-import { execFileSync } from "node:child_process";
+// (`magick`), and for the e2e and local ways rsync and npm.
+import { execFileSync, spawn } from "node:child_process";
 import { mkdirSync, mkdtempSync, readdirSync, rmSync } from "node:fs";
 import { homedir, tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright-core";
-import { captureFromE2e } from "./capture-e2e.mjs";
+import { captureFromE2e, DEV_COMMAND, DEV_URL, installCopy } from "./capture-e2e.mjs";
 
 const WIDTH = 1440;
 const HEIGHT = 900;
@@ -29,7 +32,15 @@ if (!slug) {
   console.error("Usage: npm run shots -- <slug>   (with a shot list in scripts/shots/<slug>.mjs)");
   process.exit(1);
 }
-const { base, shots, e2e } = await import(join(root, "scripts/shots", `${slug}.mjs`));
+const { base, local, shots: allShots, e2e } = await import(join(root, "scripts/shots", `${slug}.mjs`));
+// Shot names after the slug retake only those shots; the gallery printed at the end lists them all.
+const only = process.argv.slice(3);
+const unknown = only.filter((name) => !allShots.some((shot) => shot.name === name));
+if (unknown.length) {
+  console.error(`No shot named ${unknown.join(", ")} in scripts/shots/${slug}.mjs`);
+  process.exit(1);
+}
+const shots = only.length ? allShots.filter((shot) => only.includes(shot.name)) : allShots;
 
 const cache = join(homedir(), ".cache/ms-playwright");
 const chromiumDir = readdirSync(cache).find((dir) => /^chromium-\d+$/.test(dir));
@@ -41,9 +52,11 @@ mkdirSync(out, { recursive: true });
 const scratch = mkdtempSync(join(tmpdir(), `shots-${slug}-`));
 
 // Small helpers for the shot lists, so each shot only says what makes it different.
-function helpers(page) {
+function helpers(page, site) {
   return {
     page,
+    // Opens another page on the site, such as days to keep before opening a list of them.
+    visit: (path) => page.goto(new URL(path, site).href, { waitUntil: "networkidle" }),
     // Scrolls the whole page once, so scroll-triggered entrances have played.
     async playEntrances() {
       const height = await page.evaluate(() => document.documentElement.scrollHeight);
@@ -79,18 +92,46 @@ function helpers(page) {
   };
 }
 
-// Opens each shot's page on `base`, gets it into the shot's state and screenshots it.
+// Starts the app's dev server in a scratch copy and waits for it. Returns its URL and a stop.
+async function serveLocally({ app, ref, install, devCommand = DEV_COMMAND, url = DEV_URL }) {
+  const work = installCopy(app, scratch, { ref, install });
+  // Its own process group, so stopping it also stops the server that npm or npx starts.
+  const server = spawn(devCommand, { cwd: work, shell: true, detached: true, stdio: "ignore" });
+  const stop = () => {
+    try {
+      process.kill(-server.pid);
+    } catch {
+      // already stopped
+    }
+  };
+  for (let tries = 0; ; tries++) {
+    try {
+      await fetch(url);
+      return { site: url, stop };
+    } catch {
+      if (tries === 120) {
+        stop();
+        throw new Error(`The dev server didn't answer on ${url}`);
+      }
+      await new Promise((resolve) => setTimeout(resolve, 500));
+    }
+  }
+}
+
+// Opens each shot's page on the site, gets it into the shot's state and screenshots it.
 async function captureFromSite() {
+  const { site, stop } = local ? await serveLocally(local) : { site: base, stop: () => {} };
   const browser = await chromium.launch({ executablePath: chromePath });
   const pngs = {};
   try {
     for (const shot of shots) {
       const context = await browser.newContext({ viewport: { width: WIDTH, height: HEIGHT } });
       const page = await context.newPage();
-      await page.goto(base + shot.path, { waitUntil: "networkidle" });
+      // A full address in `path` opens another server, such as a second one the dev command starts.
+      await page.goto(new URL(shot.path, site).href, { waitUntil: "networkidle" });
       await page.waitForTimeout(1200);
       // A shot can return another page to capture, such as a preview that opens in a new tab.
-      const target = (await shot.prepare?.(helpers(page), context)) ?? page;
+      const target = (await shot.prepare?.(helpers(page, site), context)) ?? page;
       await target.waitForTimeout(1000);
       pngs[shot.name] = join(scratch, `${shot.name}.png`);
       await target.screenshot({ path: pngs[shot.name] });
@@ -98,6 +139,7 @@ async function captureFromSite() {
     }
   } finally {
     await browser.close();
+    stop();
   }
   return pngs;
 }
@@ -114,7 +156,7 @@ try {
 
 console.log("\nPaste into the project in src/assets/json/projects.js:\n");
 console.log("    gallery: [");
-for (const { name, caption, focus } of shots) {
+for (const { name, caption, focus } of allShots) {
   const crop = focus === undefined ? "" : `, focus: ${focus}`;
   console.log(`      { src: "projects/${slug}/${name}.webp", caption: ${JSON.stringify(caption)}${crop} },`);
 }

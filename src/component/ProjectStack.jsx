@@ -1,20 +1,25 @@
 import { useState } from "react";
 import {
+  SiAndroid,
   SiCloudinary,
   SiCss3,
   SiExpress,
+  SiFastapi,
   SiFramer,
   SiHtml5,
   SiJavascript,
   SiJsonwebtokens,
+  SiKotlin,
   SiMongodb,
   SiMysql,
   SiNodedotjs,
   SiPrisma,
+  SiPython,
   SiReact,
   SiReacthookform,
   SiReactquery,
   SiSocketdotio,
+  SiTailwindcss,
   SiTypescript,
   SiZod,
 } from "react-icons/si";
@@ -34,6 +39,7 @@ const tech = {
   framer: { name: "Framer Motion", Icon: SiFramer, color: "#0055FF" },
   html: { name: "HTML", Icon: SiHtml5, color: "#E34F26" },
   css: { name: "CSS", Icon: SiCss3, color: "#1572B6" },
+  tailwind: { name: "Tailwind CSS", Icon: SiTailwindcss, color: "#06B6D4" },
   node: { name: "Node.js", Icon: SiNodedotjs, color: "#5FA04E" },
   express: { name: "Express", Icon: SiExpress, color: "#0A0A0A" },
   socketio: { name: "Socket.IO", Icon: SiSocketdotio, color: "#010101" },
@@ -42,6 +48,10 @@ const tech = {
   prisma: { name: "Prisma", Icon: SiPrisma, color: "#2D3748" },
   mysql: { name: "MySQL", Icon: SiMysql, color: "#4479A1" },
   cloudinary: { name: "Cloudinary", Icon: SiCloudinary, color: "#3448C5" },
+  python: { name: "Python", Icon: SiPython, color: "#3776AB" },
+  fastapi: { name: "FastAPI", Icon: SiFastapi, color: "#009688" },
+  kotlin: { name: "Kotlin", Icon: SiKotlin, color: "#7F52FF" },
+  android: { name: "Android", Icon: SiAndroid, color: "#34A853" },
 };
 // Each logo's lit colour in both themes, by stack name.
 const lit = Object.fromEntries(

@@ -32,10 +32,11 @@ const inView = {
   viewport: { once: true, margin: "0px 0px -12% 0px" },
 };
 
-// The page's two groups, in this order, from each project's `kind`.
+// The page's three groups, in this order, from each project's `kind`.
 const groups = [
   { id: "professional", title: "Professional", line: "Products I've built at work." },
-  { id: "personal", title: "Personal", line: "Side projects from my own time." },
+  { id: "side", title: "Side projects", line: "Paid projects outside my job." },
+  { id: "personal", title: "Personal", line: "For fun, and to learn something new." },
 ]
   .map((group) => ({ ...group, projects: projects.filter((project) => project.kind === group.id) }))
   .filter((group) => group.projects.length);
@@ -235,7 +236,8 @@ function Group({ id, title, line, projects }) {
   );
 }
 
-// The all-projects page (/projects/): every project in projects.js, professional then personal.
+// The all-projects page (/projects/): every project in projects.js, professional, then side
+// projects, then personal.
 export default function AllProjects() {
   return (
     <>

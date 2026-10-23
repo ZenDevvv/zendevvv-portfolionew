@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion as m } from "framer-motion";
-import { LuArrowLeft, LuArrowRight, LuArrowUpRight } from "react-icons/lu";
+import { LuArrowLeft, LuArrowRight, LuArrowUpRight, LuChevronDown } from "react-icons/lu";
 import projects from "../assets/json/projects.js";
 import { getImageUrl, projectPath } from "../utils";
 import { galleryOf } from "../gallery";
@@ -94,9 +94,58 @@ function OutLink({ href, label, children }) {
   );
 }
 
-// The logo and title, the description and links, and beside them the project's facts.
+// What you did in the project (`highlights`), as bullets under the description: hidden until
+// "Show more" opens them, then rising in a beat apart. Each starts with its lead in ink.
+function Highlights({ items }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <m.div variants={rise} className="mt-6 max-w-[40rem]">
+      <div id="project-highlights">
+        {open && (
+          <ul className="mb-7 space-y-4">
+            {items.map(({ title, text }, item) => (
+              <m.li
+                key={title}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.45, ease, delay: item * 0.04 }}
+                className={`relative pl-6 text-pretty text-[15px] leading-relaxed md:text-base ${muted}`}
+              >
+                <span
+                  aria-hidden="true"
+                  className="absolute left-0 top-[0.8em] h-px w-3 bg-lightModeTextP dark:bg-darkModeTextP"
+                />
+                <span className={`font-medium ${ink}`}>{title}.</span> {text}
+              </m.li>
+            ))}
+          </ul>
+        )}
+      </div>
+      <button
+        type="button"
+        aria-expanded={open}
+        aria-controls="project-highlights"
+        onClick={() => setOpen((shown) => !shown)}
+        className={`inline-flex items-center gap-1.5 text-[15px] font-medium md:text-base ${ink} ${focusRing}`}
+      >
+        {open ? "Show less" : "Show more"}
+        <LuChevronDown
+          aria-hidden="true"
+          className={`text-[0.9em] transition-transform duration-200 motion-reduce:transition-none ${open ? "rotate-180" : ""}`}
+        />
+      </button>
+    </m.div>
+  );
+}
+
+// The Type fact, from the project's `kind`.
+const kindLabels = { professional: "Professional", side: "Side project", personal: "Personal" };
+
+// The logo and title, the description (with its highlights) and links, and beside them the
+// project's facts.
 function Intro() {
-  const { title, description, demo, source, role, kind, stack = [], imageSrc } = project;
+  const { title, description, highlights = [], demo, source, role, kind, stack = [], imageSrc } = project;
 
   return (
     <section
@@ -142,6 +191,8 @@ function Intro() {
               {description}
             </m.p>
 
+            {highlights.length > 0 && <Highlights items={highlights} />}
+
             {(demo || source) && (
               <m.div variants={rise} className="mt-8 flex flex-wrap gap-x-7 gap-y-3">
                 {demo && (
@@ -163,7 +214,7 @@ function Intro() {
             <dl className={`border-b ${line}`}>
               {[
                 ["Role", role],
-                ["Type", kind === "professional" ? "Professional" : "Personal"],
+                ["Type", kindLabels[kind]],
               ].map(([label, value]) => (
                 <div key={label} className={`grid grid-cols-[5rem_1fr] gap-x-4 border-t py-4 ${line}`}>
                   <dt className={`text-[13px] leading-6 ${muted}`}>{label}</dt>

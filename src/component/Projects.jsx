@@ -405,7 +405,7 @@ export default function Projects() {
             </m.span>
           </span>
         </h2>
-        {/* The rest live on their own page, professional and personal */}
+        {/* The rest live on their own page, professional, side and personal */}
         <m.a
           href="/projects/"
           variants={{
