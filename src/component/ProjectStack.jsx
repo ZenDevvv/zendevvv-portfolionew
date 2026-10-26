@@ -3,9 +3,11 @@ import {
   SiAndroid,
   SiCloudinary,
   SiCss3,
+  SiDrizzle,
   SiExpress,
   SiFastapi,
   SiFramer,
+  SiHono,
   SiHtml5,
   SiJavascript,
   SiJsonwebtokens,
@@ -13,14 +15,18 @@ import {
   SiMongodb,
   SiMysql,
   SiNodedotjs,
+  SiPostgresql,
   SiPrisma,
   SiPython,
   SiReact,
   SiReacthookform,
   SiReactquery,
   SiSocketdotio,
+  SiSupabase,
   SiTailwindcss,
   SiTypescript,
+  SiTypst,
+  SiVite,
   SiZod,
 } from "react-icons/si";
 import { Keycap } from "./HeroObjects";
@@ -52,6 +58,12 @@ const tech = {
   fastapi: { name: "FastAPI", Icon: SiFastapi, color: "#009688" },
   kotlin: { name: "Kotlin", Icon: SiKotlin, color: "#7F52FF" },
   android: { name: "Android", Icon: SiAndroid, color: "#34A853" },
+  vite: { name: "Vite", Icon: SiVite, color: "#9135FF" },
+  hono: { name: "Hono", Icon: SiHono, color: "#E36002" },
+  postgres: { name: "PostgreSQL", Icon: SiPostgresql, color: "#4169E1" },
+  drizzle: { name: "Drizzle ORM", Icon: SiDrizzle, color: "#C5F74F" },
+  supabase: { name: "Supabase", Icon: SiSupabase, color: "#3FCF8E" },
+  typst: { name: "Typst", Icon: SiTypst, color: "#239DAD" },
 };
 // Each logo's lit colour in both themes, by stack name.
 const lit = Object.fromEntries(

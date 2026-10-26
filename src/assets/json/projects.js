@@ -167,6 +167,83 @@ export default [
     source: "",
   },
   {
+    title: "Peck",
+    slug: "peck",
+    kind: "personal",
+    selected: true,
+    role: "Personal project (in development)",
+    stack: ["typescript", "react", "tanstack", "vite", "hono", "drizzle", "postgres", "supabase", "typst", "zod"],
+    imageSrc: "projects/peck.png",
+    // From the app's own screenshot spec with its mocked API and fake data (scripts/shots/peck.mjs).
+    // Peck is still being built, so these are the screens that exist so far.
+    gallery: [
+      { src: "projects/peck/today.webp", caption: "Today: follow-ups and interviews due", focus: 0.35 },
+      { src: "projects/peck/pipeline.webp", caption: "The pipeline board", focus: 0.2 },
+      { src: "projects/peck/paste-job.webp", caption: "Paste a job link or post", focus: 0.5 },
+      { src: "projects/peck/check-details.webp", caption: "Checking what Peck read from a job post", focus: 0.5 },
+      { src: "projects/peck/fit.webp", caption: "How you fit a job, from your own facts", focus: 0.5 },
+      { src: "projects/peck/start.webp", caption: "Choosing how to start", focus: 0.5 },
+      { src: "projects/peck/reading.webp", caption: "Reading an uploaded resume", focus: 0.5 },
+      { src: "projects/peck/check-found.webp", caption: "Checking what was found in the resume", focus: 0.5 },
+      { src: "projects/peck/ready.webp", caption: "Setup notes pinned as the profile fills in", focus: 0.5 },
+      { src: "projects/peck/profile.webp", caption: "Your profile: the facts Peck writes from", focus: 0.35 },
+      { src: "projects/peck/tone.webp", caption: "Picking a tone", focus: 0.35 },
+      { src: "projects/peck/result.webp", caption: "A preened resume, every line traced to a fact", focus: 0.8 },
+      { src: "projects/peck/crumbs.webp", caption: "Crumbs: free daily refill and what was spent", focus: 0.5 },
+      { src: "projects/peck/phone-track.webp", caption: "On a phone: Today, the pipeline and how you fit a job" },
+      { src: "projects/peck/phone-preen.webp", caption: "On a phone: starting from a resume, checking what it found and the preened result" },
+    ],
+    description:
+      "Peck is a job application tracker for phone and desktop, with an AI resume builder that only writes what you have actually done. Track every application across separate job hunts, paste a job post and have it read for you, then \"preen\" a one-page resume for that job from facts you confirmed: every line traces back to one, and anything the job asks for that you have no fact for is left out and shown as a gap. Tracking is free; the AI features are paid per use in crumbs. Built for job seekers in the Philippines, and still in development.",
+    skills: [
+      "TypeScript",
+      "React 19",
+      "TanStack Router & Query",
+      "Hono",
+      "Drizzle ORM",
+      "PostgreSQL",
+      "Supabase",
+      "Row-level Security",
+      "Typst",
+      "Zod",
+      "PWA",
+      "Vitest",
+      "Playwright",
+    ],
+    demo: "",
+    source: "",
+    highlights: [
+      {
+        title: "Facts only, checked by code",
+        text: "The model fills fixed slots from facts the user confirmed and code assembles the document. A custom validator rejects any line it can't trace to a stored fact, and it caught all 1,630 of 1,630 injected mutants in mutation testing.",
+      },
+      {
+        title: "Credits that always add up",
+        text: "Crumbs live in an append-only ledger: spend, refund and daily refill happen in single transactions, a failed or stopped AI job refunds automatically, and a spend breaker and kill switch cap what the AI can cost.",
+      },
+      {
+        title: "Reading job posts safely",
+        text: "A pasted link goes through an SSRF-safe fetcher that respects robots.txt, with its own test suite. Sites that block it (most do) fall back to pasting the post, and the user checks every field Peck read before anything is saved.",
+      },
+      {
+        title: "Resume upload with a safety suite",
+        text: "An uploaded resume is checked before it is read: renamed executables, HTML, SVG, oversized or encrypted files, zip and image bombs and lying DOCX headers are all refused, and text inside a file can't change what the draft says.",
+      },
+      {
+        title: "Private by construction",
+        text: "Every table has row-level security in Postgres on Supabase, checked in CI, and each person's stored facts and contact details are encrypted with their own key.",
+      },
+      {
+        title: "ATS-safe PDFs",
+        text: "Resumes render as one-page PDFs with Typst, then two independent text extractors confirm every line reads back in order, with fonts embedded and no images.",
+      },
+      {
+        title: "Built to a budget",
+        text: "A mobile-first installable PWA with a 170 KB first-load JavaScript budget enforced in CI, Playwright suites at phone and desktop widths with axe accessibility checks, and a mocked API so the tests need no backend.",
+      },
+    ],
+  },
+  {
     title: "MediaGrab",
     slug: "mediagrab",
     kind: "personal",

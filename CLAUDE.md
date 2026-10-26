@@ -2,6 +2,8 @@
 
 Read `DESIGN.md` before any visual or layout change. It records the design system, which sections are already redesigned, and what was tried and rejected.
 
+- `ABOUTME.md` is the source of truth about who Zen is (profile, experience, education, skills, projects, links). Read it before writing or changing any copy about Zen. Whenever a new project, job, skill, certificate, link or other new fact about Zen comes up, add it to `ABOUTME.md` in the same change; if the site and `ABOUTME.md` disagree, ask which is right.
+- When a project or anything else brings in a technology not yet on the site, add it everywhere it belongs in the same change: a logo key in `src/component/ProjectStack.jsx` (the `tech` map) for the project's `stack`, a key in the right group of `src/assets/json/skills.js` (check its Simple Icons slug exists in the CDN version `Skills.jsx` pins), the Skills lines in `ABOUTME.md`, and the résumé's Technical Skills if Zen says so.
 - Match the redesigned sections (Hero, Industries, Experience, Selected works), not the old ones (About, Skills, Contact, Footer).
 - Both light and dark modes always: add `dark:` variants and check both.
 - Résumé is one file, `src/assets/Zen Andrei Obrero resume.pdf`; all links import it.

@@ -11,6 +11,7 @@
 import { execFileSync, spawnSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { chromium } from "playwright-core";
 
 const escapeRegex = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
@@ -116,6 +117,98 @@ export function captureFromE2e({ e2e, shots, scratch, chromePath }) {
     if (!result?.png) throw new Error(`No screenshot for "${shot.test}"; check the title`);
     if (result.status !== "passed") console.warn(`warning: "${shot.test}" ${result.status}; check its shot`);
     pngs[shot.name] = result.png;
+  }
+  return pngs;
+}
+
+// For a pnpm monorepo whose web app has its own screenshot spec (Peck): copies the repo
+// without node_modules, .git or any .env file, installs it with `pnpm --ignore-scripts`,
+// builds the web app with the placeholder addresses the repo's CI uses, and runs only the
+// spec's named tests with the spec's own mocked API (fake data), twice: at 1440×900 for the
+// desktop screens, and at phone size, sharp at 2×, for the screens a `phones` shot is made of.
+// The spec writes each screen as <name>-<size>.png into a folder in the scratch.
+// Returns the PNG paths by shot name; a shot with `phones` (three screen names) gets those
+// screens side by side on the app's own background, like Scidama's phone shot.
+const SIZES = [
+  { name: "desktop", width: 1440, height: 900, scale: 1 },
+  { name: "phone", width: 400, height: 860, scale: 2 },
+];
+
+export async function captureFromPnpmSpec({ pnpmSpec, shots, scratch, chromePath }) {
+  const { app, web = "apps/web", spec, tests, buildEnv = {}, serverEnv = {} } = pnpmSpec;
+  const work = join(scratch, "app");
+  const shotsDir = join(scratch, "pngs");
+  mkdirSync(shotsDir);
+  const skip = ["node_modules", "dist", ".git", "test-results", ".env", ".env.*", "!.env.example", "supabase/.temp"];
+  execFileSync("rsync", ["-a", ...skip.flatMap((item) => ["--exclude", item]), `${app}/`, `${work}/`]);
+  console.log(`installing ${app} in a scratch copy…`);
+  execFileSync("pnpm", ["install", "--frozen-lockfile", "--ignore-scripts"], { cwd: work, stdio: "inherit" });
+  const webDir = join(work, web);
+  execFileSync("pnpm", ["build"], { cwd: webDir, stdio: "inherit", env: { ...process.env, ...buildEnv } });
+
+  const specPath = join(webDir, spec);
+  const original = readFileSync(specPath, "utf8");
+  const wanted = (size) => shots.some((shot) => (shot.phones ? size.name === "phone" : size.name === "desktop"));
+  for (const size of SIZES.filter(wanted)) {
+    // The spec saves to a fixed folder in the repo, in two sizes: point it at the scratch, one size.
+    let source = original;
+    const edits = [
+      [/const OUT = '[^']*'/, `const OUT = '${shotsDir}'`],
+      [/for \(const size of \[.*\]\) \{/, `for (const size of [{ name: '${size.name}', width: ${size.width}, height: ${size.height} }]) {`],
+    ];
+    for (const [from, to] of edits) {
+      if (!from.test(source)) throw new Error(`${spec} no longer matches ${from}; update captureFromPnpmSpec`);
+      source = source.replace(from, to);
+    }
+    writeFileSync(specPath, source);
+    writeFileSync(
+      join(webDir, "portfolio-shots.config.ts"),
+      `import { defineConfig } from '@playwright/test'
+export default defineConfig({
+  testDir: 'e2e', testMatch: ${JSON.stringify(spec.split("/").pop())}, timeout: 120000, workers: 1,
+  webServer: { command: 'pnpm preview --host 127.0.0.1 --port 4173 --strictPort', url: 'http://127.0.0.1:4173/welcome', reuseExistingServer: false, env: ${JSON.stringify(serverEnv)} },
+  use: { baseURL: 'http://127.0.0.1:4173', serviceWorkers: 'block', timezoneId: 'Asia/Manila', deviceScaleFactor: ${size.scale},
+    launchOptions: { executablePath: process.env.CHROME_PATH },
+    // A dead proxy for everything but this machine, so no test can reach a real server.
+    proxy: { server: 'http://127.0.0.1:9', bypass: '127.0.0.1,localhost' } },
+  projects: [{ name: 'chromium' }],
+})
+`,
+    );
+    spawnSync("npx", ["playwright", "test", "-c", "portfolio-shots.config.ts", "--grep", tests.map(escapeRegex).join("|")], {
+      cwd: webDir,
+      stdio: "inherit",
+      env: { ...process.env, SHOTS: "1", CHROME_PATH: chromePath },
+    });
+  }
+
+  const find = (file, size) => {
+    const png = join(shotsDir, `${file}-${size}.png`);
+    if (!existsSync(png)) throw new Error(`No screenshot "${file}" at ${size} size; check the spec`);
+    return png;
+  };
+  const pngs = {};
+  const browser = shots.some((shot) => shot.phones) ? await chromium.launch({ executablePath: chromePath }) : null;
+  try {
+    for (const { name, file, phones } of shots) {
+      if (!phones) {
+        pngs[name] = find(file, "desktop");
+        continue;
+      }
+      const images = phones.map((screen) => readFileSync(find(screen, "phone")).toString("base64"));
+      const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+      await page.setContent(`<style>
+        body { margin: 0; height: 100vh; display: flex; gap: 56px; align-items: center;
+          justify-content: center; background: ${phones.background ?? "#dfeaf0"}; }
+        img { height: 810px; border-radius: 28px; border: 1px solid rgb(0 0 0 / 0.14);
+          box-shadow: 0 24px 60px -24px rgb(0 0 0 / 0.35); }
+      </style>${images.map((data) => `<img src="data:image/png;base64,${data}">`).join("")}`);
+      pngs[name] = join(shotsDir, `${name}-phones.png`);
+      await page.screenshot({ path: pngs[name] });
+      await page.close();
+    }
+  } finally {
+    await browser?.close();
   }
   return pngs;
 }

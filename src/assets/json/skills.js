@@ -19,6 +19,7 @@ export default [
       { name: "Zustand" },
       { name: "TanStack Query", icon: "tanstack", color: "#ECE8D1" },
       { name: "Socket.io", icon: "socketdotio", color: "#010101" },
+      { name: "Vite", icon: "vite", color: "#9135FF" },
     ],
   },
   {
@@ -30,6 +31,8 @@ export default [
       { name: "REST APIs" },
       { name: "JWT auth", icon: "jsonwebtokens", color: "#000000" },
       { name: "Zod", icon: "zod", color: "#408AFF" },
+      { name: "Hono", icon: "hono", color: "#E36002" },
+      { name: "Typst", icon: "typst", color: "#239DAD" },
     ],
   },
   {
@@ -39,6 +42,8 @@ export default [
       { name: "PostgreSQL", icon: "postgresql", color: "#4169E1" },
       { name: "MySQL", icon: "mysql", color: "#4479A1" },
       { name: "Prisma", icon: "prisma", color: "#2D3748" },
+      { name: "Drizzle", icon: "drizzle", color: "#C5F74F" },
+      { name: "Supabase", icon: "supabase", color: "#3FCF8E" },
     ],
   },
   {
@@ -47,6 +52,7 @@ export default [
       { name: "Jest", icon: "jest", color: "#C21325" },
       { name: "pytest", icon: "pytest", color: "#0A9EDC" },
       { name: "Playwright" },
+      { name: "Vitest", icon: "vitest", color: "#00FF74" },
     ],
   },
   {

@@ -34,7 +34,7 @@ const socials = [
     tilt: 4,
     lift: 7,
   },
-  { label: "Email", href: "mailto:zenandreiobrero@gmail.com", Icon: LuMail, tilt: -3, lift: 2 },
+  { label: "Email", href: "mailto:zenandreiobrero777@gmail.com", Icon: LuMail, tilt: -3, lift: 2 },
 ];
 
 // A gear outline around (cx, cy): `teeth` flat-topped teeth between radius `root`
