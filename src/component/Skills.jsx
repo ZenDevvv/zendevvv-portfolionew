@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { motion as m, useInView, useReducedMotion } from "framer-motion";
 import skills from "../assets/json/skills.js";
 import { playSound } from "../sounds";
+import { useEasedSticky } from "../scrollCurve";
 import { brandColors, brandVars } from "../brandColor";
 
 // The logos are Simple Icons from a CDN, pinned to one release so a logo never changes or
@@ -251,6 +252,10 @@ function Caret() {
 
 export default function Skills() {
   const boardRef = useRef(null);
+  // The heading and the typing readout pin beside the keyboard on wide screens, easing in and
+  // out of the pin on the same curve as the Experience heading.
+  const headerRef = useRef(null);
+  useEasedSticky(headerRef);
   const faces = useRef(new Map());
   const timers = useRef([]);
   const reduceMotion = useReducedMotion();
@@ -346,11 +351,12 @@ export default function Skills() {
     >
       <div className="mx-auto grid max-w-[66rem] gap-y-12 px-5 md:gap-y-16 md:px-10 lg:grid-cols-12 lg:gap-x-10">
         <m.div
+          ref={headerRef}
           initial="hidden"
           whileInView="shown"
           viewport={{ once: true, margin: "0px 0px -12% 0px" }}
           variants={cascade(0.08)}
-          className="flex flex-col gap-10 md:flex-row md:items-end md:justify-between lg:col-span-4 lg:flex-col lg:items-start lg:justify-start"
+          className="flex flex-col gap-10 md:flex-row md:items-end md:justify-between lg:sticky lg:top-28 lg:col-span-4 lg:flex-col lg:items-start lg:justify-start lg:self-start"
         >
           {/* Plays its own entrance, so a remount (a hot reload) can't leave it hidden in its mask. */}
           <m.h2

@@ -9,7 +9,9 @@
 // - from the project's own mocked end-to-end tests, when the list exports `e2e`: runs the
 //   tests the shots name and keeps each one's final screen (capture-e2e.mjs, ospar.mjs);
 // - from a pnpm monorepo's own screenshot spec, when the list exports `pnpmSpec`: builds the
-//   app and runs the spec's mocked screens, each shot naming its `file` (peck.mjs).
+//   app and runs the spec's mocked screens, each shot naming its `file` (peck.mjs);
+// - from screens that already exist as images, when the list exports `stills`: composes three
+//   to a shot (odoko.mjs).
 // Saves every shot as a WebP (quality 82) in src/assets/projects/<slug>/, then prints the
 // `gallery` entries to paste into src/assets/json/projects.js. See "Project media" in
 // DESIGN.md for the whole routine.
@@ -22,7 +24,7 @@ import { homedir, tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright-core";
-import { captureFromE2e, captureFromPnpmSpec, DEV_COMMAND, DEV_URL, installCopy } from "./capture-e2e.mjs";
+import { captureFromE2e, captureFromPnpmSpec, captureFromStills, DEV_COMMAND, DEV_URL, installCopy } from "./capture-e2e.mjs";
 
 const WIDTH = 1440;
 const HEIGHT = 900;
@@ -34,7 +36,7 @@ if (!slug) {
   console.error("Usage: npm run shots -- <slug>   (with a shot list in scripts/shots/<slug>.mjs)");
   process.exit(1);
 }
-const { base, local, shots: allShots, e2e, pnpmSpec } = await import(join(root, "scripts/shots", `${slug}.mjs`));
+const { base, local, shots: allShots, e2e, pnpmSpec, stills } = await import(join(root, "scripts/shots", `${slug}.mjs`));
 // Shot names after the slug retake only those shots; the gallery printed at the end lists them all.
 const only = process.argv.slice(3);
 const unknown = only.filter((name) => !allShots.some((shot) => shot.name === name));
@@ -147,7 +149,9 @@ async function captureFromSite() {
 }
 
 try {
-  const pngs = pnpmSpec
+  const pngs = stills
+    ? await captureFromStills({ stills, shots, scratch, chromePath })
+    : pnpmSpec
     ? await captureFromPnpmSpec({ pnpmSpec, shots, scratch, chromePath })
     : e2e
       ? captureFromE2e({ e2e, shots, scratch, chromePath })

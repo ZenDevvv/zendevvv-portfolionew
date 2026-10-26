@@ -129,6 +129,42 @@ export function captureFromE2e({ e2e, shots, scratch, chromePath }) {
 // The spec writes each screen as <name>-<size>.png into a folder in the scratch.
 // Returns the PNG paths by shot name; a shot with `phones` (three screen names) gets those
 // screens side by side on the app's own background, like Scidama's phone shot.
+// Three phone screens side by side on one 1440×900 shot, in the app's background colour, like
+// Scidama's phone shot: the gallery's frames are landscape, so phone screens go three to a frame.
+export async function composePhones(browser, files, out, background = "#dfeaf0") {
+  const images = files.map((file) => readFileSync(file).toString("base64"));
+  const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+  await page.setContent(`<style>
+    body { margin: 0; height: 100vh; display: flex; gap: 56px; align-items: center;
+      justify-content: center; background: ${background}; }
+    img { height: 810px; border-radius: 28px; border: 1px solid rgb(0 0 0 / 0.14);
+      box-shadow: 0 24px 60px -24px rgb(0 0 0 / 0.35); }
+  </style>${images.map((data) => `<img src="data:image/png;base64,${data}">`).join("")}`);
+  await page.screenshot({ path: out });
+  await page.close();
+}
+
+// For an app with no way to run here (Odoko is an Android app with an on-device model, and
+// only an arm64 build exists): composes screens that already exist as images, each shot naming
+// three of them in `phones`. `stills.dir` holds <name>.png; the background is sampled from the
+// corner of the first screen unless the shot gives one.
+export async function captureFromStills({ stills, shots, scratch, chromePath }) {
+  const browser = await chromium.launch({ executablePath: chromePath });
+  const pngs = {};
+  try {
+    for (const { name, phones, background } of shots) {
+      const files = phones.map((screen) => join(stills.dir, `${screen}.png`));
+      for (const file of files) if (!existsSync(file)) throw new Error(`No screen ${file}`);
+      const sampled = execFileSync("magick", [files[0], "-format", "%[pixel:p{4,4}]", "info:"]).toString();
+      pngs[name] = join(scratch, `${name}-phones.png`);
+      await composePhones(browser, files, pngs[name], background ?? sampled);
+    }
+  } finally {
+    await browser.close();
+  }
+  return pngs;
+}
+
 const SIZES = [
   { name: "desktop", width: 1440, height: 900, scale: 1 },
   { name: "phone", width: 400, height: 860, scale: 2 },
@@ -195,17 +231,8 @@ export default defineConfig({
         pngs[name] = find(file, "desktop");
         continue;
       }
-      const images = phones.map((screen) => readFileSync(find(screen, "phone")).toString("base64"));
-      const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
-      await page.setContent(`<style>
-        body { margin: 0; height: 100vh; display: flex; gap: 56px; align-items: center;
-          justify-content: center; background: ${phones.background ?? "#dfeaf0"}; }
-        img { height: 810px; border-radius: 28px; border: 1px solid rgb(0 0 0 / 0.14);
-          box-shadow: 0 24px 60px -24px rgb(0 0 0 / 0.35); }
-      </style>${images.map((data) => `<img src="data:image/png;base64,${data}">`).join("")}`);
       pngs[name] = join(shotsDir, `${name}-phones.png`);
-      await page.screenshot({ path: pngs[name] });
-      await page.close();
+      await composePhones(browser, phones.map((screen) => find(screen, "phone")), pngs[name], phones.background);
     }
   } finally {
     await browser?.close();

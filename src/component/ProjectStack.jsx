@@ -4,6 +4,7 @@ import {
   SiCloudinary,
   SiCss3,
   SiDrizzle,
+  SiExpo,
   SiExpress,
   SiFastapi,
   SiFramer,
@@ -22,6 +23,7 @@ import {
   SiReacthookform,
   SiReactquery,
   SiSocketdotio,
+  SiSqlite,
   SiSupabase,
   SiTailwindcss,
   SiTypescript,
@@ -64,6 +66,8 @@ const tech = {
   drizzle: { name: "Drizzle ORM", Icon: SiDrizzle, color: "#C5F74F" },
   supabase: { name: "Supabase", Icon: SiSupabase, color: "#3FCF8E" },
   typst: { name: "Typst", Icon: SiTypst, color: "#239DAD" },
+  expo: { name: "Expo", Icon: SiExpo, color: "#1C2024" },
+  sqlite: { name: "SQLite", Icon: SiSqlite, color: "#003B57" },
 };
 // Each logo's lit colour in both themes, by stack name.
 const lit = Object.fromEntries(

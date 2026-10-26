@@ -52,13 +52,14 @@ Certificates, trainings, high school: none recorded **(unconfirmed)**.
 
 Matches the Skills keyboard (`src/assets/json/skills.js`) and the résumé.
 
-- **Frontend:** React, TypeScript, Next.js, Tailwind CSS, Bootstrap, HTML/CSS, Zustand, TanStack Query, Socket.io, Vite (also used: TanStack Router, React Hook Form, Framer Motion)
+- **Frontend:** React, TypeScript, Next.js, Tailwind CSS, Bootstrap, HTML/CSS, Zustand, TanStack Query, Socket.io, Vite (also used: TanStack Router, React Hook Form, Framer Motion), React Native, Expo (mobile)
 - **Backend:** Node.js, Express, Hono, Python (FastAPI), REST API design, JWT authentication, Zod, Typst (PDF generation)
-- **Databases & ORM:** MongoDB, PostgreSQL, MySQL, Prisma ORM, Drizzle ORM, Supabase (Postgres, auth, row-level security) (also: SQLite)
+- **Databases & ORM:** MongoDB, PostgreSQL, MySQL, Prisma ORM, Drizzle ORM, Supabase (Postgres, auth, row-level security), SQLite
 - **Testing:** Jest, pytest, Playwright, Vitest
 - **DevOps & deployment:** Git, GitHub, GitHub Actions (CI/CD), Google Cloud Platform (Cloud Run), Firebase Hosting, Docker
-- **Languages:** TypeScript, JavaScript, Python, Java, C++, PHP (Kotlin on MediaGrab's Android app)
+- **Languages:** TypeScript, JavaScript, Python, Java, C++, PHP, Kotlin (Android native modules)
 - **Project management:** GitHub Projects, custom PMS tool, Agile/Scrum
+- **On-device AI:** Gemma 3 1B, fine-tuning with Unsloth (QLoRA), converting models for phones (LiteRT-LM, `litetune`), Hugging Face
 - **AI-augmented workflow:** Claude (Opus 5), Codex, Grok Build, Gemini 3.1 Pro, Google Stitch
 - **Domain experience:** IoT smart devices, education/LMS, hotel management, manufacturing and production planning, ERP (HRIS, Inventory/GS1, Order Management, Supply Chain, Project Management)
 - **Design tools** (not on the site): none recorded **(unconfirmed: Figma? editor? OS?)**
@@ -95,6 +96,7 @@ Each project's page on the site lives at `/projects/<slug>/`; the fields are in 
 
 | Project | Slug | Home | Demo | Source |
 |---|---|---|---|---|
+| Odoko (in development) | `odoko` | yes | none (private repo) | none |
 | Peck (in development) | `peck` | no | none (private repo) | none |
 | Scidama Online | `scidama` | yes | https://scidama.onrender.com | github.com/ZenDevvv/Cyclic |
 | Skypost | `apod` | no | https://zendevvv-apod.netlify.app | github.com/ZenDevvv/APOD-project |
@@ -110,6 +112,7 @@ Each project's page on the site lives at `/projects/<slug>/`; the fields are in 
 - **Blog App:** full-stack blog with JWT auth and CRUD. React, Node, Express, MySQL.
 - **Mini Expenses Tracker:** full-stack CRUD app on free tiers: Netlify (frontend), Render (backend), Aiven/AWS (database). MySQL, Express, React, Node.
 - **Portfolio v2 / v1:** earlier portfolios (React, Tailwind, Framer Motion / HTML, CSS, React). The current site is the third.
+- **Odoko** (in development, private repo `ZenDevvv/odoko`, home page slide, 5-shot gallery that is the app's design screens, captioned "Design:"): offline-first Android app for Filipino motorcycle riders, package `app.odoko`: fuel, service and spending logbook with **Visor**, an AI mascot that runs a small Gemma 3 1B language model entirely on the phone (LiteRT-LM, through a Kotlin Expo module), so no log, photo, voice or question leaves the device; manual logging works with no model and no network. Zen **fine-tuned Gemma 3 1B with Unsloth** (QLoRA, rank 16, all seven projections) on thousands of generated and hand-typed rider questions in English and Taglish, on his own laptop's 4 GB RTX 3050 Ti, and converted it to an 8-bit LiteRT-LM file for the phone; that model is the "Reader" (reads a question into one short checked line). Per the repo (D-047, 22 Oct 2026) the build then shipped the original 4-bit Gemma 3 1B file, not the fine-tuned one, so do not claim the shipped app uses the fine-tuned file without checking. Visor never calculates or writes: numbers come from pure TypeScript rules into a fact sheet, the model only words them, every number/date/peso in a reply is checked against the sheet, and nothing is saved without a confirm card. Logging from words, voice (on-device recognizer only) and receipt photos (offline ML Kit). Stack: Expo SDK 58, React Native, TypeScript, Expo Router, Zustand, expo-sqlite with Drizzle, Jest, Maestro; Kotlin native modules. Specs-first (PRD, TRD, plan, 22 screens, numbered decisions); tested on a budget Infinix Note 30 4G. Demo: none (no store listing yet).
 - **Peck** (in development, private repo `ZenDevvv/Peck`, on the all-projects page with a 15-shot gallery (two are phone composites) from the app's mocked screenshot spec): job application tracker as a mobile-first PWA with an AI resume builder, for Philippine job seekers. Tracking is free; AI features cost "crumbs" (credits), and tailoring a resume is "preening". Stack: React 19, Vite, TypeScript, TanStack Router and Query, Hono, Drizzle ORM, Zod, PostgreSQL on Supabase with row-level security, Typst; tested with Vitest and Playwright (axe checks). Built so far: tracker (workspaces, pipeline, Today, agenda), job reading from pasted links or posts, onboarding with resume upload, profile of confirmed facts, Preen (fit check, gap questions, tone, length, ATS-checked PDF), crumbs ledger. Facts-only pipeline: an LLM fills fixed slots from user-confirmed facts, code assembles the document, and a custom validator rejects any line not traceable to a fact (1,630 of 1,630 injected mutants caught). Append-only credit ledger with automatic refunds, AI spend breaker and kill switch, SSRF-safe job-post fetcher, per-user envelope encryption of stored personal data, a 170 KB bundle budget in CI. Not built yet: admin console, cover letter (in progress), GCP staging deploy (parked). Demo: none yet.
 
 ## Keeping this file current

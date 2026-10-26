@@ -20,6 +20,8 @@ export default [
       { name: "TanStack Query", icon: "tanstack", color: "#ECE8D1" },
       { name: "Socket.io", icon: "socketdotio", color: "#010101" },
       { name: "Vite", icon: "vite", color: "#9135FF" },
+      { name: "React Native", icon: "react", color: "#61DAFB" },
+      { name: "Expo", icon: "expo", color: "#1C2024" },
     ],
   },
   {
@@ -44,6 +46,7 @@ export default [
       { name: "Prisma", icon: "prisma", color: "#2D3748" },
       { name: "Drizzle", icon: "drizzle", color: "#C5F74F" },
       { name: "Supabase", icon: "supabase", color: "#3FCF8E" },
+      { name: "SQLite", icon: "sqlite", color: "#003B57" },
     ],
   },
   {
@@ -75,6 +78,7 @@ export default [
       { name: "Java", icon: "openjdk", color: "#000000" },
       { name: "C++", icon: "cplusplus", color: "#00599C" },
       { name: "PHP", icon: "php", color: "#777BB4" },
+      { name: "Kotlin", icon: "kotlin", color: "#7F52FF" },
     ],
   },
   {
@@ -93,6 +97,16 @@ export default [
       { name: "Grok" },
       { name: "Gemini", icon: "googlegemini", color: "#8E75B2" },
       { name: "Stitch" },
+    ],
+  },
+  {
+    group: "On-device AI",
+    keys: [
+      { name: "Gemma 3" },
+      { name: "Unsloth" },
+      { name: "QLoRA fine-tuning" },
+      { name: "LiteRT-LM" },
+      { name: "Hugging Face", icon: "huggingface", color: "#FFD21E" },
     ],
   },
 ];

@@ -167,6 +167,73 @@ export default [
     source: "",
   },
   {
+    title: "Odoko",
+    slug: "odoko",
+    kind: "personal",
+    selected: true,
+    role: "Personal project (in development)",
+    stack: ["typescript", "react", "expo", "sqlite", "drizzle", "kotlin", "android", "python"],
+    imageSrc: "projects/odoko.png",
+    // The app's design screens (docs/screens in its repo), not captures of the built app: it is
+    // an Android app with an on-device model and only an arm64 build (scripts/shots/odoko.mjs).
+    gallery: [
+      { src: "projects/odoko/visor.webp", caption: "Design: Visor introduces itself and downloads its model once, then works offline" },
+      { src: "projects/odoko/chat.webp", caption: "Design: ask Visor, snap a receipt or tell it by voice, answered on the phone" },
+      { src: "projects/odoko/home.webp", caption: "Design: Home with Visor's note, logging a fill-up and the service list" },
+      { src: "projects/odoko/numbers.webp", caption: "Design: km per liter and cost per km, spending, and your bikes" },
+      { src: "projects/odoko/entries.webp", caption: "Design: adding a service and an expense by hand, and Settings" },
+    ],
+    description:
+      "Odoko is an offline AI for the phone: an Android logbook for Filipino motorcycle riders, with Visor, an assistant that runs a small Gemma 3 language model entirely on the device. Log a fill-up from words, a voice note or a receipt photo, and ask Visor about your own fuel, service and spending; the model reads and words everything on the phone, so no log, photo or question ever leaves it. Manual logging works with no model and no signal. Still in development.",
+    skills: [
+      "TypeScript",
+      "React Native",
+      "Expo",
+      "On-device AI",
+      "Gemma 3",
+      "Unsloth",
+      "QLoRA fine-tuning",
+      "LiteRT-LM",
+      "Kotlin",
+      "SQLite",
+      "Drizzle ORM",
+      "Offline-first",
+      "Jest",
+    ],
+    demo: "",
+    source: "",
+    highlights: [
+      {
+        title: "An AI that works with no signal",
+        text: "The language model runs on the phone through LiteRT-LM, wrapped in a Kotlin module for Expo. It downloads once, resumes if the connection drops, and is only kept once its size and SHA-256 match; answers stream as they are generated, and the model unloads itself after a quiet spell to give the memory back.",
+      },
+      {
+        title: "A Gemma I fine-tuned with Unsloth",
+        text: "To read what a rider means in English and Taglish, I fine-tuned Gemma 3 1B with Unsloth (QLoRA, rank 16, on all seven projections) on thousands of generated and hand-typed rider questions, on my own laptop's 4 GB GPU. It learns to answer with one short line that code then checks against an allowed list, and I converted the result to an 8-bit LiteRT-LM file for the phone.",
+      },
+      {
+        title: "The model words it, the code does the maths",
+        text: "Visor never calculates and never writes. Every number comes from pure TypeScript rules into a fact sheet, and the model only puts it into words. Every figure, date and peso amount in a reply is checked against that sheet, retried once, and replaced by the plain facts if it doesn't match.",
+      },
+      {
+        title: "Log by talking, or by photo",
+        text: "Words, a voice note (Android's on-device recognizer, never the online one) or a receipt photo (ML Kit text recognition, offline) become a confirm card, and nothing is saved until the rider taps Save. The photo is deleted after it is read.",
+      },
+      {
+        title: "Private by construction",
+        text: "Logs, photos, voice and questions never leave the phone, and a config plugin keeps the data out of Google's backup. Anonymous stats and crash reports are opt-in, drop IP addresses and never carry a log value.",
+      },
+      {
+        title: "Rules first, in plain integers",
+        text: "Pesos are kept as centavos, liters as milliliters and distance as whole kilometers, never floats. The rules and the spec's worked examples are written as Jest tests before the code, and ESLint enforces which folder may import which.",
+      },
+      {
+        title: "Built spec-first, solo",
+        text: "A PRD, a TRD, a milestone plan, 22 designed screens and a numbered decision log came before and alongside the code, and the build is measured on a budget Android phone rather than only an emulator.",
+      },
+    ],
+  },
+  {
     title: "Peck",
     slug: "peck",
     kind: "personal",
