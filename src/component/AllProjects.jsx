@@ -1,9 +1,9 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { motion as m } from "framer-motion";
-import { LuArrowDown, LuArrowLeft, LuArrowUpRight } from "react-icons/lu";
+import { LuArrowDown, LuArrowLeft, LuArrowUpRight, LuLayoutGrid, LuLayoutList } from "react-icons/lu";
 import projects from "../assets/json/projects.js";
 import { projectPath } from "../utils";
-import { galleryOf } from "../gallery";
+import { coverOf } from "../gallery";
 import { useEasedSticky } from "../scrollCurve";
 import Stack from "./ProjectStack";
 import Footer from "./Footer";
@@ -46,7 +46,68 @@ const focusRing =
 const sectionTitle =
   "text-[clamp(2rem,1rem+2.2vw,2.75rem)] font-semibold leading-[1.05] tracking-[-0.035em] text-lightModeTextT dark:text-darkModeTextT";
 
-function Intro() {
+// The two ways to show the groups: ruled rows (the default) or a grid of three across.
+const views = [
+  { id: "list", label: "List", Icon: LuLayoutList },
+  { id: "grid", label: "Grid", Icon: LuLayoutGrid },
+];
+
+// The visitor's last choice, kept in localStorage under `projectsView`.
+function useView() {
+  const [view, setView] = useState(() => {
+    try {
+      return localStorage.getItem("projectsView") === "grid" ? "grid" : "list";
+    } catch {
+      return "list";
+    }
+  });
+  const choose = (next) => {
+    setView(next);
+    try {
+      localStorage.setItem("projectsView", next);
+    } catch {
+      // Storage blocked: the choice lasts until the page is left.
+    }
+  };
+  return [view, choose];
+}
+
+// List or grid: two quiet 13px buttons, the chosen one in ink with a short rule under it.
+function ViewToggle({ view, onChange }) {
+  return (
+    <div role="group" aria-label="View" className="flex items-center gap-5">
+      {views.map(({ id, label, Icon }) => {
+        const active = view === id;
+        return (
+          <button
+            key={id}
+            type="button"
+            aria-pressed={active}
+            onClick={() => onChange(id)}
+            className={`relative inline-flex items-center gap-1.5 py-1 text-[13px] font-medium transition-colors duration-200 ${
+              active
+                ? "text-lightModeTextT dark:text-darkModeTextT"
+                : "text-lightModeTextP hover:text-lightModeTextT dark:text-darkModeTextP dark:hover:text-darkModeTextT"
+            } ${focusRing}`}
+          >
+            <Icon aria-hidden="true" className="text-[1.05em]" />
+            {label}
+            {active && (
+              <m.span
+                layoutId="view-rule"
+                aria-hidden="true"
+                transition={{ duration: 0.35, ease }}
+                className="absolute inset-x-0 -bottom-0.5 h-px bg-lightModeTextT dark:bg-darkModeTextT"
+              />
+            )}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function Intro({ view, onViewChange }) {
   return (
     <section
       id="home"
@@ -83,26 +144,32 @@ function Intro() {
           </span>
         </h1>
 
-        {/* Jumps to each group, with its count */}
-        <m.ul variants={rise} className="mt-10 flex flex-wrap gap-x-8 gap-y-3 md:mt-12">
-          {groups.map(({ id, title, projects }) => (
-            <li key={id}>
-              <a
-                href={`#${id}`}
-                className={`group inline-flex items-center gap-2 text-[15px] font-medium text-lightModeTextT dark:text-darkModeTextT md:text-base ${focusRing}`}
-              >
-                {title}
-                <span className="tabular-nums text-lightModeTextP dark:text-darkModeTextP">
-                  {projects.length}
-                </span>
-                <LuArrowDown
-                  aria-hidden="true"
-                  className="text-[0.85em] text-lightModeTextP transition-transform duration-200 group-hover:translate-y-0.5 dark:text-darkModeTextP"
-                />
-              </a>
-            </li>
-          ))}
-        </m.ul>
+        {/* Jumps to each group, with its count, and the view toggle on the right */}
+        <m.div
+          variants={rise}
+          className="mt-10 flex flex-wrap items-center justify-between gap-x-8 gap-y-6 md:mt-12"
+        >
+          <ul className="flex flex-wrap gap-x-8 gap-y-3">
+            {groups.map(({ id, title, projects }) => (
+              <li key={id}>
+                <a
+                  href={`#${id}`}
+                  className={`group inline-flex items-center gap-2 text-[15px] font-medium text-lightModeTextT dark:text-darkModeTextT md:text-base ${focusRing}`}
+                >
+                  {title}
+                  <span className="tabular-nums text-lightModeTextP dark:text-darkModeTextP">
+                    {projects.length}
+                  </span>
+                  <LuArrowDown
+                    aria-hidden="true"
+                    className="text-[0.85em] text-lightModeTextP transition-transform duration-200 group-hover:translate-y-0.5 dark:text-darkModeTextP"
+                  />
+                </a>
+              </li>
+            ))}
+          </ul>
+          <ViewToggle view={view} onChange={onViewChange} />
+        </m.div>
       </m.div>
     </section>
   );
@@ -139,7 +206,7 @@ function Entry({ project, last }) {
       <m.span aria-hidden="true" variants={ruleIn} className={`${rule} top-0`} />
       <article className="grid gap-y-6 py-10 sm:grid-cols-2 sm:grid-rows-[auto_1fr] sm:gap-x-8 md:py-12">
         <m.div variants={rise} className="sm:row-span-2">
-          <Picture href={href} shots={galleryOf(project)} imageSrc={imageSrc} />
+          <Picture href={href} shots={coverOf(project)} imageSrc={imageSrc} />
         </m.div>
 
         <m.div variants={rise} className="min-w-0">
@@ -236,14 +303,85 @@ function Group({ id, title, line, projects }) {
   );
 }
 
+// One project in the grid: the picture, then title and role under it, no frame. A row's
+// tiles rise in a beat apart, like the project page's gallery.
+function Tile({ project, index }) {
+  const { title, role, imageSrc } = project;
+  const href = projectPath(project);
+  const stagger = {
+    hidden: rise.hidden,
+    shown: { ...rise.shown, transition: { ...rise.shown.transition, delay: (index % 3) * 0.06 } },
+  };
+
+  return (
+    <m.li {...inView} variants={stagger} className="group min-w-0">
+      <article>
+        <Picture href={href} shots={coverOf(project)} imageSrc={imageSrc} />
+        <h3 className="mt-3 text-[15px] font-semibold leading-snug tracking-[-0.02em] sm:mt-4 sm:text-[1.125rem] text-lightModeTextT dark:text-darkModeTextT md:text-[1.25rem]">
+          <a href={href} className={focusRing}>
+            {title}
+          </a>
+        </h3>
+        <p className="mt-1 text-[13px] text-lightModeTextP dark:text-darkModeTextP">{role}</p>
+      </article>
+    </m.li>
+  );
+}
+
+// A group in grid view: the heading above, not pinned, so the grid has the full width for
+// three across (two on phones and small tablets).
+function GridGroup({ id, title, line, projects }) {
+  return (
+    <section
+      id={id}
+      aria-labelledby={`${id}-title`}
+      className="scroll-mt-12 bg-lightBG pb-28 dark:bg-darkBG md:scroll-mt-20 md:pb-36 lg:scroll-mt-28 lg:pb-44"
+    >
+      <div className="mx-auto max-w-[66rem] px-5 md:px-10">
+        <m.header {...inView} variants={cascade(0.08)}>
+          <h2 id={`${id}-title`} className={sectionTitle}>
+            <span className="inline-block overflow-hidden pb-[0.06em] align-bottom">
+              <m.span variants={slideUp} className="inline-block">
+                {title}
+              </m.span>
+            </span>
+            <m.span
+              variants={rise}
+              className="ml-2 inline-block align-top text-[13px] font-medium tabular-nums tracking-normal text-lightModeTextP dark:text-darkModeTextP"
+            >
+              {projects.length}
+              <span className="sr-only"> projects</span>
+            </m.span>
+          </h2>
+          <m.p
+            variants={rise}
+            className="mt-4 max-w-[21rem] text-pretty text-[15px] leading-relaxed text-lightModeTextP dark:text-darkModeTextP md:text-base"
+          >
+            {line}
+          </m.p>
+        </m.header>
+
+        <ol className="mt-10 grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:mt-12 md:grid-cols-3 md:gap-y-12">
+          {projects.map((project, index) => (
+            <Tile key={project.title} project={project} index={index} />
+          ))}
+        </ol>
+      </div>
+    </section>
+  );
+}
+
 // The all-projects page (/projects/): every project in projects.js, professional, then side
-// projects, then personal.
+// projects, then personal, as ruled rows or as a grid.
 export default function AllProjects() {
+  const [view, setView] = useView();
+  const GroupView = view === "grid" ? GridGroup : Group;
+
   return (
     <>
-      <Intro />
+      <Intro view={view} onViewChange={setView} />
       {groups.map((group) => (
-        <Group key={group.id} {...group} />
+        <GroupView key={`${view}-${group.id}`} {...group} />
       ))}
       <Footer />
     </>

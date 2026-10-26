@@ -11,11 +11,13 @@
 // highlights: optional, what you did in the project, as bullets: { title, text }, a short lead
 //   and a sentence or two. The project page lists them under the description, behind a
 //   "Show more" button. Facts from the project's own repo and docs only.
-// gallery: optional screenshots, in order: { src, caption, focus }, with src relative to
+// gallery: optional screenshots, in order: { src, caption, focus, cover }, with src relative to
 //   src/assets like imageSrc (1440×900 WebP, in projects/<slug>/), made by
-//   `npm run shots -- <slug>`. They fill the project page's gallery and play as the preview on
-//   the slide and in the all-projects list, in place of the logo. focus (0 left to 1 right,
-//   0.5 if left out) is where the preview crops a shot to portrait. Deleting a shot's image
+//   `npm run shots -- <slug>`. They fill the project page's gallery. cover: true marks the
+//   shots shown on the slide and in the all-projects list in place of the logo: one is a
+//   still, several play in turn (COVER_SECONDS_PER_SHOT in src/gallery.js); with none flagged
+//   the logo stays. focus (0 left to 1 right, 0.5 if left out) is where a cover is cropped to
+//   portrait. Deleting a shot's image
 //   file takes it out of the site; its line here can stay. See "Project media" in DESIGN.md.
 export default [
   {
@@ -29,7 +31,7 @@ export default [
     // From the live demo (scripts/shots/asb.mjs); the admin area behind login isn't shown.
     gallery: [
       { src: "projects/asb/landing.webp", caption: "Landing page" },
-      { src: "projects/asb/editor-section.webp", caption: "Editor, with a section's layout and background", focus: 0 },
+      { src: "projects/asb/editor-section.webp", caption: "Editor, with a section's layout and background", focus: 0, cover: true },
       { src: "projects/asb/editor-block.webp", caption: "Editing a heading block", focus: 0.3 },
       { src: "projects/asb/editor-group.webp", caption: "A group's columns and its blocks", focus: 1 },
       { src: "projects/asb/editor-add-section.webp", caption: "Adding a section from presets" },
@@ -65,7 +67,7 @@ export default [
     imageSrc: "projects/hris.png",
     // From the app's own mocked smoke tests (scripts/shots/hris.mjs): fake data only.
     gallery: [
-      { src: "projects/hris/sign-in.webp", caption: "Sign-in", focus: 0 },
+      { src: "projects/hris/sign-in.webp", caption: "Sign-in", focus: 0, cover: true },
       { src: "projects/hris/dashboard.webp", caption: "An employee's dashboard", focus: 0.2 },
       { src: "projects/hris/notifications.webp", caption: "Notifications for requests and approvals", focus: 0.2 },
       { src: "projects/hris/departments.webp", caption: "Departments, in the admin configuration", focus: 0.35 },
@@ -115,7 +117,7 @@ export default [
     imageSrc: "projects/ospar.png",
     // From the app's own mocked end-to-end tests (scripts/shots/ospar.mjs): fake data only.
     gallery: [
-      { src: "projects/ospar/dashboard.webp", caption: "Management dashboard", focus: 0 },
+      { src: "projects/ospar/dashboard.webp", caption: "Management dashboard", focus: 0, cover: true },
       { src: "projects/ospar/product.webp", caption: "A product's stock overview and batches", focus: 0.25 },
       { src: "projects/ospar/stock-movements.webp", caption: "Stock movement history", focus: 0.25 },
       { src: "projects/ospar/transaction.webp", caption: "A stock movement's transaction details", focus: 0.1 },
@@ -179,7 +181,7 @@ export default [
     gallery: [
       { src: "projects/odoko/visor.webp", caption: "Design: Visor introduces itself and downloads its model once, then works offline" },
       { src: "projects/odoko/chat.webp", caption: "Design: ask Visor, snap a receipt or tell it by voice, answered on the phone" },
-      { src: "projects/odoko/home.webp", caption: "Design: Home with Visor's note, logging a fill-up and the service list" },
+      { src: "projects/odoko/home.webp", caption: "Design: Home with Visor's note, logging a fill-up and the service list", cover: true },
       { src: "projects/odoko/numbers.webp", caption: "Design: km per liter and cost per km, spending, and your bikes" },
       { src: "projects/odoko/entries.webp", caption: "Design: adding a service and an expense by hand, and Settings" },
     ],
@@ -252,7 +254,7 @@ export default [
       { src: "projects/peck/start.webp", caption: "Choosing how to start", focus: 0.5 },
       { src: "projects/peck/reading.webp", caption: "Reading an uploaded resume", focus: 0.5 },
       { src: "projects/peck/check-found.webp", caption: "Checking what was found in the resume", focus: 0.5 },
-      { src: "projects/peck/ready.webp", caption: "Setup notes pinned as the profile fills in", focus: 0.5 },
+      { src: "projects/peck/ready.webp", caption: "Setup notes pinned as the profile fills in", focus: 0.5, cover: true },
       { src: "projects/peck/profile.webp", caption: "Your profile: the facts Peck writes from", focus: 0.35 },
       { src: "projects/peck/tone.webp", caption: "Picking a tone", focus: 0.35 },
       { src: "projects/peck/result.webp", caption: "A preened resume, every line traced to a fact", focus: 0.8 },
@@ -360,7 +362,7 @@ export default [
       { src: "projects/mediagrab/choose-audio.webp", caption: "MP3 at a chosen bitrate, tagged, with the thumbnail as cover art", focus: 1 },
       { src: "projects/mediagrab/working.webp", caption: "Live progress over Server-Sent Events: speed, time left and each stage", focus: 0.2 },
       { src: "projects/mediagrab/ready.webp", caption: "Ready to save; the hosted server deletes it 60 seconds later", focus: 0.15 },
-      { src: "projects/mediagrab/dark.webp", caption: "Dark mode", focus: 0 },
+      { src: "projects/mediagrab/dark.webp", caption: "Dark mode", focus: 0, cover: true },
       { src: "projects/mediagrab/desktop.webp", caption: "The desktop app for Windows and Linux saves straight to Downloads", focus: 0.15 },
       { src: "projects/mediagrab/phone.webp", caption: "On a phone: the screens the Android app shows" },
     ],
@@ -416,7 +418,7 @@ export default [
     ],
     // From the live demo (scripts/shots/apod.mjs); the Live shots save a place first.
     gallery: [
-      { src: "projects/apod/day.webp", caption: "A day's picture, printed as a stamp", focus: 0.9 },
+      { src: "projects/apod/day.webp", caption: "A day's picture, printed as a stamp", focus: 0.9, cover: true },
       { src: "projects/apod/catalogue.webp", caption: "The catalogue entry, with the astronomer's explanation", focus: 1 },
       { src: "projects/apod/loupe.webp", caption: "The loupe, with the hint that explains it" },
       { src: "projects/apod/date.webp", caption: "Re-setting the postmark to any day since 1995", focus: 0.9 },
@@ -442,7 +444,7 @@ export default [
     // From the rewrite on the repo's scidama-v2 branch, run locally with its own demo data
     // (scripts/shots/scidama.mjs); the live site still serves the original until it's merged.
     gallery: [
-      { src: "projects/scidama/title.webp", caption: "The title screen plays itself: a bot-vs-bot game on a giant chip, with a game-style menu", focus: 0.85 },
+      { src: "projects/scidama/title.webp", caption: "The title screen plays itself: a bot-vs-bot game on a giant chip, with a game-style menu", focus: 0.85, cover: true },
       { src: "projects/scidama/lobby.webp", caption: "Quick match by rating, private rooms by invite link, open rooms and the top players", focus: 0.1 },
       { src: "projects/scidama/bot.webp", caption: "Against the bot, taken over from the demo game; the ledger writes each capture as its sum", focus: 0.1 },
       { src: "projects/scidama/capture-preview.webp", caption: "Picking a chip shows what each landing square would score, before you commit", focus: 0.1 },
@@ -520,7 +522,7 @@ export default [
     demo: "",
     source: "https://github.com/ZenDevvv/zendevvv-portfolionew",
     gallery: [
-      { src: "projects/portfolio-v2/hero.webp", caption: "The hero, in dark mode", focus: 0.3 },
+      { src: "projects/portfolio-v2/hero.webp", caption: "The hero, in dark mode", focus: 0.3, cover: true },
       { src: "projects/portfolio-v2/hero-light.webp", caption: "The hero, in light mode", focus: 0.3 },
       { src: "projects/portfolio-v2/about.webp", caption: "About me and skills", focus: 0.3 },
       { src: "projects/portfolio-v2/experience.webp", caption: "Experience", focus: 0.3 },

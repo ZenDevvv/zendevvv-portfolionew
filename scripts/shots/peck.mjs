@@ -32,7 +32,7 @@ export const shots = [
   { name: "start", file: "onb-choose-start", caption: "Choosing how to start", focus: 0.5 },
   { name: "reading", file: "onb-reading", caption: "Reading an uploaded resume", focus: 0.5 },
   { name: "check-found", file: "onb-check-found", caption: "Checking what was found in the resume", focus: 0.5 },
-  { name: "ready", file: "onb-ready-summary", caption: "Setup notes pinned as the profile fills in", focus: 0.5 },
+  { name: "ready", file: "onb-ready-summary", caption: "Setup notes pinned as the profile fills in", focus: 0.5, cover: true },
   { name: "profile", file: "profile", caption: "Your profile: the facts Peck writes from", focus: 0.35 },
   { name: "tone", file: "preen-tone", caption: "Picking a tone", focus: 0.35 },
   { name: "result", file: "preen-result", caption: "A preened resume, every line traced to a fact", focus: 0.8 },

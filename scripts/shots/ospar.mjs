@@ -22,6 +22,7 @@ export const shots = [
     name: "dashboard",
     test: "renders the RSG admin dashboard with real data and updates the selected period",
     caption: "Management dashboard",
+    cover: true,
     focus: 0,
   },
   {

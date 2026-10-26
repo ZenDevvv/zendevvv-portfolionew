@@ -22,6 +22,7 @@ export const shots = [
     name: "editor-section",
     path: "/editor",
     caption: "Editor, with a section's layout and background",
+    cover: true,
     focus: 0,
     prepare: openHero,
   },

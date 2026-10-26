@@ -25,6 +25,7 @@ export const shots = [
     // Fails at sign-in without a backend, so its last screen is the sign-in page.
     test: "agency sidebar navigates dedicated pages and dashboard charts render",
     caption: "Sign-in",
+    cover: true,
     focus: 0,
   },
   {

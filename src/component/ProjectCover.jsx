@@ -1,14 +1,25 @@
 import { useEffect, useRef, useState } from "react";
 import { useInView, useReducedMotion } from "framer-motion";
 import { getImageUrl } from "../utils";
+import { COVER_SECONDS_PER_SHOT } from "../gallery";
 
-// How long each screenshot shows in a project's preview.
-const SECONDS_PER_SHOT = 0.8;
-
-// A project's picture on the slides and in the all-projects list. With gallery screenshots
-// (`shots`, from galleryOf) it's a preview that cuts from one to the next, each cropped to
-// the portrait box where its `focus` says; without, the logo, contained.
+// A project's picture on the slides and in the all-projects list, from the gallery shots it
+// flags as covers (`shots`, from coverOf), each cropped to the portrait box where its `focus`
+// says: one is a still, several cut from one to the next. Without any, the logo, contained.
 export default function ProjectCover({ shots, imageSrc }) {
+  if (shots.length === 1) {
+    const [{ url, focus = 0.5 }] = shots;
+    return (
+      <img
+        src={url}
+        alt=""
+        loading="lazy"
+        decoding="async"
+        style={{ objectPosition: `${focus * 100}% 50%` }}
+        className="h-full w-full object-cover"
+      />
+    );
+  }
   if (!shots.length) {
     return (
       <img
@@ -65,7 +76,7 @@ function Preview({ shots }) {
         .decode()
         .catch(() => {})
         .then(() => live && setView({ current: next, previous: from }));
-    }, SECONDS_PER_SHOT * 1000);
+    }, COVER_SECONDS_PER_SHOT * 1000);
     return () => {
       live = false;
       clearInterval(timer);

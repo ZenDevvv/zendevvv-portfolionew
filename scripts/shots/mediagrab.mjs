@@ -125,6 +125,7 @@ export const shots = [
     name: "dark",
     path: "/",
     caption: "Dark mode",
+    cover: true,
     focus: 0,
     prepare: async ({ page }) => {
       await grab(page);

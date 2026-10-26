@@ -37,6 +37,7 @@ export const shots = [
     name: "day",
     path: "/?d=2024-04-16",
     caption: "A day's picture, printed as a stamp",
+    cover: true,
     focus: 0.9,
   },
   {

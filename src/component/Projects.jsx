@@ -3,7 +3,7 @@ import { motion as m, useReducedMotion } from "framer-motion";
 import { LuArrowRight } from "react-icons/lu";
 import projects from "../assets/json/projects.js";
 import { projectPath } from "../utils";
-import { galleryOf } from "../gallery";
+import { coverOf } from "../gallery";
 import { watchLenis } from "../smoothScroll";
 import { CURVE, handedOver, lift } from "../scrollCurve";
 import Stack from "./ProjectStack";
@@ -61,7 +61,7 @@ const zoomAt = (fill, arrived) => 1 + (fill - 1) * (1 - arrived) ** 3;
 // image open the project's own page. `coverRef` gets the image's cell, for the runway's zoom.
 function Slide({ project, onFocus, coverRef }) {
   const { title, description, role, stack = [], imageSrc } = project;
-  const shots = galleryOf(project);
+  const shots = coverOf(project);
   const href = projectPath(project);
 
   return (

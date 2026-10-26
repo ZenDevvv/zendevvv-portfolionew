@@ -35,6 +35,7 @@ export const shots = [
     name: "hero",
     path: "/",
     caption: "The hero, in dark mode",
+    cover: true,
     focus: 0.3,
     prepare: settle,
   },

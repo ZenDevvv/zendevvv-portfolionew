@@ -166,8 +166,9 @@ try {
 
 console.log("\nPaste into the project in src/assets/json/projects.js:\n");
 console.log("    gallery: [");
-for (const { name, caption, focus } of allShots) {
+for (const { name, caption, focus, cover } of allShots) {
   const crop = focus === undefined ? "" : `, focus: ${focus}`;
-  console.log(`      { src: "projects/${slug}/${name}.webp", caption: ${JSON.stringify(caption)}${crop} },`);
+  const flag = cover ? ", cover: true" : "";
+  console.log(`      { src: "projects/${slug}/${name}.webp", caption: ${JSON.stringify(caption)}${crop}${flag} },`);
 }
 console.log("    ],");

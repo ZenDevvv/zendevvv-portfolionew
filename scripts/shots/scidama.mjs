@@ -104,6 +104,7 @@ export const shots = [
     name: "title",
     path: `${APP}/`,
     caption: "The title screen plays itself: a bot-vs-bot game on a giant chip, with a game-style menu",
+    cover: true,
     focus: 0.85,
     prepare: ({ page }) => page.waitForTimeout(5000),
   },

@@ -26,6 +26,7 @@ export const shots = [
     name: "home",
     phones: ["Main", "AddFuel", "Service"],
     caption: "Design: Home with Visor's note, logging a fill-up and the service list",
+    cover: true,
   },
   {
     name: "numbers",
