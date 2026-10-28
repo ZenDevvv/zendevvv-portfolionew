@@ -1,0 +1,28 @@
+<!doctype html>
+<!-- Odoko's cover: node scripts/render-cover.mjs odoko. Visor ("happy", from docs/screens/html/Mascot.html), the screens' palette and Barlow, a line from docs/prd.md, and the Home and Stats designs from ../odoko/docs/screens/png. -->
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500&display=swap">
+<style>
+*{box-sizing:border-box;margin:0}
+body{width:1440px;height:900px;overflow:hidden;position:relative;background:#ECEAE4;color:#1B1C1A;font-family:Barlow,sans-serif}
+.center{position:absolute;left:360px;width:720px;top:0;height:900px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 60px}
+.visor{width:280px;height:280px}
+.lbl{font-family:"Barlow Condensed",sans-serif;font-weight:600;font-size:23px;letter-spacing:.12em;text-transform:uppercase;color:#62635D;margin-top:18px}
+h1{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:200px;line-height:.86;letter-spacing:-.01em}
+.rule{width:520px;height:4px;background:#1B1C1A;margin-top:30px}
+p{font-size:34px;line-height:1.28;color:#2E2F2C;margin-top:26px;max-width:560px;text-wrap:balance}
+.phone{position:absolute;width:300px;border:2px solid #1B1C1A;border-radius:36px;overflow:hidden;background:#F6F5F1}
+.phone img{display:block;width:100%}
+.l{left:34px;top:96px}
+.r{right:34px;top:330px}
+</style></head><body>
+<div class="phone l"><img src="../../../odoko/docs/screens/png/Main.png"></div>
+<div class="phone r"><img src="../../../odoko/docs/screens/png/Stats.png"></div>
+<div class="center">
+  <svg class="visor" viewBox="0 0 48 48"><path d="M7 31C7 15.5 15.5 6 26 6c9.5 0 15 7.5 15 18v10c0 3.3-2.7 6-6 6H13c-3.3 0-6-2.7-6-6z" fill="#1B1C1A"/><path d="M17 9.8c5-2.6 12-2.8 17 0" stroke="#C2410C" stroke-width="3" fill="none" stroke-linecap="round"/><rect x="14" y="18" width="27" height="12" rx="4" fill="#F6F5F1"/><path d="M20 26q2.5-3.5 5 0M30 26q2.5-3.5 5 0" stroke="#1B1C1A" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M14 35.5h5" stroke="#62635D" stroke-width="1.5" stroke-linecap="round"/></svg>
+  <h1>Odoko</h1>
+  <div class="rule"></div>
+  <p>What your motorcycle costs to run, and what it needs next.</p>
+  <div class="lbl">With Visor, AI that runs on your phone</div>
+</div>
+</body></html>

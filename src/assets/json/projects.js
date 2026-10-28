@@ -179,9 +179,10 @@ export default [
     // The app's design screens (docs/screens in its repo), not captures of the built app: it is
     // an Android app with an on-device model and only an arm64 build (scripts/shots/odoko.mjs).
     gallery: [
+      { src: "projects/odoko/cover.webp", caption: "Cover: Visor, with the Home and Stats designs", cover: true },
       { src: "projects/odoko/visor.webp", caption: "Design: Visor introduces itself and downloads its model once, then works offline" },
       { src: "projects/odoko/chat.webp", caption: "Design: ask Visor, snap a receipt or tell it by voice, answered on the phone" },
-      { src: "projects/odoko/home.webp", caption: "Design: Home with Visor's note, logging a fill-up and the service list", cover: true },
+      { src: "projects/odoko/home.webp", caption: "Design: Home with Visor's note, logging a fill-up and the service list" },
       { src: "projects/odoko/numbers.webp", caption: "Design: km per liter and cost per km, spending, and your bikes" },
       { src: "projects/odoko/entries.webp", caption: "Design: adding a service and an expense by hand, and Settings" },
     ],
@@ -246,6 +247,7 @@ export default [
     // From the app's own screenshot spec with its mocked API and fake data (scripts/shots/peck.mjs).
     // Peck is still being built, so these are the screens that exist so far.
     gallery: [
+      { src: "projects/peck/cover.webp", caption: "Cover: Dabble, with Today and preening a resume for one job", cover: true },
       { src: "projects/peck/today.webp", caption: "Today: follow-ups and interviews due", focus: 0.35 },
       { src: "projects/peck/pipeline.webp", caption: "The pipeline board", focus: 0.2 },
       { src: "projects/peck/paste-job.webp", caption: "Paste a job link or post", focus: 0.5 },
@@ -254,7 +256,7 @@ export default [
       { src: "projects/peck/start.webp", caption: "Choosing how to start", focus: 0.5 },
       { src: "projects/peck/reading.webp", caption: "Reading an uploaded resume", focus: 0.5 },
       { src: "projects/peck/check-found.webp", caption: "Checking what was found in the resume", focus: 0.5 },
-      { src: "projects/peck/ready.webp", caption: "Setup notes pinned as the profile fills in", focus: 0.5, cover: true },
+      { src: "projects/peck/ready.webp", caption: "Setup notes pinned as the profile fills in", focus: 0.5 },
       { src: "projects/peck/profile.webp", caption: "Your profile: the facts Peck writes from", focus: 0.35 },
       { src: "projects/peck/tone.webp", caption: "Picking a tone", focus: 0.35 },
       { src: "projects/peck/result.webp", caption: "A preened resume, every line traced to a fact", focus: 0.8 },
