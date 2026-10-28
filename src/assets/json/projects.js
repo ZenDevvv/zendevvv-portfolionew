@@ -83,7 +83,7 @@ export default [
     description:
       "A multi-tenant Human Resource Information System built to centralize and automate core HR operations. The platform offers end-to-end employee management, recruitment and applicant tracking, payroll processing, and timekeeping management, enabling HR teams to efficiently manage the entire employee lifecycle. It supports multiple organizations within a single system while maintaining secure and structured access through Attribute-Based Access Control (ABAC), ensuring that HR data visibility and actions align with user roles, departments, and organizational policies. It integrates with Hikvision and ZKTeco biometric devices for attendance, and ships as containers: to Google Cloud Run for DEV and UAT, and to an on-premises Kubernetes cluster through Argo CD GitOps, with Terraform-provisioned infrastructure and a MongoDB-to-PostgreSQL migration.",
     skills: ["TypeScript", "MERN", "Prisma", "TanStack", "PostgreSQL", "Docker", "Cloud Run", "Terraform", "Kubernetes", "GitOps (Argo CD)", "Redis", "CI/CD"],
-    demo: "https://hris-app-dev.web.app/",
+    demo: "",
     source: "",
   },
   {
@@ -143,7 +143,7 @@ export default [
       "RBAC",
       "GS1",
     ],
-    demo: "https://ospar-app-dev.web.app/",
+    demo: "",
     source: "",
   },
   {
@@ -165,7 +165,7 @@ export default [
       "RBAC",
       "Cloudinary",
     ],
-    demo: "https://lms-app-test.site/",
+    demo: "",
     source: "",
   },
   {

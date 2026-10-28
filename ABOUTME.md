@@ -72,9 +72,9 @@ Each project's page on the site lives at `/projects/<slug>/`; the fields are in 
 
 | Project | Slug | Role | Home | Demo |
 |---|---|---|---|---|
-| HRIS: Human Resources Information System | `hris` | Full-stack | yes | https://hris-app-dev.web.app/ |
-| OSPAR (Inventory Management System) | `ospar` | Full-stack | yes | https://ospar-app-dev.web.app/ |
-| ALMA (Alternative Learning Management App) | `alma` | Full-stack | yes | https://lms-app-test.site/ |
+| HRIS: Human Resources Information System | `hris` | Full-stack | yes | none (test site removed) |
+| OSPAR (Inventory Management System) | `ospar` | Full-stack | yes | none (test site removed) |
+| ALMA (Alternative Learning Management App) | `alma` | Full-stack | yes | none (test site removed) |
 
 - **HRIS:** multi-tenant HR system: employee management, recruitment and applicant tracking, payroll, timekeeping, ABAC for role/department/organization-scoped access. Built for Bandai Namco (manufacturing); the résumé cites 6,000+ employee records. Stack: TypeScript, React, TanStack, Node, Express, PostgreSQL, MongoDB, Prisma, Redis, Docker, Cloud Run, Terraform, Kubernetes, Argo CD. (Skill ratings for Terraform, Kubernetes, Argo CD, Redis, Grafana are provisional, unconfirmed by Zen.)
 - **OSPAR:** GS1-standard inventory system tracking item movement across organizations and departments, from internal transfers to patient usage. Delivery requests/orders/receipts, patient/supplier/product management, stock and batch tracking per department, reporting, billing and statements. Stack adds React Hook Form and Zod.
