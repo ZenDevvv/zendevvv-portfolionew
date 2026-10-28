@@ -31,6 +31,7 @@ export default [
       { name: "Bootstrap", icon: "bootstrap", color: "#7952B3", rating: 3 },
       { name: "Zustand", rating: 3 },
       { name: "Socket.io", icon: "socketdotio", color: "#010101", rating: 3 },
+      { name: "Android", icon: "android", color: "#34A853", rating: 2 },
     ],
   },
   {
@@ -42,6 +43,7 @@ export default [
       { name: "JWT auth", icon: "jsonwebtokens", color: "#000000", rating: 5 },
       { name: "Zod", icon: "zod", color: "#408AFF", rating: 5 },
       { name: "FastAPI", icon: "fastapi", color: "#009688", rating: 3 },
+      { name: "Cloudinary", icon: "cloudinary", color: "#3448C5", rating: 3 },
       { name: "Hono", icon: "hono", color: "#E36002", rating: 2 },
       { name: "Typst", icon: "typst", color: "#239DAD", rating: 2 },
     ],
@@ -120,10 +122,10 @@ export default [
   {
     group: "On-device AI",
     keys: [
-      { name: "Gemma 3", rating: 3 },
-      { name: "Unsloth", rating: 3 },
-      { name: "QLoRA fine-tuning", rating: 3 },
-      { name: "LiteRT-LM", rating: 3 },
+      { name: "Gemma 3", rating: 2 },
+      { name: "Unsloth", rating: 2 },
+      { name: "QLoRA fine-tuning", rating: 2 },
+      { name: "LiteRT-LM", rating: 2 },
       {
         name: "Hugging Face",
         icon: "huggingface",

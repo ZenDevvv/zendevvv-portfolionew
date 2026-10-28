@@ -52,8 +52,8 @@ Certificates, trainings, high school: none recorded **(unconfirmed)**.
 
 Matches the Skills keyboard (`src/assets/json/skills.js`) and the résumé.
 
-- **Frontend:** React, TypeScript, Next.js, Tailwind CSS, Bootstrap, HTML/CSS, Zustand, TanStack Query, Socket.io, Vite (also used: TanStack Router, React Hook Form, Framer Motion), React Native, Expo (mobile)
-- **Backend:** Node.js, Express, Hono, Python (FastAPI), REST API design, JWT authentication, Zod, Typst (PDF generation)
+- **Frontend:** React, TypeScript, Next.js, Tailwind CSS, Bootstrap, HTML/CSS, Zustand, TanStack Query, Socket.io, Vite (also used: TanStack Router, React Hook Form, Framer Motion), React Native, Expo, Android (mobile)
+- **Backend:** Node.js, Express, Hono, Python (FastAPI), REST API design, JWT authentication, Zod, Cloudinary (media uploads), Typst (PDF generation)
 - **Databases & ORM:** MongoDB, PostgreSQL, MySQL, Prisma ORM, Drizzle ORM, Supabase (Postgres, auth, row-level security), SQLite, Redis
 - **Testing:** Jest, pytest, Playwright, Vitest
 - **DevOps & deployment:** Git, GitHub, GitHub Actions (CI/CD), Google Cloud Platform (Cloud Run), Firebase Hosting, Docker, Terraform, Kubernetes, Argo CD (GitOps), Grafana (observability)
