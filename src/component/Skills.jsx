@@ -43,6 +43,12 @@ const logo = (slug) => {
   return { WebkitMask: image, mask: image };
 };
 
+// The rows as shown: each group's best-rated skills first, ties keeping the data's order.
+const rows = skills.map((row) => ({
+  ...row,
+  keys: [...row.keys].sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0)),
+}));
+
 // Each skill's lit colour in both themes, by name.
 const brands = new Map(
   skills.flatMap(({ keys }) =>
@@ -143,14 +149,37 @@ function Cap({ held = false, faceRef, face, className = "", children }) {
 const logoColor =
   "transition-colors duration-500 ease-out [--brand:var(--light)] dark:[--brand:var(--dark)] group-active:bg-[var(--brand)] group-active:duration-75 [@media(hover:hover)]:group-hover:bg-[var(--brand)] [@media(hover:hover)]:group-hover:duration-100";
 
+// A skill's rating out of five, in stars, floating above its key while it's hovered with a
+// mouse (or found by typing). Screen readers get it as text instead.
+function Stars({ rating, shown }) {
+  return (
+    <span
+      className={`pointer-events-none absolute bottom-full left-1/2 z-10 mb-[0.1em] flex -translate-x-1/2 translate-y-[0.3em] items-center gap-[0.12em] rounded-full border-[1.5px] bg-lightBG px-[0.6em] py-[0.38em] opacity-0 transition duration-150 ease-out motion-reduce:transition-none dark:bg-darkBG [@media(hover:hover)]:group-hover:translate-y-0 [@media(hover:hover)]:group-hover:opacity-100 ${ink} ${shown ? "!translate-y-0 !opacity-100" : ""}`}
+    >
+      <span className="sr-only">{`${rating} out of 5`}</span>
+      {[1, 2, 3, 4, 5].map((star) => (
+        <svg
+          key={star}
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          className={`h-[1.1em] w-[1.1em] ${star <= rating ? "fill-[#f2b01e] dark:fill-[#ffc83d]" : "fill-lightModeTextP/25 dark:fill-darkModeTextP/25"}`}
+        >
+          <path d="M12 2.2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.8l1.4-6.8L2.2 9.3l6.9-.8z" />
+        </svg>
+      ))}
+    </span>
+  );
+}
+
 // One skill. Wider keys click a little lower, the way a long key sounds deeper.
-function Key({ id, name, icon, held, near, faceRef }) {
+function Key({ id, name, icon, rating, held, near, faceRef }) {
   const rate = clamp(1.06 - name.length * 0.012, 0.88, 1.04);
   const sound = soundProps((force) => playSound("key", { force, source: id, rate }));
   const brand = brands.get(name);
 
   return (
-    <m.li variants={keyIn} className="group cursor-pointer touch-manipulation select-none" {...sound}>
+    <m.li variants={keyIn} className="group relative cursor-pointer touch-manipulation select-none" {...sound}>
+      {rating && <Stars rating={rating} shown={held} />}
       <Cap held={held} faceRef={faceRef} face="bg-lightBG dark:bg-darkBG" className="min-w-[3.8em]">
         {icon && (
           <span
@@ -386,7 +415,7 @@ export default function Skills() {
           variants={cascade(0.07)}
           className="space-y-[1.5em] text-[14px] text-lightModeTextT dark:text-darkModeTextT md:space-y-[0.45em] lg:col-span-8 lg:pt-2 lg:text-[15px]"
         >
-          {skills.map((row) => (
+          {rows.map((row) => (
             <m.li
               key={row.group}
               variants={cascade(0.025)}
@@ -394,7 +423,7 @@ export default function Skills() {
             >
               <GroupKey group={row.group} onRun={() => run(row)} />
               <ul className="flex flex-wrap gap-[0.45em]">
-                {row.keys.map(({ name, icon }) => {
+                {row.keys.map(({ name, icon, rating }) => {
                   const id = `${row.group}:${name}`;
                   return (
                     <Key
@@ -402,6 +431,7 @@ export default function Skills() {
                       id={id}
                       name={name}
                       icon={icon}
+                      rating={rating}
                       near={near}
                       held={found?.name === name}
                       faceRef={(node) =>
