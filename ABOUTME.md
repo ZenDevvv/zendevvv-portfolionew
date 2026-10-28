@@ -32,7 +32,7 @@ Quezon City · Nov 2024 – Sept 2026 · full-time
 - Joined client-facing meetings across the whole project lifecycle: kickoff, requirements, sprint planning, sprint review/demo, UI/UX review, progress reports, UAT, go-live, handover and training.
 - Delivered sprints on 6+ concurrent platform builds (IoT, LMS, HMS, HRIS, Inventory, Order Management) in Agile, using GitHub Projects and a custom-built PMS. Used AI-assisted prototyping and scaffolding (Claude Opus 5, Codex, Grok Build, Gemini 3.1 Pro).
 - Integrated smart door locks, switch/outlet relays and IoT gateways through REST APIs into one React dashboard: real-time control and monitoring of 50+ endpoints, sub-500 ms latency.
-- HRIS for Bandai Namco: admin, HR and employee surfaces for employee lifecycle, payroll/payslips, attendance with Hikvision biometric integration, leave/benefits, schedules and BIR reporting. React/TypeScript with a Node/Prisma API, delivered through GitOps (DEV/UAT/PROD).
+- HRIS for Bandai Namco: admin, HR and employee surfaces for employee lifecycle, payroll/payslips, attendance with Hikvision biometric integration, leave/benefits, schedules and BIR reporting. React/TypeScript with a Node/Prisma API on PostgreSQL (migrated from MongoDB) with Redis, containerized with Docker, deployed to Cloud Run (DEV/UAT) and on-prem Kubernetes via Argo CD GitOps (DEV/UAT/PROD), infrastructure in Terraform, Grafana for observability, ZKTeco as well as Hikvision devices.
 
 ### IT Intern, IPSolutions Inc.
 Pasig City · Mar 2024 – May 2024
@@ -54,9 +54,9 @@ Matches the Skills keyboard (`src/assets/json/skills.js`) and the résumé.
 
 - **Frontend:** React, TypeScript, Next.js, Tailwind CSS, Bootstrap, HTML/CSS, Zustand, TanStack Query, Socket.io, Vite (also used: TanStack Router, React Hook Form, Framer Motion), React Native, Expo (mobile)
 - **Backend:** Node.js, Express, Hono, Python (FastAPI), REST API design, JWT authentication, Zod, Typst (PDF generation)
-- **Databases & ORM:** MongoDB, PostgreSQL, MySQL, Prisma ORM, Drizzle ORM, Supabase (Postgres, auth, row-level security), SQLite
+- **Databases & ORM:** MongoDB, PostgreSQL, MySQL, Prisma ORM, Drizzle ORM, Supabase (Postgres, auth, row-level security), SQLite, Redis
 - **Testing:** Jest, pytest, Playwright, Vitest
-- **DevOps & deployment:** Git, GitHub, GitHub Actions (CI/CD), Google Cloud Platform (Cloud Run), Firebase Hosting, Docker
+- **DevOps & deployment:** Git, GitHub, GitHub Actions (CI/CD), Google Cloud Platform (Cloud Run), Firebase Hosting, Docker, Terraform, Kubernetes, Argo CD (GitOps), Grafana (observability)
 - **Languages:** TypeScript, JavaScript, Python, Java, C++, PHP, Kotlin (Android native modules)
 - **Project management:** GitHub Projects, custom PMS tool, Agile/Scrum
 - **On-device AI:** Gemma 3 1B, fine-tuning with Unsloth (QLoRA), converting models for phones (LiteRT-LM, `litetune`), Hugging Face
@@ -76,7 +76,7 @@ Each project's page on the site lives at `/projects/<slug>/`; the fields are in 
 | OSPAR (Inventory Management System) | `ospar` | Full-stack | yes | https://ospar-app-dev.web.app/ |
 | ALMA (Alternative Learning Management App) | `alma` | Frontend | yes | https://lms-app-test.site/ |
 
-- **HRIS:** multi-tenant HR system: employee management, recruitment and applicant tracking, payroll, timekeeping, ABAC for role/department/organization-scoped access. Built for Bandai Namco (manufacturing); the résumé cites 6,000+ employee records. Stack: TypeScript, React, TanStack, Node, Express, MongoDB, Prisma.
+- **HRIS:** multi-tenant HR system: employee management, recruitment and applicant tracking, payroll, timekeeping, ABAC for role/department/organization-scoped access. Built for Bandai Namco (manufacturing); the résumé cites 6,000+ employee records. Stack: TypeScript, React, TanStack, Node, Express, PostgreSQL, MongoDB, Prisma, Redis, Docker, Cloud Run, Terraform, Kubernetes, Argo CD. (Skill ratings for Terraform, Kubernetes, Argo CD, Redis, Grafana are provisional, unconfirmed by Zen.)
 - **OSPAR:** GS1-standard inventory system tracking item movement across organizations and departments, from internal transfers to patient usage. Delivery requests/orders/receipts, patient/supplier/product management, stock and batch tracking per department, reporting, billing and statements. Stack adds React Hook Form and Zod.
 - **ALMA:** multi-tenant LMS: role-based access, course management, structured learning workflows, tenant isolation. Zen was the frontend developer (modular responsive UI, state management, API integration). Résumé figures: 3 tenants, 200+ students, 15+ instructors, 40+ classes, assessment engine, attendance and gradebook. Stack adds Cloudinary.
 - Also on the résumé, not on the site: **Product and Assembly** (production planning for Bandai Namco), **Order Management / E-Commerce** (employee partnership store: buyer, vendor, admin roles), **Project Management System**, **Supply Chain Management**, and the **IoT dashboard** (50+ devices). **HMS Reservation System** is on the résumé only too: a multi-tenant hotel system with room types, dynamic pricing and the full reservation lifecycle.

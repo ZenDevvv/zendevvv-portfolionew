@@ -55,6 +55,7 @@ export default [
       { name: "Prisma", icon: "prisma", color: "#2D3748", rating: 5 },
       { name: "SQLite", icon: "sqlite", color: "#003B57", rating: 4 },
       { name: "Supabase", icon: "supabase", color: "#3FCF8E", rating: 3 },
+      { name: "Redis", icon: "redis", color: "#FF4438", rating: 3 },
       { name: "Drizzle", icon: "drizzle", color: "#C5F74F", rating: 1 },
     ],
   },
@@ -81,6 +82,9 @@ export default [
       { name: "Docker", icon: "docker", color: "#2496ED", rating: 5 },
       { name: "Cloud Run", icon: "googlecloud", color: "#4285F4", rating: 4 },
       { name: "Firebase", icon: "firebase", color: "#DD2C00", rating: 4 },
+      { name: "Terraform", icon: "terraform", color: "#844FBA", rating: 3 },
+      { name: "Kubernetes", icon: "kubernetes", color: "#326CE5", rating: 1 },
+      { name: "Grafana", icon: "grafana", color: "#F46800", rating: 2 },
     ],
   },
   {

@@ -1,18 +1,22 @@
 import { useState } from "react";
 import {
   SiAndroid,
+  SiArgo,
   SiCloudinary,
   SiCss3,
+  SiDocker,
   SiDrizzle,
   SiExpo,
   SiExpress,
   SiFastapi,
   SiFramer,
+  SiGooglecloud,
   SiHono,
   SiHtml5,
   SiJavascript,
   SiJsonwebtokens,
   SiKotlin,
+  SiKubernetes,
   SiMongodb,
   SiMysql,
   SiNodedotjs,
@@ -22,10 +26,12 @@ import {
   SiReact,
   SiReacthookform,
   SiReactquery,
+  SiRedis,
   SiSocketdotio,
   SiSqlite,
   SiSupabase,
   SiTailwindcss,
+  SiTerraform,
   SiTypescript,
   SiTypst,
   SiVite,
@@ -34,6 +40,7 @@ import {
 import { Keycap } from "./HeroObjects";
 import { soundOn } from "../sounds";
 import { brandColors } from "../brandColor";
+import skills from "../assets/json/skills.js";
 
 // The names a project's `stack` can use, each shown as its logo. `color` is the logo's brand
 // colour (the hex on its simpleicons.org page), which it lights up in while its key is down.
@@ -68,7 +75,27 @@ const tech = {
   typst: { name: "Typst", Icon: SiTypst, color: "#239DAD" },
   expo: { name: "Expo", Icon: SiExpo, color: "#1C2024" },
   sqlite: { name: "SQLite", Icon: SiSqlite, color: "#003B57" },
+  docker: { name: "Docker", Icon: SiDocker, color: "#2496ED" },
+  cloudrun: { name: "Cloud Run", Icon: SiGooglecloud, color: "#4285F4" },
+  terraform: { name: "Terraform", Icon: SiTerraform, color: "#844FBA" },
+  kubernetes: { name: "Kubernetes", Icon: SiKubernetes, color: "#326CE5" },
+  argocd: { name: "Argo CD", Icon: SiArgo, color: "#EF7B4D" },
+  redis: { name: "Redis", Icon: SiRedis, color: "#FF4438" },
 };
+// The rating (1-5) shown beside a tech's name comes from the Skills keyboard (`skills.js`), by
+// the skill's name. `tech` names that differ from the skill's say so here; a tech with no
+// skill of that name (React Hook Form, Framer Motion, Cloudinary, Android) shows no stars.
+const skillName = {
+  html: "HTML/CSS",
+  css: "HTML/CSS",
+  socketio: "Socket.io",
+  jwt: "JWT auth",
+  drizzle: "Drizzle",
+};
+const ratingByName = new Map();
+for (const { keys } of skills) for (const { name, rating } of keys) if (!ratingByName.has(name)) ratingByName.set(name, rating);
+const ratingOf = (key) => ratingByName.get(skillName[key] ?? tech[key].name);
+
 // Each logo's lit colour in both themes, by stack name.
 const lit = Object.fromEntries(
   Object.entries(tech).map(([key, { color }]) => [key, brandColors(color)])
@@ -80,7 +107,7 @@ const lit = Object.fromEntries(
 // the row above. Used on the home page's slides and on the all-projects page.
 // `project` keeps each key's sound cooldown its own, so a quick sweep clicks every key.
 export default function Stack({ names, project }) {
-  const [hovered, setHovered] = useState({ title: "", shown: false });
+  const [hovered, setHovered] = useState({ title: "", rating: 0, shown: false });
   const keys = names.filter((name) => tech[name]);
   if (!keys.length) return null;
 
@@ -94,6 +121,19 @@ export default function Stack({ names, project }) {
           className={`ml-2 font-normal text-lightModeTextP transition-opacity duration-150 dark:text-darkModeTextP ${hovered.shown ? "opacity-100" : "opacity-0"}`}
         >
           {hovered.title}
+          {hovered.rating > 0 && (
+            <span className="ml-2 inline-flex items-center gap-[0.12em] align-[-0.1em]">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <svg
+                  key={star}
+                  viewBox="0 0 24 24"
+                  className={`h-[0.95em] w-[0.95em] ${star <= hovered.rating ? "fill-[#f2b01e] dark:fill-[#ffc83d]" : "fill-lightModeTextP/25 dark:fill-darkModeTextP/25"}`}
+                >
+                  <path d="M12 2.2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.8l1.4-6.8L2.2 9.3l6.9-.8z" />
+                </svg>
+              ))}
+            </span>
+          )}
         </span>
       </p>
       <ul className="flex flex-wrap gap-1.5 text-[13px] text-lightModeTextT dark:text-darkModeTextT">
@@ -105,7 +145,7 @@ export default function Stack({ names, project }) {
               key={name}
               onPointerEnter={(event) => {
                 sound.onPointerEnter(event);
-                if (event.pointerType === "mouse") setHovered({ title, shown: true });
+                if (event.pointerType === "mouse") setHovered({ title, rating: ratingOf(name) ?? 0, shown: true });
               }}
               onPointerLeave={() => setHovered((last) => ({ ...last, shown: false }))}
               onClick={sound.onClick}
