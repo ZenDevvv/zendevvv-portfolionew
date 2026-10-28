@@ -74,11 +74,11 @@ Each project's page on the site lives at `/projects/<slug>/`; the fields are in 
 |---|---|---|---|---|
 | HRIS: Human Resources Information System | `hris` | Full-stack | yes | https://hris-app-dev.web.app/ |
 | OSPAR (Inventory Management System) | `ospar` | Full-stack | yes | https://ospar-app-dev.web.app/ |
-| ALMA (Alternative Learning Management App) | `alma` | Frontend | yes | https://lms-app-test.site/ |
+| ALMA (Alternative Learning Management App) | `alma` | Full-stack | yes | https://lms-app-test.site/ |
 
 - **HRIS:** multi-tenant HR system: employee management, recruitment and applicant tracking, payroll, timekeeping, ABAC for role/department/organization-scoped access. Built for Bandai Namco (manufacturing); the résumé cites 6,000+ employee records. Stack: TypeScript, React, TanStack, Node, Express, PostgreSQL, MongoDB, Prisma, Redis, Docker, Cloud Run, Terraform, Kubernetes, Argo CD. (Skill ratings for Terraform, Kubernetes, Argo CD, Redis, Grafana are provisional, unconfirmed by Zen.)
 - **OSPAR:** GS1-standard inventory system tracking item movement across organizations and departments, from internal transfers to patient usage. Delivery requests/orders/receipts, patient/supplier/product management, stock and batch tracking per department, reporting, billing and statements. Stack adds React Hook Form and Zod.
-- **ALMA:** multi-tenant LMS: role-based access, course management, structured learning workflows, tenant isolation. Zen was the frontend developer (modular responsive UI, state management, API integration). Résumé figures: 3 tenants, 200+ students, 15+ instructors, 40+ classes, assessment engine, attendance and gradebook. Stack adds Cloudinary.
+- **ALMA:** multi-tenant LMS: role-based access, course management, structured learning workflows, tenant isolation. Zen was a full-stack developer (modular responsive UI, state management, backend APIs). Résumé figures: 3 tenants, 200+ students, 15+ instructors, 40+ classes, assessment engine, attendance and gradebook. Stack adds Cloudinary.
 - Also on the résumé, not on the site: **Product and Assembly** (production planning for Bandai Namco), **Order Management / E-Commerce** (employee partnership store: buyer, vendor, admin roles), **Project Management System**, **Supply Chain Management**, and the **IoT dashboard** (50+ devices). **HMS Reservation System** is on the résumé only too: a multi-tenant hotel system with room types, dynamic pricing and the full reservation lifecycle.
 
 ### Side (paid, outside work)

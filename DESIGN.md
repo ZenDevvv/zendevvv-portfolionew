@@ -15,7 +15,7 @@ A second page, **All projects** (`/projects/`), lists every project, professiona
 - **Minimal and warm.** Paper and ink with one green accent. Few lines, no shadows on things at rest, no gradients, no glass.
 - **Walk away from cards.** Sections are laid out with type, space and thin lines, not boxed panels. The user rejected the card layout for Experience; treat that as site-wide.
 - **Line-art is the personality.** The hero drawings (ink strokes, flat fills from the theme) are the one illustrative language. Reuse them, or draw new ones in the same language, rather than adding icons or stock imagery. The exceptions are the tech logos on the project slides and the Skills keyboard, kept monochrome in ink (a logo shows its brand colour only while its key is hovered or pressed, or found by typing on the Skills keyboard), and the one photograph, in About, printed as an ink halftone.
-- **Real content only.** Copy comes from the résumé, paraphrased and shortened. No invented numbers or claims. The project `role` values are placeholders the user hasn't confirmed yet (Full-stack Developer for ASB, the HRIS, RYDE and OSPAR, Frontend Developer for ALMA, "Personal project" for the rest).
+- **Real content only.** Copy comes from the résumé, paraphrased and shortened. No invented numbers or claims. The project `role` values are placeholders the user hasn't confirmed yet (Full-stack Developer for ASB, the HRIS, RYDE, OSPAR and ALMA, "Personal project" for the rest).
 
 ## Tokens (`tailwind.config.js`)
 

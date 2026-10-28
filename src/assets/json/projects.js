@@ -151,11 +151,11 @@ export default [
     slug: "alma",
     kind: "professional",
     selected: true,
-    role: "Frontend Developer",
+    role: "Full-stack Developer",
     stack: ["typescript", "react", "tanstack", "hookform", "zod", "node", "express", "mongodb", "cloudinary"],
     imageSrc: "projects/alma.png",
     description:
-      "ALMA is a scalable, multi-tenant learning management platform designed to support multiple organizations, instructors, and learners within a unified system. The application enables role-based access, course management, and structured learning workflows while maintaining tenant isolation and performance. I worked as the Frontend Developer, responsible for building modular, responsive UI components, implementing state management, and integrating frontend features with backend APIs to deliver a seamless and efficient learning experience.",
+      "ALMA is a scalable, multi-tenant learning management platform designed to support multiple organizations, instructors, and learners within a unified system. The application enables role-based access, course management, and structured learning workflows while maintaining tenant isolation and performance. I worked as a Full-stack Developer, building modular, responsive UI components, implementing state management, and developing the backend APIs they connect to, to deliver a seamless and efficient learning experience.",
     skills: [
       "TypeScript",
       "MERN",
